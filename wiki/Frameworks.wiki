@@ -3,5 +3,7 @@
 = Introduction =
 
 Frameworks to be used:
+
   * *Codeigniter* [http://codeigniter.com/user_guide/ User Guide]
   * *jQuery* [http://docs.jquery.com/Main_Page Documentation]
+  * *jQuery UI* [http://jqueryui.com/demos/ Documentation]
