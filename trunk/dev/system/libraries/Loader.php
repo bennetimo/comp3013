@@ -102,6 +102,20 @@ class CI_Loader {
 	// --------------------------------------------------------------------
 	
 	/**
+	 * Static Model Loader
+	 *
+	 * This function lets users load models.
+	 *
+	 * @access	public
+	 * @param	string	the name of the class
+	 * @return	void
+	 */	
+	function static_model($model)
+	{
+		$this->model($model, '', FALSE, FALSE);
+	}
+	
+	/**
 	 * Model Loader
 	 *
 	 * This function lets users load and instantiate models.
@@ -110,9 +124,10 @@ class CI_Loader {
 	 * @param	string	the name of the class
 	 * @param	string	name for the model
 	 * @param	bool	database connection
+	 * @param 	bool	true to instantiate the model
 	 * @return	void
 	 */	
-	function model($model, $name = '', $db_conn = FALSE)
+	function model($model, $name = '', $db_conn = FALSE, $instantiate = TRUE)
 	{		
 		if (is_array($model))
 		{
@@ -179,12 +194,14 @@ class CI_Loader {
 
 		require_once(APPPATH.'models/'.$path.$model.EXT);
 
-		$model = ucfirst($model);
-				
-		$CI->$name = new $model();
-		$CI->$name->_assign_libraries();
-		
-		$this->_ci_models[] = $name;	
+		if ($instantiate) {
+			$model = ucfirst($model);
+					
+			$CI->$name = new $model();
+			$CI->$name->_assign_libraries();
+			
+			$this->_ci_models[] = $name;
+		}
 	}
 		
 	// --------------------------------------------------------------------
