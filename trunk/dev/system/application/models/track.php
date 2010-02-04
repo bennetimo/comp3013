@@ -1,13 +1,16 @@
 <?php
-class Track extends Model {
+class Track extends Model
+{
 
 	private $track_id;
 	private $duration;
 	private $cost;
 	private $src;
 	private $name;
-	private $artist_name;
-	private $album_name;
+	// type Artist
+	private $artist;
+	// type Album
+	private $album;
 
 
 
@@ -15,8 +18,6 @@ class Track extends Model {
 	{
 		// Call the Model constructor
 		parent::Model();
-
-
 	}
 
 	public function setId($track_id)
@@ -39,19 +40,19 @@ class Track extends Model {
 		return $this->name;
 	}
 
-	public function setArtistName($artist_name)
+	public function setArtist(&$artist)
 	{
-		$this->artist_name = $artist_name;
+		$this->artist = $artist;
 	}
 
-	public function getArtistName($artist_name)
+	public function &getArtist()
 	{
-		return $this->artist_name;
+		return $this->artist;
 	}
 
-	public function setAlbumName($album_name)
+	public function setAlbum(&$album)
 	{
-		$this->album_name = $album_name;
+		$this->album = $album;
 	}
 
 	public function getAlbumName()
@@ -59,21 +60,27 @@ class Track extends Model {
 		return $this->album_name;
 	}
 
-	function &search($search_term)
-	{
-		$query = $this->db->query("SELECT a.name AS `album_name`, t.*, art.name AS `artist_name` FROM `album_track` at, `track` t, `artist` art,`album` a WHERE t.main_artist_id = art.id AND t.name LIKE '".$this->db->escape_str($search_term)."%' AND t.id = at.`trackid` AND a.id = at.`albumid");
+	static function &search($search_term)
+	{		
+		$CI = &get_instance(); 
+		$CI->load->static_model('Artist');
+		$CI->load->static_model('Album');
+		
+		$query = $CI->db->query("SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name` FROM `album_track` at, `track` t, `artist` art,`album` a WHERE t.main_artist_id = art.id AND t.name LIKE '".$CI->db->escape_str($search_term)."%' AND t.id = at.`trackid` AND a.id = at.`albumid");
 
 		$tracks = array();
 
 		foreach ($query->result() as $row)
 		{
 			$track = new Track();
-
+      $artist = new Artist($row->artist_id, $row->artist_name);
+      $album = new Album($row->album_id, $row->album_name);
+      
 			$track->setId($row->id);
 			$track->setName($row->name);
-			$track->setAlbumName($row->album_name);
-			$track->setArtistName($row->artist_name);
-
+      $track->setArtist($artist);
+			$track->setAlbum($album);
+			
 			$tracks[] = $track;
 
 		}
