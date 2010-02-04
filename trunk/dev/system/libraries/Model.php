@@ -27,7 +27,6 @@
 class Model {
 
 	var $_parent_name = '';
-	private static $CI = &get_instance();
 
 	/**
 	 * Constructor
