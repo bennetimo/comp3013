@@ -14,10 +14,13 @@ class Track extends Model
 
 
 
-	public function Track()
+	public function Track($track_id = NULL, $name = NULL)
 	{
 		// Call the Model constructor
 		parent::Model();
+		
+		$this->setId($track_id);
+		$this->setName($name);
 	}
 
 	public function setId($track_id)
@@ -25,7 +28,7 @@ class Track extends Model
 		$this->track_id = $track_id;
 	}
 
-	public function getId($track_id)
+	public function getId()
   {
     return $this->track_id;
   }
@@ -72,12 +75,10 @@ class Track extends Model
 
 		foreach ($query->result() as $row)
 		{
-			$track = new Track();
+			$track = new Track($row->id, $row->name);
       $artist = new Artist($row->artist_id, $row->artist_name);
       $album = new Album($row->album_id, $row->album_name);
       
-			$track->setId($row->id);
-			$track->setName($row->name);
       $track->setArtist($artist);
 			$track->setAlbum($album);
 			
