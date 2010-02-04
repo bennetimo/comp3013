@@ -9,11 +9,11 @@ class Welcome extends Controller {
 	
 	function index()
 	{
-		$this->load->model('Track');
+		$this->load->static_model('Track');
 		//$this->load->view('welcome_message');
 		
 		foreach(Track::search("track 1") as $t){
-			echo $t->getName()."<br>";
+			echo $t->getArtist()->getName()."<br>";
 		}
 	}
 }
