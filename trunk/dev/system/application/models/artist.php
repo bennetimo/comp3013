@@ -3,11 +3,13 @@ class Artist extends Model
 {
 	private $id;
 	private $name;
+	private $role;
 
-	public function __construct($id = NULL, $name = NULL)
+	public function __construct($id = NULL, $name = NULL, $role = NULL)
 	{
 		$this->id = $id;
 		$this->name = $name;
+		$this->role = $role;
 	}
 
 	public function getId()
@@ -18,5 +20,10 @@ class Artist extends Model
 	public function getName()
 	{
 		return $this->name;
+	}
+	
+	public function getRole()
+	{
+		return $this->role;
 	}
 }
