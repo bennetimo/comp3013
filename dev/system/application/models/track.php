@@ -20,7 +20,7 @@ class Track extends Model
 
 
 
-	public function Track($trackid = NULL, $name = NULL)
+	public function Track($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL)
 	{
 		// Call the Model constructor
 		parent::Model();
@@ -29,24 +29,18 @@ class Track extends Model
 		$this->setName($name);
 	}
 
-	public function setId($trackid)
-	{
-		$this->trackid = $trackid;
-	}
-
 	public function getId()
 	{
 		return $this->trackid;
 	}
 
-	public function setName($name)
-	{
-		$this->name = $name;
-	}
-
 	public function getName()
 	{
-		return $this->name;
+	if($this->trackid == NULL){
+      throw new Exception("Missing track ID when requesting track's name");
+    }
+    
+    return $this->name;
 	}
 
 	public function setArtist(&$artist)
@@ -56,6 +50,9 @@ class Track extends Model
 
 	public function &getArtist()
 	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's artist");
+		}
 		return $this->artist;
 	}
 
@@ -66,7 +63,29 @@ class Track extends Model
 
 	public function getAlbum()
 	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's album");
+		}
+
 		return $this->album;
+	}
+
+	public function getCost()
+	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's cost");
+		}
+
+		return $this->cost;
+	}
+
+	public function getSrc()
+	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's src");
+		}
+
+		return $this->src;
 	}
 
 	public function getGenres()
@@ -117,22 +136,26 @@ class Track extends Model
 		if($this->trackid == NULL){
 			throw new Exception("Missing track ID when requesting track's videos");
 		}
-		
+
 		if($this->feat_artists == NULL){
 			$query = "SELECT a.id, a.name, at.role FROM `artist` a, `artist_track` at WHERE at.trackid =  ".$this->db->escape($this->trackid)."
 		AND at.artistid = a.id";
 
 			$result = $this->db->query($query)->result();
-      $this->feat_artists = array();
-      
+			$this->feat_artists = array();
+
 			foreach ($result as $artist) {
-				$this->feat_artists[] = new Artist($artist->id, $artist->name, $artist->role);	
+				$this->feat_artists[] = new Artist($artist->id, $artist->name, $artist->role);
 			}
 		}
-		
+
 		return $this->feat_artists;
 	}
-
+	/**
+	 *
+	 * @param string $genre
+	 * @return array of Track
+	 */
 	static function &searchByGenre($genre)
 	{
 		$CI = &get_instance();
@@ -145,7 +168,11 @@ class Track extends Model
 
 		return self::search($query);
 	}
-
+	/**
+	 *
+	 * @param string $track_name
+	 * @return array of Track
+	 */
 	static function &searchTrackName($track_name)
 	{
 		$CI = &get_instance();
@@ -171,7 +198,7 @@ class Track extends Model
 
 		foreach ($result as $row)
 		{
-			$track = new Track($row->id, $row->name);
+			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src);
 			$artist = new Artist($row->artist_id, $row->artist_name);
 			$album = new Album($row->album_id, $row->album_name);
 
