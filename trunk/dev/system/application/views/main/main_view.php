@@ -13,7 +13,7 @@
 	
 </form>
 
-<a href="register">register</a>
+<a href="<?=site_url('register')?>">register</a>
 
 <? else: ?>
 
