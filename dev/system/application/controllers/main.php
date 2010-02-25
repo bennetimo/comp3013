@@ -5,7 +5,6 @@ class Main extends Controller {
 	function Main()
 	{
 		parent::Controller();
-		$this->load->library('session');	
 	}
 	
 	function index()
