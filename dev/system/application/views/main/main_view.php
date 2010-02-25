@@ -5,7 +5,7 @@
 
 <h3>Login</h3>
 
-<form action="usermanager/login" method="POST">
+<form action="<?=site_url('usermanager/login')?>" method="POST">
 
 	<input type="text" id="login_email" name="login_email"></input>
 	<input type="password" id="login_password" name="login_password"></input>
@@ -19,7 +19,7 @@
 
 <h3>Logout</h3>
 
-<a href="usermanager/logout">logout</a>
+<a href="<?=site_url('usermanager/logout')?>">logout</a>
 
 <? endif; ?>
 
@@ -29,7 +29,7 @@
 
 <h3>Search</h3>
 
-<form action="trackmanager/search" method="POST">
+<form action="<?=site_url('trackmanager/search')?>" method="POST">
 	
 	<input type="text" name="search"></input>
 	<input type="submit" value="search"></input>

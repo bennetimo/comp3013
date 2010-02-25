@@ -3,7 +3,7 @@
 
 <h3>Register</h3>
 
-<form action="usermanager/register" method="POST">
+<form action="<?=site_url('usermanager/register')?>" method="POST">
 
 	<table>
 		<tr>
