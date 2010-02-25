@@ -1,16 +1,6 @@
 
 <div>
 
-<h3>Login</h3>
-
-<form action="usermanager/login" method="POST">
-
-	<input type="text" id="login_email" name="login_email"></input>
-	<input type="password" id="login_password" name="login_password"></input>
-	<input type="submit" value="login"></input>
-	
-</form>
-
 <h3>Register</h3>
 
 <form action="usermanager/register" method="POST">
@@ -35,8 +25,5 @@
 	</table>
 
 </form>
-
-<script type="text/javascript">
-</script>
 
 </div>
