@@ -13,7 +13,8 @@ class Welcome extends Controller {
 		//$this->load->view('welcome_message');
 		
 		foreach(Track::search("track 1") as $t){
-			echo $t->getArtist()->getName()."<br>";
+			echo $t->getName().", artist: ".$t->getArtist()->getName().", album: ".$t->getAlbum()->getName().", genres: ";
+			print_r($t->getGenres()).", videos: ".print_r($t->getVideos())."<br />";
 		}
 	}
 }
