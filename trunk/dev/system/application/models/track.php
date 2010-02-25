@@ -25,8 +25,8 @@ class Track extends Model
 		// Call the Model constructor
 		parent::Model();
 
-		$this->setId($trackid);
-		$this->setName($name);
+		$this->trackid = $trackid;
+		$this->name = $name;
 	}
 
 	public function getId()
@@ -129,7 +129,7 @@ class Track extends Model
 	}
 	/**
 	 * Returns all the Artist(s)
-	 * that feature in this track
+	 * that feature in this track EXCEPT the main artist
 	 */
 	public function &getFeatArtists()
 	{
@@ -139,7 +139,7 @@ class Track extends Model
 
 		if($this->feat_artists == NULL){
 			$query = "SELECT a.id, a.name, at.role FROM `artist` a, `artist_track` at WHERE at.trackid =  ".$this->db->escape($this->trackid)."
-		AND at.artistid = a.id";
+		AND at.artistid = a.id AND at.artistid != ".$this->db->escape($this->artist->getId());
 
 			$result = $this->db->query($query)->result();
 			$this->feat_artists = array();
@@ -166,7 +166,7 @@ class Track extends Model
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
     ORDER BY t.`name`";
 
-		return self::search($query);
+		return self::getTrackList($query);
 	}
 	/**
 	 *
@@ -183,10 +183,10 @@ class Track extends Model
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`";
 
-		return self::search($query);
+		return self::getTrackList($query);
 	}
 
-	static function &search($query)
+	static function &getTrackList($query)
 	{
 		$CI = &get_instance();
 		$CI->load->static_model('Artist');
