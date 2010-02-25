@@ -19,7 +19,6 @@ class UserManager extends Controller {
 	
 	function login()
 	{
-		$this->load->library('session');
 		$this->session->set_userdata('userid', 1);
 		redirect('/main');
 	}
