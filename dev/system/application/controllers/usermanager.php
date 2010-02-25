@@ -19,7 +19,15 @@ class UserManager extends Controller {
 	
 	function login()
 	{
-		print_r($_POST);
+		$this->load->library('session');
+		$this->session->set_userdata('userid', 1);
+		redirect('/main');
+	}
+	
+	function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('/main');
 	}
 }
 
