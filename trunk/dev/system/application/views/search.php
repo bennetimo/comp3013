@@ -47,7 +47,10 @@ code {
 
 <ul>
 <?php foreach($search_res as $t) : ?>
- <li><a href="<?=site_url('track/index/'.url_title($t->getName()))?>"><?=$t->getName()?></a></li>
+ <li>
+   <a href="<?=site_url('track/index/'.url_title($t->getName()))?>"><?=$t->getName()?></a>
+   <?php print_r($t->getFeatArtists()) ?> 
+ </li>
 <?php endforeach;?>
 </ul>
 
