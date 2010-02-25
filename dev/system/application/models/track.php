@@ -105,21 +105,65 @@ class Track extends Model
 
 			$this->videos = Video::getVideosByTrack($this->trackid);
 		}
-		
+
 		return $this->videos;
 	}
+	/**
+	 * Returns all the Artist(s)
+	 * that feature in this track
+	 */
+	public function &getFeatArtists()
+	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's videos");
+		}
+		
+		if($this->feat_artists == NULL){
+			$query = "SELECT a.id, a.name, a.role FROM `artist` a, `artist_track` at WHERE at.trackid =  ".$this->db->escape($this->trackid)."
+		AND at.artistid = a.artistid";
 
-	static function &search($search_term)
+			$result = $this->db->query($query)->result();
+      $this->feat_artists = array();
+      
+			foreach ($result as $artist) {
+				$this->feat_artists[] = new Artist($artist->id, $artist->name, $artist->role);	
+			}
+		}
+		
+		return $this->feat_artists;
+	}
+
+	static function &searchByGenre($genre)
+	{
+		$CI = &get_instance();
+
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
+    FROM `album_track` at, `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g 
+    WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
+    AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
+    ORDER BY t.`name`";
+
+		return self::search($query);
+	}
+
+	static function &searchTrackName($track_name)
+	{
+		$CI = &get_instance();
+			
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
+		FROM `album_track` at, `track` t, `artist` art,`album` a 
+		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
+		AND t.id = at.`trackid` AND a.id = at.`albumid` 
+		ORDER BY t.`name`";
+
+		return self::search($query);
+	}
+
+	static function &search($query)
 	{
 		$CI = &get_instance();
 		$CI->load->static_model('Artist');
 		$CI->load->static_model('Album');
-	
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
-		FROM `album_track` at, `track` t, `artist` art,`album` a 
-		WHERE t.main_artist_id = art.id AND t.name LIKE '".$CI->db->escape_str($search_term)."%' 
-		AND t.id = at.`trackid` AND a.id = at.`albumid` 
-		ORDER BY `album_name`";
 
 		$result = $CI->db->query($query)->result();
 
@@ -133,7 +177,7 @@ class Track extends Model
 
 			$track->setArtist($artist);
 			$track->setAlbum($album);
-				
+
 			$tracks[] = $track;
 
 		}
