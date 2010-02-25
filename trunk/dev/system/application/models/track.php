@@ -119,8 +119,8 @@ class Track extends Model
 		}
 		
 		if($this->feat_artists == NULL){
-			$query = "SELECT a.id, a.name, a.role FROM `artist` a, `artist_track` at WHERE at.trackid =  ".$this->db->escape($this->trackid)."
-		AND at.artistid = a.artistid";
+			$query = "SELECT a.id, a.name, at.role FROM `artist` a, `artist_track` at WHERE at.trackid =  ".$this->db->escape($this->trackid)."
+		AND at.artistid = a.id";
 
 			$result = $this->db->query($query)->result();
       $this->feat_artists = array();
