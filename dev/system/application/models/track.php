@@ -174,6 +174,27 @@ class Track extends Model
 
 		return $this->feat_artists;
 	}
+	
+	public function &toArray()
+	{
+		$array = array();
+		$array['name'] = $this->getName();
+		$array['id'] = $this->getId();
+		$array['cost'] = $this->getCost();
+		$array['duration'] = $this->getDuration();
+		$array['src'] = $this->getSrc();
+		$array['bought_time'] = $this->getBoughtTime();
+		// complex types
+		$array['album'] = $this->getAlbum()->toArray();
+		$array['main_artist'] = $this->getArtist()->toArray();
+		
+		$array['feat_artists'] = array();
+		foreach($this->getFeatArtists() as $art) {
+			$array['feat_artists'][] = $art->toArray();
+		}
+		
+		return $array;
+	}
 	/**
 	 *
 	 * @param string $genre

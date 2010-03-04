@@ -28,6 +28,18 @@ class Artist extends Model
 	{
 		return $this->role;
 	}
+	
+	public function &getArray()
+	{
+		$array = array();
+		
+		$array['name'] = $this->getName();
+		$array['id'] = $this->getId();
+		$array['role'] = $this->getRole();
+		
+		return $array();
+	}
+	
 	/**
 	 * get the tracks where this
 	 * artist is the main
