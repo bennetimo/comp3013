@@ -19,4 +19,14 @@ class Album extends Model
   {
     return $this->name;
   }
+  
+  public function &toArray()
+  {
+  	$array = array();
+  	
+  	$array['id'] = $this->getId();
+  	$array['name'] = $this->getName();
+  	
+  	return $array;
+  } 
 }
