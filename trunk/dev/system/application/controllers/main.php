@@ -10,8 +10,17 @@ class Main extends Controller {
 	
 	function index()
 	{
+		$userid = $this->session->userdata('userid');
+		$playlists = null;
+		
+		if ($userid) {
+			$this->load->static_model('Playlist');
+			$playlists = Playlist::getUsersPlaylists($userid);
+		}
+		
 		$data = array(
-			'userid' => $this->session->userdata('userid'),
+			'userid' => $userid,
+			'playlists' => $playlists
 		);
 		
 		$this->load->view("common/header.php");
