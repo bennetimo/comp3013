@@ -1,3 +1,112 @@
+/*Styles which apply to the entire html body*/
 body {
-    background-color: white;
+    background-color: #FFFFFF;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:13px;
+}
+
+/*Main container div housing all the content*/
+#container
+{
+	width:90%;
+	margin:auto;
+	min-width:850px;
+	background-color:#FFFFFF;
+	padding:0;
+}
+
+#header{
+	color:#6FC008;
+	padding:5px;
+}
+
+#navigation
+{
+clear:both;
+background-color:#000000;
+border-bottom:thin solid #C1D8E8;
+height:40px;
+padding:10px 20px 10px 5px;
+list-style-type:none;
+}
+
+#navigation ul
+{
+padding:0;
+}
+
+#navigation li 
+{
+background-color:#000000;
+color:#6FC008;
+display: inline;
+padding: 5px 10px;
+margin:0 3px;
+font-weight:bold;
+font-size:12px;
+border:thin white solid;
+}
+
+#navigation ul+li
+{
+margin-left:0;
+}
+
+#quick_links {
+	border-top:thin solid #C1D8E8;
+	float:left;
+	height:144px;
+	width:90%;
+}
+
+#quick_links div.section 
+{
+float:left;
+margin:0 40px 0 0;
+}
+
+#quick_links h3 {
+color:#555555;
+font-size:11px;
+line-height:18px;
+}
+
+#quick_links ul {
+list-style:none outside none;
+margin:0;
+padding:0;
+}
+
+#quick_links ul li {
+clear:left;
+float:left;
+margin:0;
+padding:0;
+}
+
+li{
+	font-size: 13px;
+}
+
+.content_box{
+	margin:auto;
+	width:100%;
+}
+
+#login_box{
+	padding:5px;
+	margin:5px;
+	background-color:#CCff99;
+	color:#6FC008;
+	float:left;
+	width:300px;
+}
+
+#register_box{
+	padding:5px;
+	margin:5px;
+	background-color:#CCff99;
+	color:#6FC008;
+	width:300px;
+	float:left;
 }

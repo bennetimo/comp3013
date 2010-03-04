@@ -9,3 +9,26 @@
 </head>
 
 <body>
+
+<!-- Create the container div which encompasses the entire page. Closed in footer -->
+<div id="container">
+
+	
+	<div id="header">
+		<h2>Musique</h2>
+		<h3>Music Redefined</h3>
+		
+		<!-- The navigation links present on every page -->
+		<div id="navigation">
+			<ul>
+				<li>My Playlists</li>
+				<li>My Account</li>
+				<li>Add Money</li>
+			</ul>
+		</div>
+	</div>
+	
+	<!-- The main content div. All content for the pages should go within here -->
+	<div class="content">
+
+
