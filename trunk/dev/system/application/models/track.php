@@ -160,8 +160,9 @@ class Track extends Model
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
-    FROM `album_track` at, `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g 
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+    FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid) 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
     ORDER BY t.`name`";
@@ -178,7 +179,8 @@ class Track extends Model
 		$CI = &get_instance();
 			
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
-		FROM `album_track` at, `track` t, `artist` art,`album` a 
+		FROM `track` t, `artist` art,`album` a, `album_track` at
+		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid)
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`";
