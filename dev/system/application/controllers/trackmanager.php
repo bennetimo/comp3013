@@ -4,7 +4,7 @@ class TrackManager extends Controller {
 
 	function TrackManager()
 	{
-		parent::Controller();	
+		parent::Controller();
 	}
 	
 	function index()
@@ -14,7 +14,31 @@ class TrackManager extends Controller {
 	
 	function search()
 	{
-		print_r($_POST);
+		$searchBy = $_POST["search_by"];
+		$term = $_POST["search_term"];
+		$userid = $this->session->userdata('userid');
+		$tracks = array();
+		
+		$this->load->static_model("Track");
+		
+		if ($searchBy == "name") {
+			$tracks = Track::searchTrackName($term, $userid);
+		}
+		else if ($searchBy == "genre") {
+			$tracks = Track::searchByGenre($term, $userid);
+		}
+		else {
+			throw new Exception("Searching by wrong parameter.");
+		}
+		
+		$newTracks = array();
+		
+		foreach ($tracks as $track) {
+			
+			$newTracks[] = $track->toArray();
+		}
+		
+		echo json_encode($newTracks);
 	}
 }
 
