@@ -5,12 +5,13 @@ class Main extends Controller {
 	function Main()
 	{
 		parent::Controller();
+		$this->load->static_model("User");
 	}
 	
 	function index()
 	{
 		$data = array(
-			'userid' => $this->session->userdata('userid')
+			'userid' => $this->session->userdata('userid'),
 		);
 		
 		$this->load->view("common/header.php");
