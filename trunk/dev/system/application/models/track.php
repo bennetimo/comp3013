@@ -130,7 +130,7 @@ class Track extends Model
 				 * ID -> NAME to display the genre name and
 				 * have a link with the genre's id
 				 */
-				$this->genres[$genre->genre_id] = $genre->name;
+				$this->genres[] = array('id' =>$genre->genre_id, 'name' =>$genre->name);
 			}
 		}
 
@@ -185,6 +185,7 @@ class Track extends Model
 		$array['src'] = $this->getSrc();
 		$array['bought_time'] = $this->getBoughtTime();
 		// complex types
+		$array['genres'] = $this->getGenres();
 		$array['album'] = $this->getAlbum()->toArray();
 		$array['main_artist'] = $this->getArtist()->toArray();
 		
@@ -230,7 +231,7 @@ class Track extends Model
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`";
-
+		
 		return self::getTrackList($query);
 	}
 
@@ -252,7 +253,7 @@ class Track extends Model
 			$track->setArtist($artist);
 			$track->setAlbum($album);
 
-			$tracks[] =& $track;
+			$tracks[] = $track;
 
 		}
 		

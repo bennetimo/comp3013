@@ -12,7 +12,7 @@ class Playlist extends Model
 
 	public function __construct($id = NULL, $name = NULL, $shared = NULL, $ownerid = NULL)
 	{
-		self::Model();
+		parent::Model();
 
 		$this->id = $id;
 		$this->name = $name;
@@ -80,27 +80,52 @@ class Playlist extends Model
 
 		return $this->tracks;
 	}
+	
+	public static function load($playlistid)
+	{
+		$CI =& get_instance();
+		$playlistid = $CI->db->escape($playlistid);
+		
+		$query = "SELECT pl.* FROM playlist pl WHERE pl.id = $playlistid LIMIT 1";
+		$result = $CI->db->query($query)->result();
+		
+		return new Playlist($result[0]->id, $result[0]->name, $result[0]->shared);
+	}
 
-  public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
-  {
-  	if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
-  		throw new Exception("The number of tracks must match the number of track's albums and positions");
-  	}
-  	$this->db->trans_start();
-  	
-  	for($i = 0; $i < count($trackids); $i++) {
-  		$playlistid = $this->db->escape($playlistid);
-  		$albumid = $this->db->escape($albumids[$i]);
-  		$trackid = $this->db->escape($trackids[$i]);
-  		$play_order = $this->db->escape($play_orders[$i]);
-  		
-  		$this->db->query("INSERT INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
-  	}
-  	
-  	$this->db->trans_complete();
-  	
-  	return $this->db->trans_status();
-  }
+	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+	{
+		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
+			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		}
+		$this->db->trans_start();
+		 
+		for($i = 0; $i < count($trackids); $i++) {
+			$playlistid = $this->db->escape($playlistid);
+			$albumid = $this->db->escape($albumids[$i]);
+			$trackid = $this->db->escape($trackids[$i]);
+			$play_order = $this->db->escape($play_orders[$i]);
+
+			$this->db->query("INSERT INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
+		}
+		 
+		$this->db->trans_complete();
+		 
+		return $this->db->trans_status();
+	}
+
+	public static function toArray($withTracks = TRUE)
+	{
+		$array = array();
+		$array['id'] = $this->getId();
+  		$array['name'] = $this->getName();
+		
+  		if ($withTracks) {
+			// TODO.
+		}
+		
+		return $array;
+	}
+	 
 	/**
 	 *
 	 * @param Playlist's name string $pl_name
@@ -122,4 +147,18 @@ class Playlist extends Model
 		return $result;
 	}
 
+	public static function &getUsersPlaylists($userid)
+	{
+		$CI = &get_instance();
+		$result = array();
+
+		$query = "SELECT p.*, pu.userid AS ownerid FROM `playlist` p, `playlist_user` pu WHERE
+		pu.userid = ".$CI->db->escape($userid)." AND pu.playlistid = p.id GROUP BY p.id";
+
+		foreach($CI->db->query($query)->result() as $p) {
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid);
+		}
+
+		return $result;
+	}
 }

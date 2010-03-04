@@ -16,7 +16,7 @@ class Artist extends Model
 
 	public function getId()
 	{
-		return $this->id;
+		return $this->artistid;
 	}
 
 	public function getName()
@@ -29,7 +29,7 @@ class Artist extends Model
 		return $this->role;
 	}
 	
-	public function &getArray()
+	public function &toArray()
 	{
 		$array = array();
 		
@@ -37,7 +37,7 @@ class Artist extends Model
 		$array['id'] = $this->getId();
 		$array['role'] = $this->getRole();
 		
-		return $array();
+		return $array;
 	}
 	
 	/**
