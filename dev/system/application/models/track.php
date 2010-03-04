@@ -172,7 +172,7 @@ class Track extends Model
 	/**
 	 *
 	 * @param string $track_name
-	 * @return array of Track
+	 * @return array of Tracks
 	 */
 	static function &searchTrackName($track_name)
 	{
