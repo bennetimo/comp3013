@@ -1,12 +1,12 @@
 <?php
 class Track extends Model
 {
-
 	private $trackid;
 	private $duration;
 	private $cost;
 	private $src;
 	private $name;
+	private $bought_time;
 	// type Artist
 	private $artist;
 	// type array<Artist>
@@ -20,13 +20,26 @@ class Track extends Model
 
 
 
-	public function Track($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL)
+	public function __constructor($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL, $bought_time = NULL)
 	{
 		// Call the Model constructor
 		parent::Model();
 
 		$this->trackid = $trackid;
 		$this->name = $name;
+		$this->duration = $duration;
+		$this->cost = $cost;
+		$this->src = $src;
+		$this->bought_time = $bought_time;
+	}
+
+	public function getBoughtTime()
+	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's duration");
+		}
+
+		return $this->bought_time;
 	}
 
 	public function getId()
@@ -34,13 +47,22 @@ class Track extends Model
 		return $this->trackid;
 	}
 
+	public function getDuration()
+	{
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's duration");
+		}
+
+		return $this->duration;
+	}
+
 	public function getName()
 	{
-	if($this->trackid == NULL){
-      throw new Exception("Missing track ID when requesting track's name");
-    }
-    
-    return $this->name;
+		if($this->trackid == NULL){
+			throw new Exception("Missing track ID when requesting track's name");
+		}
+
+		return $this->name;
 	}
 
 	public function setArtist(&$artist)
@@ -159,10 +181,11 @@ class Track extends Model
 	static function &searchByGenre($genre)
 	{
 		$CI = &get_instance();
+		$userid = $CI->session->userdata('userid');
 
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid) 
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
     ORDER BY t.`name`";
@@ -177,10 +200,11 @@ class Track extends Model
 	static function &searchTrackName($track_name)
 	{
 		$CI = &get_instance();
+		$userid = $CI->session->userdata('userid');
 			
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
-		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid)
+		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`";
@@ -200,7 +224,7 @@ class Track extends Model
 
 		foreach ($result as $row)
 		{
-			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src);
+			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src, $row->bought);
 			$artist = new Artist($row->artist_id, $row->artist_name);
 			$album = new Album($row->album_id, $row->album_name);
 
@@ -210,7 +234,7 @@ class Track extends Model
 			$tracks[] = $track;
 
 		}
-
+		
 		return $tracks;
 	}
 }
