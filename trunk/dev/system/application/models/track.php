@@ -20,10 +20,10 @@ class Track extends Model
 
 
 
-	public function __constructor($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL, $bought_time = NULL)
+	public function __construct($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL, $bought_time = NULL)
 	{
 		// Call the Model constructor
-		parent::Model();
+    parent::Model();
 
 		$this->trackid = $trackid;
 		$this->name = $name;
@@ -31,6 +31,7 @@ class Track extends Model
 		$this->cost = $cost;
 		$this->src = $src;
 		$this->bought_time = $bought_time;
+		
 	}
 
 	public function getBoughtTime()
@@ -178,10 +179,10 @@ class Track extends Model
 	 * @param string $genre
 	 * @return array of Track
 	 */
-	static function &searchByGenre($genre)
+	static function &searchByGenre($genre, $userid = NULL)
 	{
 		$CI = &get_instance();
-		$userid = $CI->session->userdata('userid');
+		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
@@ -197,10 +198,10 @@ class Track extends Model
 	 * @param string $track_name
 	 * @return array of Tracks
 	 */
-	static function &searchTrackName($track_name)
+	static function &searchTrackName($track_name, $userid = NULL)
 	{
 		$CI = &get_instance();
-		$userid = $CI->session->userdata('userid');
+		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 			
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
@@ -222,8 +223,7 @@ class Track extends Model
 
 		$tracks = array();
 
-		foreach ($result as $row)
-		{
+		foreach ($result as $row)	{
 			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src, $row->bought);
 			$artist = new Artist($row->artist_id, $row->artist_name);
 			$album = new Album($row->album_id, $row->album_name);
@@ -231,7 +231,7 @@ class Track extends Model
 			$track->setArtist($artist);
 			$track->setAlbum($album);
 
-			$tracks[] = $track;
+			$tracks[] =& $track;
 
 		}
 		
