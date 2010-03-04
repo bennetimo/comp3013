@@ -9,10 +9,17 @@ Get started today to see what you've been missing
 
 <div id="search_box">
 	<h3>Find Music.</h3>
-	<form action="<?=site_url('trackmanager/search')?>" method="POST">
-		<input type="text" name="search"></input>
+	<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
+		<input type="text" name="search_term"></input>
 		<input type="submit" value="search"></input>
+		<input type="radio" name="search_by" value="name" checked="checked" />name
+		<input type="radio" name="search_by" value="genre" />genre
 	</form>	
+</div>
+
+<div id="search_results">
+<table id="search_results_table">
+</table>
 </div>
 
 <div class="content_box">
@@ -60,6 +67,15 @@ Get started today to see what you've been missing
 		</table>
 	</div>
 	
+	<? if($userid): ?>
+	<div id="playlists">
+		<table id="playlists_table">
+		<? foreach ($playlists as $playlist): ?>
+			<tr><td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td></tr>
+		<? endforeach; ?>
+		</table>
+	</div>
+	<? endif; ?>
 
 <script>
 
@@ -95,6 +111,41 @@ loginForm.submit(function()
 });
 
 var searchResultsTable = $('#search_results_table');
-searchResultsTable.setResults([{"name": "First"}, {"name": "Second"}]);
+
+var searchForm = $('#search_form');
+var searchResultsTable = $("#search_results_table");
+
+searchForm.submit(function()
+{
+	$.ajax({
+		url: 'trackmanager/search',
+		async: true,
+		type: 'POST',
+		dataType: 'json',
+		data: searchForm.serialize(),
+
+		success: function(data)
+		{
+			//alert(data);
+			searchResultsTable.setResults(data);
+		}
+	});
+
+	return false;
+});
+
+function loadPlaylist(playlistid)
+{
+	$.ajax({
+		url: 'playlistmanager/get_tracks/' + playlistid,
+		async: true,
+		dataType: 'json',
+
+		success: function(data)
+		{
+			searchResultsTable.setResults(data);
+		}
+	});
+}
 
 </script>
