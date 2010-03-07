@@ -59,7 +59,7 @@ class UserManager extends Controller {
 		}
 		
 		User::add($email, md5($password), $fname, $lname);
-		redirect('/main');
+		redirect('/registered');
 	}
 	
 	function validate_login_form()
@@ -81,12 +81,18 @@ class UserManager extends Controller {
 	{
 		$email = $_POST['login_email'];
 		$password = $_POST['login_password'];
-		
+		$id = User::getIdByEmail($email);
+			
 		if (!User::loginIsValid($email, md5($password))) {
 			throw new Exception("Error when loggin in user.");
 		}
 		
-		$id = User::getIdByEmail($email);
+		if(!User::accountIsActivated($id)){
+			echo "Your account has not yet been activated. Click 
+			the link in the confirmation email which was sent to your email account when you registered";
+			return;
+		}
+		
 		$this->session->set_userdata('userid', $id);
 		
 		redirect('/main');
