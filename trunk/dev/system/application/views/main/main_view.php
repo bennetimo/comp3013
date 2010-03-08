@@ -87,7 +87,7 @@ loginForm.submit(function()
 	var submit = false;
 
 	$.ajax({
-		url: 'usermanager/validate_login_form',
+		url: '<?=site_url('usermanager/validate_login_form')?>',
 		async: false,
 		type: 'POST',
 		dataType: 'json',
@@ -118,7 +118,7 @@ var searchResultsTable = $("#search_results_table");
 searchForm.submit(function()
 {
 	$.ajax({
-		url: 'trackmanager/search',
+		url: '<?=site_url('trackmanager/search')?>',
 		async: true,
 		type: 'POST',
 		dataType: 'json',
@@ -137,7 +137,7 @@ searchForm.submit(function()
 function loadPlaylist(playlistid)
 {
 	$.ajax({
-		url: 'playlistmanager/get_tracks/' + playlistid,
+		url: '<?=site_url('playlistmanager/get_tracks/')?>' + playlistid,
 		async: true,
 		dataType: 'json',
 
