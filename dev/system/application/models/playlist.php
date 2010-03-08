@@ -4,20 +4,20 @@ class Playlist extends Model
 	private $id;
 	private $name;
 	private $shared;
-	private $ownerid;
+	private $userid;
 	// type User
 	private $owner;
 	// type Track
 	private $tracks;
 
-	public function __construct($id = NULL, $name = NULL, $shared = NULL, $ownerid = NULL)
+	public function __construct($id = NULL, $name = NULL, $shared = NULL, $userid = NULL)
 	{
 		parent::Model();
 
 		$this->id = $id;
 		$this->name = $name;
 		$this->shared = $shared;
-		$this->ownerid = $ownerid;
+		$this->userid = $userid;
 	}
 
 	public function getId()
@@ -52,7 +52,7 @@ class Playlist extends Model
 		$this->load->static_model('User');
 
 		if($this->owner == NULL) {
-			$this->owner = new User($this->ownerid);
+			$this->owner = new User($this->userid);
 		}
 
 		return $this->owner;
@@ -80,15 +80,15 @@ class Playlist extends Model
 
 		return $this->tracks;
 	}
-	
+
 	public static function load($playlistid)
 	{
 		$CI =& get_instance();
 		$playlistid = $CI->db->escape($playlistid);
-		
+
 		$query = "SELECT pl.* FROM playlist pl WHERE pl.id = $playlistid LIMIT 1";
 		$result = $CI->db->query($query)->result();
-		
+
 		return new Playlist($result[0]->id, $result[0]->name, $result[0]->shared);
 	}
 
@@ -98,34 +98,78 @@ class Playlist extends Model
 			throw new Exception("The number of tracks must match the number of track's albums and positions");
 		}
 		$this->db->trans_start();
-		 
+			
 		for($i = 0; $i < count($trackids); $i++) {
 			$playlistid = $this->db->escape($playlistid);
 			$albumid = $this->db->escape($albumids[$i]);
 			$trackid = $this->db->escape($trackids[$i]);
-			$play_order = $this->db->escape($play_orders[$i]);
 
+			if(empty($play_orders)){
+				//add it to the end
+				$play_orders = "(SELECT MAX(`play_order`) + 1 FROM `playlist_track` WHERE `playlistid` = $playlistid)";
+			}
+			else{
+				$play_order = $this->db->escape($play_orders[$i]);
+			}
 			$this->db->query("INSERT INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
 		}
-		 
+			
 		$this->db->trans_complete();
-		 
+			
 		return $this->db->trans_status();
+	}
+
+	public static function removeTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+	{
+		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
+			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		}
+		$this->db->trans_start();
+			
+		for($i = 0; $i < count($trackids); $i++) {
+			$this->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?  AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumid, $trackid));
+		}
+			
+		$this->db->trans_complete();
+			
+		return $this->db->trans_status();
+	}
+
+	public static function addPlaylist($name, $userid, $is_shared)
+	{
+		$this->db->trans_start();
+			
+		$is_shared = $is_shared ? 1 : 0;
+		// add playlist
+		$this->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
+		$playlistid = $this->db->insert_id();
+		// add user -> playlist relation
+		$this->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
+			
+		$this->db->trans_complete();
+			
+		return $this->db->trans_status() ? new Playlist($playlistid, $name, $is_shared, $userid) : FALSE;
+			
+	}
+	
+	public static function removePlaylist($playlistid, $userid)
+	{
+		$this->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
 	}
 
 	public static function toArray($withTracks = TRUE)
 	{
 		$array = array();
 		$array['id'] = $this->getId();
-  		$array['name'] = $this->getName();
-		
-  		if ($withTracks) {
+		$array['name'] = $this->getName();
+
+		if ($withTracks) {
 			// TODO.
 		}
-		
+
 		return $array;
 	}
-	 
+
 	/**
 	 *
 	 * @param Playlist's name string $pl_name
@@ -137,11 +181,11 @@ class Playlist extends Model
 		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 		$result = array();
 
-		$query = "SELECT p.*, pu.userid AS ownerid FROM `playlist` p, `playlist_user` pu WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'
+		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p, `playlist_user` pu WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'
 		AND (p.shared OR pu.userid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
 
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid);
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid);
 		}
 
 		return $result;
@@ -152,11 +196,11 @@ class Playlist extends Model
 		$CI = &get_instance();
 		$result = array();
 
-		$query = "SELECT p.*, pu.userid AS ownerid FROM `playlist` p, `playlist_user` pu WHERE
+		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p, `playlist_user` pu WHERE
 		pu.userid = ".$CI->db->escape($userid)." AND pu.playlistid = p.id GROUP BY p.id";
 
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid);
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid);
 		}
 
 		return $result;
