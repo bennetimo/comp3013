@@ -91,8 +91,27 @@ class Playlist extends Model
 
 		return new Playlist($result[0]->id, $result[0]->name, $result[0]->shared);
 	}
+	/**
+	 * This method let you re-arrange the order of tracks in the given playlist
+	 *
+	 * @param array $trackids
+	 * @param array $albumids
+	 * @param array $play_orders
+	 * @param string/int $playlistid
+	 * @param string/int $userid
+	 */
+	public static function updateTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+	{
+		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
+			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		}
+		
+		for($i = 0; $i < count($trackids); $i++) {
+			$this->db->query("UPDATE `playlist_track` SET `play_order` = $i WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumids[$i], $trackids[$i]));
+		}
+	}
 
-	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid)
 	{
 		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
 			throw new Exception("The number of tracks must match the number of track's albums and positions");
@@ -119,7 +138,7 @@ class Playlist extends Model
 		return $this->db->trans_status();
 	}
 
-	public static function removeTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+	public static function removeTracks(array $trackids, array $albumids, array $play_orders, $playlistid)
 	{
 		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
 			throw new Exception("The number of tracks must match the number of track's albums and positions");
@@ -151,10 +170,20 @@ class Playlist extends Model
 		return $this->db->trans_status() ? new Playlist($playlistid, $name, $is_shared, $userid) : FALSE;
 			
 	}
-	
+
 	public static function removePlaylist($playlistid, $userid)
 	{
+		$this->db->trans_start();
+
 		$this->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
+		$this->db->query("DELETE FROM `playlist` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
+
+		return $this->db->trans_status();
+	}
+	
+	public function remove()
+	{
+		return self::removePlaylist($this->id, $this->userid);
 	}
 
 	public static function toArray($withTracks = TRUE)
