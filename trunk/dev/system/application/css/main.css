@@ -67,7 +67,7 @@ body {
 	margin:0 3px;
 	font-weight:bold;
 	font-size:12px;
-	border:thin white solid;
+	/*border:2px #6FC008 solid;*/
 	background: #000000 url(../images/button_bg.jpg) repeat-x left top;
 }
 
@@ -76,22 +76,26 @@ body {
 	margin-left:0;
 }
 
+#search_bar{
+	margin:30px auto;
+	text-align:center;
+}
+
 /*sidebar styles*/
 #sidebar{
 	float:left;
 	background:none repeat scroll 0 0 #212121;
-	padding:20px;
-	width:180px;
+	width:250px;
 	color:#FFFFFF;
 	min-height:620px;
 }
 
 /*content styles*/
 #content {
-	margin-left:230px;
+	margin-left:270px;
 	margin-top:0;
 	margin-bottom:20px;
-	padding:20px 35px;
+	padding:0;
 	/*background-image:url("../images/background_light_slice2.jpg");*/
 	background-color:#ffffff;
 	min-height:620px;
@@ -109,7 +113,7 @@ body {
 
 .content_box{
 	margin:auto;
-	padding:5px;
+	padding:5px 35px;
 	font-family: helvetica,arial,sans-serif;
 }
 
@@ -210,11 +214,11 @@ body {
 .normal_button{
 	/*background:none repeat scroll 0 0 #000000;*/
 	background: #000000 url(../images/button_bg.jpg) repeat-x left top;
-	border:medium none;
+	outline:none;
 	color:#FFFFFF;
-	padding:4px;
-	font-size:16px;
-	
+	font-size:14px;
+	font-weight:bold;
+	padding:0 3px;
 }
 
 .list_button{

@@ -55,17 +55,21 @@
 	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
 	<div id="contents_wrapper">
 	
+	
+	
 	<div id="sidebar">
-		<div id="search_box">
-			<h3 class="bold_header">Find Music.</h3>
-			<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
-				<input type="text" name="search_term"></input><br />
-				<input type="submit" class="normal_button" value="search" size="15"></input><br />
-				<input type="radio" name="search_by" value="name" checked="checked" />name
-				<input type="radio" name="search_by" value="genre" />genre<br />
-			</form>	
+		<div id="search_bar">
+			<div id="search_box">
+					<h3 class="bold_header">Find Music.</h3>
+					<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
+						<input type="text" name="search_term"></input>
+						<input type="submit" class="normal_button" value="search" size="15"></input>
+						<!-- <input type="radio" name="search_by" value="name" checked="checked" />name
+						<input type="radio" name="search_by" value="genre" />genre<br />-->
+					</form>	
+				</div>
 		</div>
-		
+	
 		<div id="login_error" style="display: none;"></div>
 		
 		<div id="my_playlists">
