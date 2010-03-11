@@ -1,4 +1,6 @@
+
 $.fn.setResults = function(data, options) {
+	
 	this.html("");
 	window.idToTrack = [];
 
@@ -17,14 +19,13 @@ $.fn.setResults = function(data, options) {
 		}
 
 		window.idToTrack[i] = {
-			"trackid" : data[i].id,
-			"albumid" : data[i].album.id
-		}
+			"trackId" : data[i].id,
+			"albumId" : data[i].album.id
+		};
+		
 		genres = genres.substring(0, genres.length - 2);
-		this
-				.append('<table id="'
-						+ i
-						+ '"><tr class="'
+		
+		this.append('<li id="' + i + '"><table><tr class="'
 						+ style
 						+ '"><td class="results_item handle">::</td><td class="results_item track_name">'
 						+ data[i].name
@@ -32,26 +33,6 @@ $.fn.setResults = function(data, options) {
 						+ '</td><td class="results_item album_name">'
 						+ data[i].album.name
 						+ '</td><td class="results_item artists">' + artists
-						+ '</td></tr></table>');
+						+ '</td></tr></table></li>');
 	}
-//	if (options['draggable']) {
-//		this.find("table").draggable( {
-//			revert : true,
-//			revertDuration : 0,
-//			handle : ".handle",
-//			opacity : 0.4,
-//			helper : "clone"
-//		});
-//	}
-//	
-//	if (options['sortable']) {
-//		this.sortable( {
-//			revert : false,
-//			revertDuration : 0,
-//			handle : ".handle",
-//			opacity : 0.4,
-//			helper : "clone",
-//			update: typeof options['update_sortable'] == 'function' ? options['update_sortable'] : null
-//		});
-//	}
 };
