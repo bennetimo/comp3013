@@ -100,68 +100,90 @@ class Playlist extends Model
 	 * @param string/int $playlistid
 	 * @param string/int $userid
 	 */
-	public static function updateTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+//	public static function updateTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
+//	{
+//		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
+//			throw new Exception("The number of tracks must match the number of track's albums and positions");
+//		}
+//
+//		$CI =& get_instance();
+//
+//		for($i = 0; $i < count($trackids); $i++) {
+//			$CI->db->query("UPDATE `playlist_track` SET `play_order` = $i WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumids[$i], $trackids[$i]));
+//		}
+//	}
+
+	public static function updateTracks($trackid, $albumid, $old_position, $new_position, $playlistid)
 	{
-		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
-			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		$CI =& get_instance();
+		
+		if ($old_position > $new_position) {
+			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order + 1 WHERE `playlistid` = ? AND `play_order` BETWEEN ? AND ?", array($playlistid, $new_position, $old_position));
+		}
+		else {
+			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order - 1 WHERE `playlistid` = ? AND `play_order` BETWEEN ? AND ?", array($playlistid, $new_position, $old_position));
 		}
 		
-		for($i = 0; $i < count($trackids); $i++) {
-			$this->db->query("UPDATE `playlist_track` SET `play_order` = $i WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumids[$i], $trackids[$i]));
-		}
+		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistid, $albumid, $trackid));
 	}
 
 	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid)
 	{
-		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
-			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		if(count($trackids) != count($albumids)) {
+			throw new Exception("The number of tracks must match the number of track's albums");
 		}
-		$this->db->trans_start();
+		$CI =& get_instance();
+
+		$CI->db->trans_start();
 			
 		for($i = 0; $i < count($trackids); $i++) {
-			$playlistid = $this->db->escape($playlistid);
-			$albumid = $this->db->escape($albumids[$i]);
-			$trackid = $this->db->escape($trackids[$i]);
+			$playlistid = $CI->db->escape($playlistid);
+			$albumid = $CI->db->escape($albumids[$i]);
+			$trackid = $CI->db->escape($trackids[$i]);
 
 			if(empty($play_orders)){
 				//add it to the end
-				$play_orders = "(SELECT MAX(`play_order`) + 1 FROM `playlist_track` WHERE `playlistid` = $playlistid)";
+				$result = $CI->db->query("SELECT (MAX(`play_order`) + 1) AS `play_order` FROM `playlist_track` WHERE `playlistid` = $playlistid")->result();
+				$play_order = $result[0]->play_order;
 			}
 			else{
-				$play_order = $this->db->escape($play_orders[$i]);
+				$order = isset($play_orders[$i]) ? $play_orders[$i] : 0;
+				$play_order = $CI->db->escape($play_orders[$i]);
 			}
-			$this->db->query("INSERT INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
+			$CI->db->query("INSERT IGNORE INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
 		}
 			
-		$this->db->trans_complete();
+		$CI->db->trans_complete();
 			
-		return $this->db->trans_status();
+		return $CI->db->trans_status();
 	}
 
-	public static function removeTracks(array $trackids, array $albumids, array $play_orders, $playlistid)
+	public static function removeTracks(array $trackids, array $albumids, $playlistid)
 	{
-		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
-			throw new Exception("The number of tracks must match the number of track's albums and positions");
+		if(count($trackids) != count($albumids)) {
+			throw new Exception("The number of tracks must match the number of track's albums");
 		}
-		$this->db->trans_start();
+		$CI =& get_instance();
+		$CI->db->trans_start();
 			
 		for($i = 0; $i < count($trackids); $i++) {
-			$this->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?  AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumid, $trackid));
+			$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?  AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumid, $trackid));
 		}
 			
-		$this->db->trans_complete();
+		$CI->db->trans_complete();
 			
-		return $this->db->trans_status();
+		return $CI->db->trans_status();
 	}
 
 	public static function addPlaylist($name, $userid, $is_shared)
 	{
-		$this->db->trans_start();
+		$CI =& get_instance();
+		$CI->db->trans_start();
 			
 		$is_shared = $is_shared ? 1 : 0;
 		// add playlist
-		$this->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
-		$playlistid = $this->db->insert_id();
+		$CI->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
+		$playlistid = $CI->db->insert_id();
 		// add user -> playlist relation
 		$this->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
 			
@@ -173,14 +195,15 @@ class Playlist extends Model
 
 	public static function removePlaylist($playlistid, $userid)
 	{
-		$this->db->trans_start();
+		$CI =& get_instance();
+		$CI->db->trans_start();
 
-		$this->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
-		$this->db->query("DELETE FROM `playlist` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
+		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
+		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
 
 		return $this->db->trans_status();
 	}
-	
+
 	public function remove()
 	{
 		return self::removePlaylist($this->id, $this->userid);
