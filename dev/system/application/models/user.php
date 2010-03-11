@@ -7,6 +7,7 @@ class User extends Model
 	private $fname;
 	private $lname;
 	private $joined;
+	private $credit;
 	
 	public function __construct($id)
 	{
@@ -29,6 +30,17 @@ class User extends Model
 		$this->fname = $result->fname;
 		$this->lname = $result->lname;
 		$this->joined = $result->joined;
+		
+		//Get the users available credit
+		$queryString = "SELECT credit from `user_account` WHERE `userid` = ".$this->db->escape($id);
+		$query = $this->db->query($queryString);
+		$result = $query->first_row();	
+		
+		if ($query->num_rows() != 1) {
+			$this->credit = 0;
+		}else{
+			$this->credit = $result->credit;
+		}
 	}
 	
 	public static function add($email, $password, $fname, $lname)
@@ -74,6 +86,27 @@ class User extends Model
 		}
 	}
 	
+	public function addCredit($ammount){
+		$queryString = "UPDATE `user_account` SET `credit` = `credit` + ".$this->db->escape($ammount) ." 
+		WHERE `userid` = ".$this->db->escape($this->id);
+		
+		$query = $this->db->query($queryString);
+		
+		if ($this->db->affected_rows() == 0) {
+			//The user does not have an entry yet in the accounts table, create one
+			$queryString = "INSERT INTO `user_account` (`userid`, `credit`) VALUES 
+			(".$this->db->escape($this->id) .", ".$this->db->escape($ammount).")";
+		
+			$query = $this->db->query($queryString);
+			
+			if ($this->db->affected_rows() == 0) {
+				throw new Exception("Could not add money to account with user id $this->id");
+			}
+		}
+	
+		$this->credit = $this->credit + $ammount;
+	}
+	
 	public static function markAsActivated($userID, $code){
 		$CI = &get_instance();
 		$queryString = "UPDATE `user_verification` SET `code` = NULL WHERE `userid` = ".$CI->db->escape($userID) ." AND `code` = ".$CI->db->escape($code);
@@ -102,10 +135,10 @@ class User extends Model
 	
 	public static function accountIsActivated($userID){
 		$CI = &get_instance();
-		$queryString = "SELECT * from `user_verification` WHERE `userid` = $userID AND `code` is NULL";
+		$queryString = "SELECT * from `user_verification` WHERE `userid` = ".$CI->db->escape($userID)." AND `code` is NULL";
 		$query = $CI->db->query($queryString);
 		
-		return $query->num_rows() == 0;
+		return $query->num_rows() == 1;
 	}
 	
 	public static function getIdByEmail($email)
@@ -139,5 +172,10 @@ class User extends Model
 	public function getJoined()
 	{
 		return $this->joined;
+	}
+	
+	public function getCredit()
+	{
+		return $this->credit;
 	}
 }

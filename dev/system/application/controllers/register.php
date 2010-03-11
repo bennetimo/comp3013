@@ -9,7 +9,13 @@ class Register extends Controller {
 	
 	function index()
 	{
-		$this->load->view("common/header.php");
+		$userid = $this->session->userdata('userid');
+		
+		$data = array(
+			'userid' => $userid,
+		);
+		
+		$this->load->view("common/header.php", $data);
 		$this->load->view("register/register_view.php");
 		$this->load->view("common/footer.php");
 	}
