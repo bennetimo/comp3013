@@ -48,7 +48,7 @@ window.base_url = "<?=site_url()?>";
 		<div id="navigation_links">
 			<ul>
 				<li><a href="<?=site_url('register')?>">My Playlists</a></li>
-				<li><a href="<?=site_url('account')?>">My Account</a></li>
+				<li><a href="<?=site_url('main/account')?>">My Account</a></li>
 				<li><a href="<?=site_url('register')?>">Add Money</a></li>
 				<li><a href="<?=site_url('register')?>">Sign up!</a></li>
 			</ul>
