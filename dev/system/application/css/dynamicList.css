@@ -5,6 +5,11 @@ ul#search_results {
     padding: 0px;
 }
 
+#search_results_list {
+    margin: 0px;
+    padding: 0px;
+}
+
 #search_results li {
     width: 500px;
     list-style: none;
@@ -22,7 +27,7 @@ ul#search_results {
     white-space: nowrap;
 }
 
-#search_results tr.even {
+#search_results li.even {
     background-color: #222222;
 }
 
@@ -31,7 +36,7 @@ ul#search_results {
     cursor: pointer;
 }
 
-#search_results tr.odd {
+#search_results li.odd {
     background-color: #444444;
 }
 
