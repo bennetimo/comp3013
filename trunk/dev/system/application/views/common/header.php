@@ -11,6 +11,10 @@
 
 <body>
 
+<script>
+window.base_url = "<?=site_url()?>";
+</script>
+
 <!-- Create the container div which encompasses the entire page. Closed in footer -->
 <div id="container">
 	<div id="header">
