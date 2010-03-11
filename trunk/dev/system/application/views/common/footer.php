@@ -1,38 +1,44 @@
-
+		<div id="music_note">
+			<img src="/musique/system/application/images/music_note.png"></img>
+		</div>
+	</div><!-- Close the contents created in the header -->
+	</div><!-- Close the contents_wrapper created in the header -->
+	
+	<div id="footer">
 		<div id="quick_links">
 			<div class="section">
 				<h3>About</h3>
 				<ul>
-					<li>What is Musique?</li>
-					<li>Features</li>
+					<li><a href="<?=site_url('main')?>">What is Musique?</a></li>
+					<li><a href="<?=site_url('main')?>">Features</a></li>
 				</ul>
 			</div>
 			<div class="section">
 				<h3>Playlists</h3>
 				<ul>
-					<li>View my playlists</li>
-					<li>Create a new playlist</li>
-					<li>View my friends playlists</li>
+					<li><a href="<?=site_url('main')?>">View My Playlists</a></li>
+					<li><a href="<?=site_url('main')?>">Create a new playlist</a></li>
+					<li><a href="<?=site_url('main')?>">View my friends playlists</a></li>
 				</ul>
 			</div>
 			<div class="section">
 				<h3>Account</h3>
 				<ul>
-					<li>Update email</li>
-					<li>Change password</li>
-					<li>Recover lost password</li>
+					<li><a href="<?=site_url('main')?>">Update Email</a></li>
+					<li><a href="<?=site_url('main')?>">Change password</a></li>
+					<li><a href="<?=site_url('main')?>">Recover lost password</a></li>
 				</ul>
 			</div>	
 			<div class="section">
 				<h3>Help</h3>
 				<ul>
-					<li>FAQ</li>
-					<li>Contact Us</li>
+					<li><a href="<?=site_url('main')?>">FAQ</a></li>
+					<li><a href="<?=site_url('main')?>">Contact Us</a></li>
 				</ul>
 			</div>
 		</div>
+	</div>
 	
-	</div><!-- Close the contents created in the header -->
 
 </div><!-- Close the container div created in the header -->
 

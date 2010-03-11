@@ -1,81 +1,60 @@
 
-<h3>Welcome.</h3>
-<p>
-Musique is an online streaming media player allowing you to listen to 
-all your favourite music, and share it easily with your friends.
-
-Get started today to see what you've been missing
-</p>
-
-<div id="search_box">
-	<h3>Find Music.</h3>
-	<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
-		<input type="text" name="search_term"></input>
-		<input type="submit" value="search"></input>
-		<input type="radio" name="search_by" value="name" checked="checked" />name
-		<input type="radio" name="search_by" value="genre" />genre
-	</form>	
+<div class="content_box">
+	<p>
+	Musique is an online streaming media player allowing you to listen to 
+	all your favourite music, and share it easily with your friends.
+	
+	Get started today to see what you've been missing
+	</p>
 </div>
 
-<div id="search_results">
-<table id="search_results_table">
-</table>
+
+<div class="content_box" id="search_results" >
+	<table id="search_results_table">
+	</table>
+</div>
+
+<div class="feature_box">
+	<h3>127</h3>
+	<p>registered users</p>
+</div>
+
+<div class="feature_box">
+	<h3>3402</h3>
+	<p>total tracks</p>
+</div>
+
+<div class="feature_box">
+	<h3>82</h3>
+	<p>featured artists</p>
+</div>
+
+<br /><br /><br /><br /><br /><br />
+
+<div class="content_box">
+<p>Try searching for your favourite music now using the box on the left, you'll be susprised at what we have on offer</p>
+<p>Or, have a look at the top playlists</p>
+<ul>
+	<a class="styled_button" href="<?=site_url('main')?>"><span>Top Playlists</span></a>
+</ul>
 </div>
 
 <div class="content_box">
-	<div id="login_box">
-		<? if($userid == ""): ?>
-		<h3>Login</h3>
-		
-		<form id="login_form" action="<?=site_url('usermanager/login')?>" method="POST">
-
-			<input type="text" id="login_email" name="login_email"></input>
-			<input type="password" id="login_password" name="login_password"></input>
-			<input type="submit" value="login"></input>
-	
-			<div id="login_error" style="display: none;"></div>
-	
-		</form>
-		
-		<a href="<?=site_url('register')?>">register</a>
-		<? else: ?>
-		<h3>Logout</h3>
-		<a href="<?=site_url('usermanager/logout')?>">logout</a>
-		<? endif; ?>
-	</div>
-	
-	<div id="register_box">
-		<? if($userid == ""): ?>
-		<h3>Register</h3>
-		
-		<form action="<?=site_url('usermanager/login')?>" method="POST">
-			<input type="text" id="login_email" name="login_email"></input>
-			<input type="password" id="login_password" name="login_password"></input>
-			<input type="submit" value="login"></input>
-		</form>
-		
-		<a href="<?=site_url('register')?>">register</a>
-		<? else: ?>
-		<h3>Logout</h3>
-		<a href="<?=site_url('usermanager/logout')?>">logout</a>
-		<? endif; ?>
-	</div>
+<p>To be on your way to enjoying all this music, create an account free now</p>
+<ul>
+	<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a></li>
+</ul>
 </div>
 	
-	<div id="search_results">
-		<table id="search_results_table">
-		</table>
-	</div>
-	
-	<? if($userid): ?>
-	<div id="playlists">
-		<table id="playlists_table">
-		<? foreach ($playlists as $playlist): ?>
-			<tr><td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td></tr>
-		<? endforeach; ?>
-		</table>
-	</div>
-	<? endif; ?>
+<? if($userid): ?>
+<div id="playlists">
+	<table id="playlists_table">
+	<? foreach ($playlists as $playlist): ?>
+		<tr><td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td></tr>
+	<? endforeach; ?>
+	</table>
+</div>
+<? endif; ?>
 
 <script>
 

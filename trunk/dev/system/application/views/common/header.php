@@ -12,23 +12,68 @@
 
 <!-- Create the container div which encompasses the entire page. Closed in footer -->
 <div id="container">
-
-	
 	<div id="header">
-		<h2>Musique</h2>
-		<h3>Music Redefined</h3>
+		<div id="logo">
+			<a href="<?=site_url('main')?>">
+			<img src="/musique/system/application/images/musique_logo.png"></img>
+			</a>
+		</div>
 		
-		<!-- The navigation links present on every page -->
+		<div id="login_box">
+			<h3 class="bold_header">Login</h3>
+			<? if($userid == ""): ?>			
+			<form id="login_form" action="<?=site_url('usermanager/login')?>" method="POST">
+				<input type="text" id="login_email" name="login_email" value="email"></input>
+				<input type="password" id="login_password" name="login_password" value="password"></input>
+				<input type="submit" class="normal_button" value="login"></input>
+				<div id="login_error" style="display: none;"></div>
+			</form>
+			
+			<? else: ?>
+			<h3>Logout</h3>
+			<a href="<?=site_url('usermanager/logout')?>">logout</a>
+			<? endif; ?>
+		</div>
+	
+		<div id="blurb">
+			<h3 class="bold_header">Discover Play Enjoy</h3>
+		</div>
+		
+		
 		<div id="navigation">
+		<!-- The navigation links present on every page -->
+		<div id="navigation_links">
 			<ul>
-				<li>My Playlists</li>
-				<li>My Account</li>
-				<li>Add Money</li>
+				<li><a href="<?=site_url('register')?>">My Playlists</a></li>
+				<li><a href="<?=site_url('register')?>">My Account</a></li>
+				<li><a href="<?=site_url('register')?>">Add Money</a></li>
+				<li><a href="<?=site_url('register')?>">Sign up!</a></li>
 			</ul>
+		</div>
 		</div>
 	</div>
 	
-	<!-- The main content div. All content for the pages should go within here -->
-	<div class="content">
-
-
+	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
+	<div id="contents_wrapper">
+	
+	<div id="sidebar">
+		<div id="search_box">
+			<h3 class="bold_header">Find Music.</h3>
+			<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
+				<input type="text" name="search_term"></input><br />
+				<input type="submit" class="normal_button" value="search" size="15"></input><br />
+				<input type="radio" name="search_by" value="name" checked="checked" />name
+				<input type="radio" name="search_by" value="genre" />genre<br />
+			</form>	
+		</div>
+		
+		<div id="my_playlists">
+		
+		</div>
+	</div>
+	
+	<!-- The main content div. All content for the pages should go within here, closed in footer -->
+	<div id="content">
+		<div class="page_title">
+			<h3>Welcome.</h3>
+		</div>
