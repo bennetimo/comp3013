@@ -100,18 +100,34 @@ class Playlist extends Model
 	 * @param string/int $playlistid
 	 * @param string/int $userid
 	 */
-	public static function updateTracks($trackid, $albumid, $old_position, $new_position, $playlistid)
+	public static function updateTracks($trackId, $albumId, $nextTrackId, $nextAlbumId, $playlistId)
 	{
 		$CI =& get_instance();
 		
-		if ($old_position > $new_position) {
-			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order + 1 WHERE `playlistid` = ? AND `play_order` BETWEEN ? AND ?", array($playlistid, $new_position, $old_position));
+		$CI->db->trans_start();
+		
+		$result = $CI->db->query("SELECT `play_order` AS old_position FROM `playlist_track` WHERE `playlistid` = ? AND `trackid` = ? AND `albumid` = ?", array($playlistId, $trackId, $albumId))->result();
+		$old_position = $result[0]->old_position;
+		
+		if ($nextTrackId == NULL || $nextAlbumId == NULL) {
+			$result = $CI->db->query("SELECT MAX(`play_order`) AS new_position FROM `playlist_track` WHERE `playlistid` = ?", array($playlistId))->result();			
 		}
 		else {
-			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order - 1 WHERE `playlistid` = ? AND `play_order` BETWEEN ? AND ?", array($playlistid, $new_position, $old_position));
+			$result = $CI->db->query("SELECT (`play_order` - 1) AS new_position FROM `playlist_track` WHERE `playlistid` = ? AND `trackid` = ? AND `albumid` = ?", array($playlistId, $nextTrackId, $nextAlbumId))->result();
+		}
+	
+		$new_position = $result[0]->new_position == 0 ? 1 : $result[0]->new_position;
+		
+		if ($old_position > $new_position) {
+			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order + 1 WHERE `playlistid` = ? AND `play_order` >=  ? AND `play_order` < ?", array($playlistId, $new_position, $old_position));
+		}
+		else {
+			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order - 1 WHERE `playlistid` = ? AND `play_order` <= ? AND `play_order` > ?", array($playlistId, $new_position, $old_position));
 		}
 		
-		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistid, $albumid, $trackid));
+		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistId, $albumId, $trackId));
+		
+		return $CI->db->trans_status();
 	}
 
 	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid)

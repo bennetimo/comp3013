@@ -1,6 +1,5 @@
-
 $.fn.setResults = function(data, options) {
-	
+
 	this.html("");
 	window.idToTrack = [];
 
@@ -20,14 +19,18 @@ $.fn.setResults = function(data, options) {
 
 		window.idToTrack[i] = {
 			"trackId" : data[i].id,
-			"albumId" : data[i].album.id
+			"albumId" : data[i].album.id,
+			"trackPosition" : parseInt(i) + 1
 		};
-		
+
 		genres = genres.substring(0, genres.length - 2);
-		
-		this.append('<li id="' + i + '"><table><tr class="'
+
+		this
+				.append('<li id="'
+						+ i
+						+ '" class="'
 						+ style
-						+ '"><td class="results_item handle">::</td><td class="results_item track_name">'
+						+ '"><table><tr><td class="results_item handle">::</td><td class="results_item track_name">'
 						+ data[i].name
 						+ '</td><td class="results_item genres">' + genres
 						+ '</td><td class="results_item album_name">'

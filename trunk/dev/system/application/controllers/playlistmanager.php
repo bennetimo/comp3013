@@ -47,13 +47,18 @@ class PlaylistManager extends Controller {
 	{
 		$trackid = $this->input->post('trackid');
 		$albumid = $this->input->post('albumid');
-		$old_position = $this->input->post('old_position');
-		$new_position = $this->input->post('new_position');
+		$next_trackid = $this->input->post('next_trackid');
+		$next_albumid = $this->input->post('next_albumid');
 		$playlistid = $this->input->post('playlistid');
 		
 		$result = array("error" => FALSE);
 		
-		if( ! Playlist::updateTracks($trackid, $albumid, $old_position, $new_position, $playlistid)) {
+		if ($next_trackid == "" || $next_albumid == "") {
+			$next_trackid = NULL;
+			$next_albumid = NULL;
+		}
+		
+		if (!Playlist::updateTracks($trackid, $albumid, $next_trackid, $next_albumid, $playlistid)) {
 			$result['error'] = TRUE;
 		}
 		
