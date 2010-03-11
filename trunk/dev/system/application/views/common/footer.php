@@ -1,5 +1,5 @@
 		<div id="music_note">
-			<img src="/musique/system/application/images/music_note.png"></img>
+			<img src="<?=base_url()?>system/application/images/music_note.png"></img>
 		</div>
 	</div><!-- Close the contents created in the header -->
 	</div><!-- Close the contents_wrapper created in the header -->

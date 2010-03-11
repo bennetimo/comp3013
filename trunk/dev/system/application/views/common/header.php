@@ -16,7 +16,7 @@
 	<div id="header">
 		<div id="logo">
 			<a href="<?=site_url('main')?>">
-			<img src="/musique/system/application/images/musique_logo.png"></img>
+			<img src="<?=base_url()?>system/application/images/musique_logo.png"></img>
 			</a>
 		</div>
 		
