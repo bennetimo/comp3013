@@ -45,7 +45,19 @@ class PlaylistManager extends Controller {
 	
 	function update_tracks()
 	{
-		print_r($_POST);
+		$trackid = $this->input->post('trackid');
+		$albumid = $this->input->post('albumid');
+		$old_position = $this->input->post('old_position');
+		$new_position = $this->input->post('new_position');
+		$playlistid = $this->input->post('playlistid');
+		
+		$result = array("error" => FALSE);
+		
+		if( ! Playlist::updateTracks($trackid, $albumid, $old_position, $new_position, $playlistid)) {
+			$result['error'] = TRUE;
+		}
+		
+		echo json_encode($result);
 	}
 	
 	function add_track()
