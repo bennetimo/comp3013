@@ -239,6 +239,25 @@ body {
 	border:none;
 }
 
+#latch{
+	background:url(../images/latch_bg2.png) bottom left repeat-x;
+	bottom:0;
+	height:52px;
+	left:0;
+	position:
+	fixed;
+	right:0;
+	z-index:110;
+	zoom:1;
+	padding:0 30px;
+}
+
+#latch p{
+	font-size:12px;
+	font-weight:bold;
+	color:#FFFFFF;
+}
+
 /*quick_link Styles*/
 #quick_links {
 	border-top:thick solid #555555;

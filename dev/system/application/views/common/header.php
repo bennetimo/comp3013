@@ -26,7 +26,6 @@
 				<input type="text" id="login_email" name="login_email" value="email"></input>
 				<input type="password" id="login_password" name="login_password" value="password"></input>
 				<input type="submit" class="normal_button" value="login"></input>
-				<div id="login_error" style="display: none;"></div>
 			</form>
 			
 			<? else: ?>
@@ -45,7 +44,7 @@
 		<div id="navigation_links">
 			<ul>
 				<li><a href="<?=site_url('register')?>">My Playlists</a></li>
-				<li><a href="<?=site_url('register')?>">My Account</a></li>
+				<li><a href="<?=site_url('account')?>">My Account</a></li>
 				<li><a href="<?=site_url('register')?>">Add Money</a></li>
 				<li><a href="<?=site_url('register')?>">Sign up!</a></li>
 			</ul>
@@ -67,6 +66,8 @@
 			</form>	
 		</div>
 		
+		<div id="login_error" style="display: none;"></div>
+		
 		<div id="my_playlists">
 		
 		</div>
@@ -74,6 +75,3 @@
 	
 	<!-- The main content div. All content for the pages should go within here, closed in footer -->
 	<div id="content">
-		<div class="page_title">
-			<h3>Welcome.</h3>
-		</div>
