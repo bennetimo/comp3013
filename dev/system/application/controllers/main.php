@@ -23,7 +23,7 @@ class Main extends Controller {
 			'playlists' => $playlists
 		);
 		
-		$this->load->view("common/header.php");
+		$this->load->view("common/header.php", $data);
 		$this->load->view("main/main_view.php", $data);
 		$this->load->view("common/footer.php");
 	}
