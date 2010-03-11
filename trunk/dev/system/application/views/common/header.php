@@ -16,12 +16,11 @@
 	<div id="header">
 		<div id="logo">
 			<a href="<?=site_url('main')?>">
-			<img src="<?=base_url()?>system/application/images/musique_logo.png"></img>
+			<img src="<?=base_url()?>system/application/images/musique_logo_small.png"></img>
 			</a>
 		</div>
 		
 		<div id="login_box">
-			<h3 class="bold_header">Login</h3>
 			<? if($userid == ""): ?>			
 			<form id="login_form" action="<?=site_url('usermanager/login')?>" method="POST">
 				<input type="text" id="login_email" name="login_email" value="email"></input>
