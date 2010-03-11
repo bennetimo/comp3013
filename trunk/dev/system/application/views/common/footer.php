@@ -42,5 +42,9 @@
 
 </div><!-- Close the container div created in the header -->
 
+<div id="latch">
+	
+</div>
+
 </body>
 </html>

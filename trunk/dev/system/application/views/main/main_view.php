@@ -1,10 +1,14 @@
+<div class="page_title">
+			<h3>Welcome.</h3>
+</div>
 
 <div class="content_box">
 	<p>
 	Musique is an online streaming media player allowing you to listen to 
-	all your favourite music, and share it easily with your friends.
+	all your favourite music and share it easily with your friends.
 	
-	Get started today to see what you've been missing
+	With an ever-growing library of artists and new ones being added all the time, 
+	you can be sure that whatever your taste, there is music for you waiting inside.
 	</p>
 </div>
 
@@ -32,18 +36,14 @@
 <br /><br /><br /><br /><br /><br />
 
 <div class="content_box">
-<p>Try searching for your favourite music now using the box on the left, you'll be susprised at what we have on offer</p>
-<p>Or, have a look at the top playlists</p>
-<ul>
+	<p>Try searching for your favourite music now using the box on the left, you'll be susprised at what we have on offer</p>
+	<p>Or, have a look at the top playlists</p>
 	<a class="styled_button" href="<?=site_url('main')?>"><span>Top Playlists</span></a>
-</ul>
 </div>
 
 <div class="content_box">
-<p>To be on your way to enjoying all this music, create an account free now</p>
-<ul>
-	<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a></li>
-</ul>
+	<p>To be on your way to enjoying all this music, create an account free now</p>
+	<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a>
 </div>
 	
 <? if($userid): ?>
