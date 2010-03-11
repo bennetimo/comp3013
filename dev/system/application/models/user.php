@@ -105,7 +105,7 @@ class User extends Model
 		$queryString = "SELECT * from `user_verification` WHERE `userid` = $userID AND `code` is NULL";
 		$query = $CI->db->query($queryString);
 		
-		return $query->num_rows() > 0;
+		return $query->num_rows() == 0;
 	}
 	
 	public static function getIdByEmail($email)

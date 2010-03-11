@@ -42,4 +42,32 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($newTracks);
 	}
+	function update_tracks()
+	{
+		print_r($_POST);
+	}
+	function add_track()
+	{
+		//echo "/*".print_r($_POST, TRUE)."*/";
+		$userid = $this->session->userdata('userid');
+
+		if (!$userid) {
+			throw new Exception("User must be logged in to access her playlist.");
+		}
+		$result = array("error" => FALSE);
+		$trackid = array($this->input->post('trackid'));
+		$albumid = array($this->input->post('albumid'));
+		$playlistid = $this->input->post('playlistid');
+		
+		try{
+			if( ! Playlist::addTracks($trackid, $albumid, array(), $playlistid)) {
+				$result["error"] = TRUE;
+			}
+		}
+		catch(Exception $e) {
+			$result["error"] = $e->getMessage();
+		}
+
+		echo json_encode($result);
+	}
 }
