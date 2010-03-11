@@ -14,8 +14,8 @@
 
 
 <div class="content_box" id="search_results" >
-	<table id="search_results_table">
-	</table>
+	<ul id="search_results_list">
+	</ul>
 </div>
 
 <div class="feature_box">
@@ -46,30 +46,35 @@
 	<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a>
 </div>
 	
+
 <? if($userid): ?>
 <div id="playlists">
-	<table id="playlists_table">
+	<ul id="playlists_list">
 	<? foreach ($playlists as $playlist): ?>
-		<tr><td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td></tr>
+		<li><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></li>
 	<? endforeach; ?>
-	</table>
+	</ul>
 </div>
 <? endif; ?>
 
-<script>
 
-var loginForm = $('#login_form');
-var loginError = $('#login_error');
+<script type="text/javascript">
+
+// global variable mapping tracks list-items to their track/album ids
+window.idToTrack = [];
+
+var loginForm = $("#login_form");
+var loginError = $("#login_error");
 
 loginForm.submit(function()
 {
 	var submit = false;
 
 	$.ajax({
-		url: '<?=site_url('usermanager/validate_login_form')?>',
+		url: "<?=site_url('usermanager/validate_login_form')?>",
 		async: false,
-		type: 'POST',
-		dataType: 'json',
+		type: "post",
+		dataType: "json",
 		data: loginForm.serialize(),
 
 		success: function(data)
@@ -89,24 +94,30 @@ loginForm.submit(function()
 	return submit;
 });
 
-var searchResultsTable = $('#search_results_table');
-
 var searchForm = $('#search_form');
-var searchResultsTable = $("#search_results_table");
+var searchResultsList = $("#search_results_list");
+var playlistsList = $("#playlists_list");
 
 searchForm.submit(function()
 {
 	$.ajax({
-		url: '<?=site_url('trackmanager/search')?>',
+		url: "<?=site_url('trackmanager/search')?>",
 		async: true,
-		type: 'POST',
-		dataType: 'json',
+		type: "post",
+		dataType: "json",
 		data: searchForm.serialize(),
 
 		success: function(data)
 		{
-			//alert(data);
-			searchResultsTable.setResults(data);
+			searchResultsList.setResults(data);
+			
+			searchResultsList.find("li").draggable({
+				revert : true,
+				revertDuration : 0,
+				handle : ".handle",
+				opacity : 0.4,
+				helper : "clone"
+			});
 		}
 	});
 
@@ -116,15 +127,42 @@ searchForm.submit(function()
 function loadPlaylist(playlistid)
 {
 	$.ajax({
-		url: '<?=site_url('playlistmanager/get_tracks/')?>' + playlistid,
+		url: "<?=site_url('playlistmanager/get_tracks')?>" + "/" + playlistid,
 		async: true,
-		dataType: 'json',
+		dataType: "json",
 
 		success: function(data)
 		{
-			searchResultsTable.setResults(data);
+			var startTrackPosition = null;
+			var endTrackPosition = null;
+			
+			searchResultsList.setResults(data);
+			searchResultsList.sortable({
+				
+				start: function(event, ui) {
+					startTrackPosition = ui.item.attr("id");
+				},
+				
+				stop: function(event, ui) {
+					endTrackPosition = ui.position;
+					
+					alert(startTrackPosition + " -> " + endTrackPosition);
+					
+					startTrackPosition = null;
+					endTrackPosition = null;
+				}
+			});
 		}
 	});
 }
+
+playlistsList.find("li").droppable({
+	
+	drop: function(event, ui) {
+		var listItemId = ui.draggable.attr("id");
+		idToTrack[listItemId].trackId;
+		idToTrack[listItemId].albumId;
+	}
+});
 
 </script>

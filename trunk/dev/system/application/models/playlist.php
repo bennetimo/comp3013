@@ -100,19 +100,6 @@ class Playlist extends Model
 	 * @param string/int $playlistid
 	 * @param string/int $userid
 	 */
-//	public static function updateTracks(array $trackids, array $albumids, array $play_orders, $playlistid, $userid)
-//	{
-//		if(count($trackids) != count($play_orders) || count($trackids) != count($albumids)) {
-//			throw new Exception("The number of tracks must match the number of track's albums and positions");
-//		}
-//
-//		$CI =& get_instance();
-//
-//		for($i = 0; $i < count($trackids); $i++) {
-//			$CI->db->query("UPDATE `playlist_track` SET `play_order` = $i WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumids[$i], $trackids[$i]));
-//		}
-//	}
-
 	public static function updateTracks($trackid, $albumid, $old_position, $new_position, $playlistid)
 	{
 		$CI =& get_instance();
