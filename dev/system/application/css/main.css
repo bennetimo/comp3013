@@ -1,10 +1,10 @@
 /*Styles which apply to the entire html body*/
 body {
-	margin-top:60px;
+	margin-top:10px;
 	font-family:Verdana, Arial, Helvetica, sans-serif;
 	font-size:16px;
-	background: #F5F5F5 url(../images/bg.gif) repeat-x left top;
-	background-color:#777777;
+	background: #F5F5F5 url(../images/bg_short_rotated.png) repeat-x left top;
+	background-color:#000000;
 }
 
 /*Main container div housing all the content*/
@@ -12,20 +12,19 @@ body {
 {
 	margin:auto;
 	width:75%;
-	min-width:1200px;
+	min-width:800px;
 	padding:0;
 }
 
 /*Header styles*/
 #header{
 	color:#FFFFFF;
-	padding:5px;
+	padding:5px 0;
 }
 
 /*Contents wrapper styles*/
 #contents_wrapper{
 	clear:both;
-	padding:0 0 0 20px;
 }
 
 /*Logo styles*/
@@ -35,8 +34,8 @@ body {
 
 /*Blurb Styles*/
 #blurb{
-	padding:0 0 0 200px;
-	margin:0;
+	margin-left:100px;
+	margin-top:20px;
 }
 
 #blurb h3{
@@ -48,7 +47,8 @@ body {
 #navigation
 {
 	height:40px;
-	padding:10px 20px 10px 5px;
+	margin-top:40px;
+	margin-left:-3px;
 	list-style-type:none;
 }
 
@@ -67,7 +67,7 @@ body {
 	margin:0 3px;
 	font-weight:bold;
 	font-size:12px;
-	border:thin black solid;
+	border:thin white solid;
 	background: #000000 url(../images/button_bg.jpg) repeat-x left top;
 }
 
@@ -76,29 +76,25 @@ body {
 	margin-left:0;
 }
 
-
 /*sidebar styles*/
 #sidebar{
 	float:left;
 	background:none repeat scroll 0 0 #212121;
-	margin:20px 0px;
 	padding:20px;
 	width:180px;
 	color:#FFFFFF;
-	height:600px;
+	min-height:620px;
 }
 
 /*content styles*/
 #content {
-	margin-left:330px;
+	margin-left:230px;
 	margin-top:0;
 	margin-bottom:20px;
 	padding:20px 35px;
 	/*background-image:url("../images/background_light_slice2.jpg");*/
-	background-repeat:repeat-x;
-	background-color:#e2e2e2;
-	background-position:left top;
-	height:620px;
+	background-color:#ffffff;
+	min-height:620px;
 	/*border-top-width:10px;
 	border-top-color:#292826;
 	border-top-style:solid;*/
@@ -118,7 +114,7 @@ body {
 }
 
 .content_box p{
-	font-size:18px;
+	font-size:15px;
 	font-weight:normal;
 	line-height:25px;
 	padding:10px 0;
@@ -144,7 +140,7 @@ body {
 	color:#FFFFFF;
 	padding:0;
 	margin:5px 0;
-	font-size:18px;
+	font-size:20px;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	font-weight:bold;
 }
@@ -173,7 +169,7 @@ body {
 #login_box{
 	color:#6FC008;
 	float:right;
-	margin:0;
+	margin-top:20px;
 	padding:0;
 }
 
@@ -273,7 +269,7 @@ body {
 }
 
 #quick_links a:link, #quick_links a:visited{
-	color:#000000;
+	color:#ffffff;
 }
 
 #quick_links a:hover{
