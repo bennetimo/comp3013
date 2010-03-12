@@ -103,6 +103,7 @@ class Playlist extends Model
 	public static function updateTracks($trackId, $albumId, $nextTrackId, $nextAlbumId, $playlistId)
 	{
 		$CI =& get_instance();
+		$CI->db->trans_start();
 		
 		$CI->db->trans_start();
 		
@@ -126,6 +127,8 @@ class Playlist extends Model
 		}
 		
 		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistId, $albumId, $trackId));
+		
+		return $CI->db->trans_status();
 		
 		return $CI->db->trans_status();
 	}
@@ -170,7 +173,7 @@ class Playlist extends Model
 		$CI->db->trans_start();
 			
 		for($i = 0; $i < count($trackids); $i++) {
-			$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?  AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumid, $trackid));
+			$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?  AND `albumid` = ? AND `trackid` = ?", array($playlistid, $albumids[$i], $trackids[$i]));
 		}
 			
 		$CI->db->trans_complete();
