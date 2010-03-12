@@ -24,18 +24,14 @@ $.fn.setResults = function(data, options) {
 		};
 
 		genres = genres.substring(0, genres.length - 2);
-
-		this
-				.append('<li id="'
-						+ i
-						+ '" class="'
-						+ style
-						+ '"><table><tr><td class="results_item handle">::</td><td class="results_item track_name">'
-						+ data[i].name
-						+ '</td><td class="results_item genres">' + genres
-						+ '</td><td class="results_item album_name">'
-						+ data[i].album.name
-						+ '</td><td class="results_item artists">' + artists
-						+ '</td></tr></table></li>');
+		var table = '<li id="' + i  + '" class="' + style + '"><table><tr><td class="results_item handle">::</td><td class="results_item track_name">'
+      + data[i].name  + '</td><td class="results_item genres">' + genres + '</td><td class="results_item album_name">'
+      + data[i].album.name + '</td><td class="results_item artists">' + artists + '</td>';
+		if(options && options['playlist']) {
+      table += '<td><a href="#" class="results_item pl_remove" title="Remove from Playlist">X</a></td>';
+    }
+		table += '</tr></table></li>';
+			
+		this.append(table);
 	}
 };

@@ -1,8 +1,15 @@
+var searchForm = $('#search_form');
+var searchResultsList = $("#search_results_list");
+var playlistsList = $("#playlists_list");
+var loginForm = $("#login_form");
+var loginError = $("#login_error");
+
+$(document).ready(function() {
+
 // global variable mapping tracks list-items to their track/album ids
 window.idToTrack = [];
 
-var loginForm = $("#login_form");
-var loginError = $("#login_error");
+
 
 loginForm.submit(function()
 {
@@ -32,10 +39,6 @@ loginForm.submit(function()
 	return submit;
 });
 
-var searchForm = $('#search_form');
-var searchResultsList = $("#search_results_list");
-var playlistsList = $("#playlists_list");
-
 searchForm.submit(function()
 {
 	$.ajax({
@@ -53,72 +56,144 @@ searchForm.submit(function()
 				revert : true,
 				revertDuration : 0,
 				handle : ".handle",
-				opacity : 0.4,
+				opacity : 0.6,
 				helper : "clone"
 			});
+			
 		}
 	});
 
 	return false;
 });
 
-function loadPlaylist(playlistid)
-{
-	$.ajax({
-		url: base_url + "/playlistmanager/get_tracks/" + playlistid,
-		async: true,
-		dataType: "json",
-
-		success: function(data)
-		{
-			var startTrackPosition = null;
-			var endTrackPosition = null;
-			
-			searchResultsList.setResults(data);
-			searchResultsList.sortable({
-				
-				stop: function(event, ui) {
-					var trackId = idToTrack[ui.item.attr("id")].trackId;
-					var albumId = idToTrack[ui.item.attr("id")].albumId;
-					var nextTrackId = null;
-					var nextAlbumId = null;
-					
-					if (ui.item.next().length > 0) {
-						nextTrackId = idToTrack[ui.item.next().attr("id")].trackId;
-						nextAlbumId = idToTrack[ui.item.next().attr("id")].albumId;
-					}
-										
-					searchResultsList.find('li').each(function(i){
-						var className = i % 2 == 0 ? "even" : "odd";
-						$(this).attr("class", className);
-					});
-					
-					
-//					alert(trackId + ", " + albumId + " : " + nextTrackId + ", " + nextAlbumId);
-					
-					$.ajax({
-						url: base_url + "/playlistmanager/update_tracks/",
-						data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
-						dataType: 'json',
-						type: 'POST',
-						
-						success: function(data) {
-							if (data.error) {
-								alert("pica!");
-							}
-						}
-					});
-				}
-			});
-		}
-	});
-}
-
-playlistsList.find("li").droppable({
-	
+/*
+ * Make the playlist list droppable
+ * so that I can drop (i.e. add) new tracks to them
+ */
+playlistsList.find('li').droppable({
+  over: function(event, ui) {
+   //alert('over');
+  },
 	drop: function(event, ui) {
-		var listItemId = ui.draggable.attr("id");
-		idToTrack[listItemId].trackId;
-		idToTrack[listItemId].albumId;
+    alert("dropped");
+		var listItemId = ui.draggable.attr('id');
+		var playlistId = $(this).attr('id');
+		var trackInfo = idToTrack[listItemId];
+		
+    $.ajax({
+      url: base_url + "/playlistmanager/add_track/",
+      async: true,
+      dataType: 'json',
+      type: 'post',
+      data: {'playlistid': playlistId, 'trackid': trackInfo.trackId, 'albumid': trackInfo.albumId},
+      success: function(data)
+      {
+          if(data.error === false){
+            alert("success!");
+          }
+      }
+    
+    })
+		
 	}
 });
+
+
+});
+
+function updatePlaylistBinding(playlistid)
+{
+  /*
+   * bind the X cross to
+   * remove track from playlist
+   */
+  $(".pl_remove").click(
+      function(event){
+        event.preventDefault();
+        var trackRow = $(this).parents('li');
+        var trackInfo = idToTrack[trackRow.attr('id')];
+                
+        $.ajax({
+          url: base_url + "/playlistmanager/remove_track/",
+          async: true,
+          dataType: 'json',
+          type: 'post',
+          data: {'playlistid': playlistid, 'trackid': trackInfo.trackId, 'albumid': trackInfo.albumId},
+          success: function(data)
+          {
+              if(data.error === false){
+                /*
+                 * delete row in table corresponding to the
+                 * deleted track
+                 */
+                trackRow.remove();
+                redrawTable(searchResultsList);
+              }
+          }
+        
+        });
+        
+      }
+  );
+  
+ 
+}
+
+function loadPlaylist(playlistid)
+{
+  $.ajax({
+    url: base_url + "/playlistmanager/get_tracks/" + playlistid,
+    async: true,
+    dataType: "json",
+
+    success: function(data)
+    {
+      var startTrackPosition = null;
+      var endTrackPosition = null;
+      
+      searchResultsList.setResults(data, {'playlist': true});
+      updatePlaylistBinding(playlistid);
+      searchResultsList.sortable({
+        
+        stop: function(event, ui) {
+          var trackId = idToTrack[ui.item.attr("id")].trackId;
+          var albumId = idToTrack[ui.item.attr("id")].albumId;
+          var nextTrackId = null;
+          var nextAlbumId = null;
+          
+          if (ui.item.next().length > 0) {
+            nextTrackId = idToTrack[ui.item.next().attr("id")].trackId;
+            nextAlbumId = idToTrack[ui.item.next().attr("id")].albumId;
+          }
+                    
+          redrawTable(searchResultsList);
+          
+          //alert(trackId + ", " + albumId + " : " + nextTrackId + ", " + nextAlbumId);
+          
+          $.ajax({
+            url: base_url + "/playlistmanager/update_tracks/",
+            data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
+            dataType: 'json',
+            type: 'POST',
+            
+            success: function(data) {
+              if (data.error) {
+                alert("error");
+              }
+            }
+          });
+          
+          
+        }
+      });
+    }
+  });
+}
+
+function redrawTable(searchResultsList)
+{
+  searchResultsList.find('li').each(function(i){
+    var className = i % 2 == 0 ? "even" : "odd";
+    $(this).attr("class", className);
+  });
+}
