@@ -2,7 +2,7 @@ var searchForm = $('#search_form');
 var searchResultsList = $("#search_results_list");
 var playlistsList = $("#playlists_list");
 var loginForm = $("#login_form");
-var loginError = $("#login_error");
+var loginError = $("#error_box");
 
 $(document).ready(function() {
 
@@ -26,12 +26,14 @@ loginForm.submit(function()
 		{
 			if (data.isValid) {
 				submit = true;
-				loginError.hide();
+				//loginError.hide();
 				loginError.html("");
+				loginError.height(0);
 			}
 			else {
 				loginError.html(data.error);
-				loginError.show();
+				loginError.height(30);
+				//loginError.show();
 			}
 		}
 	});

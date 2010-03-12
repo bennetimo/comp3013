@@ -5,6 +5,7 @@ class Register extends Controller {
 	function Register()
 	{
 		parent::Controller();	
+		$this->load->static_model("User");
 	}
 	
 	function index()
