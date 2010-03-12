@@ -71,8 +71,7 @@ searchForm.submit(function()
  * so that I can drop (i.e. add) new tracks to them
  */
 playlistsList.find('li').droppable({
-  
-	drop: onDrop(this, event, ui);
+  drop: onDrop(this, event, ui)
 });
 var add_pl_form = $('#add_pl_form');
 
