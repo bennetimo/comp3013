@@ -57,10 +57,7 @@ window.base_url = "<?=site_url()?>";
 	</div>
 	
 	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
-	<div id="contents_wrapper">
-	
-	
-	
+	<div id="contents_wrapper">	
 	<div id="sidebar">
 		<div id="search_bar">
 			<div id="search_box">
@@ -68,15 +65,26 @@ window.base_url = "<?=site_url()?>";
 					<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
 						<input type="text" name="search_term"></input>
 						<input type="submit" class="normal_button" value="search" size="15"></input>
-						<!-- <input type="radio" name="search_by" value="name" checked="checked" />name
-						<input type="radio" name="search_by" value="genre" />genre<br />-->
-					</form>	
+						<br /><input type="radio" name="search_by" value="name" checked="checked" />name
+						<input type="radio" name="search_by" value="genre" />genre
+					</form>
+
 				</div>
 		</div>
+				<? if($userid): ?>
+				<h3 class="bold_header">Your Playlists</h3>
+          <div id="playlists">
+            <ul id="playlists_list">
+						  <? foreach ($playlists as $playlist): ?>
+						    <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></li>
+						  <? endforeach; ?>
+						 </ul>
+          </div>
+        <? endif; ?>
 	
 		<div id="login_error" style="display: none;"></div>
 		
-		<div id="my_playlists">
+		<div id="drag" style="background-color: green;">
 		
 		</div>
 	</div>
