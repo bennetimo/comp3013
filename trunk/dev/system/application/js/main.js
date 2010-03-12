@@ -81,7 +81,7 @@ $('#add_pl').click(function(e){
 })
 
 add_pl_form.submit(function(e){
-  e.preventDefault();
+  e.preventDefault();//prevents the form from submitting
   var playlist_name = $('pl_name').val();
   var shared = $('pl_shared').attr('checked');
   
@@ -95,9 +95,22 @@ add_pl_form.submit(function(e){
     {
         if(data.error === false){
           alert("success!");
+          
+          loginError.height(0);
         }
+        else{
+          var error = "Sorry, an error occurred. Please try again later.";
+          if(data.error !== true){
+            //custom error message
+            error = data.error;
+          }
+          
+          loginError.html(error);
+          loginError.height(30);
     }
   })
+  
+  return false;
 })
 
 });
