@@ -107,12 +107,15 @@ add_pl_form.submit(function(e){
           
           loginError.html(error);
           loginError.height(30);
-    }
-  })
-  
-  return false;
-})
+    }       
+  }
+});
 
+return false;
+  
+});
+
+//end of document.ready
 });
 
 function onDrop(el, event, ui)
