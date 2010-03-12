@@ -42,7 +42,7 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($newTracks);
 	}
-	
+
 	function update_tracks()
 	{
 		$trackid = $this->input->post('trackid');
@@ -50,43 +50,70 @@ class PlaylistManager extends Controller {
 		$next_trackid = $this->input->post('next_trackid');
 		$next_albumid = $this->input->post('next_albumid');
 		$playlistid = $this->input->post('playlistid');
-		
+
 		$result = array("error" => FALSE);
-		
+
 		if ($next_trackid == "" || $next_albumid == "") {
 			$next_trackid = NULL;
 			$next_albumid = NULL;
 		}
-		
+
 		if (!Playlist::updateTracks($trackid, $albumid, $next_trackid, $next_albumid, $playlistid)) {
 			$result['error'] = TRUE;
 		}
-		
+
 		echo json_encode($result);
 	}
-	
+
+	function remove_track()
+	{
+		$userid = $this->session->userdata('userid');
+    $result = array("error" => FALSE);
+
+    if (!$userid) {
+      $result["error"] = "User must be logged in to access her playlist.";
+    }
+    else {
+    	$trackid = array($this->input->post('trackid'));
+      $albumid = array($this->input->post('albumid'));
+      $playlistid = $this->input->post('playlistid');
+      
+    try{
+        if( ! Playlist::removeTracks($trackid, $albumid, $playlistid)) {
+          $result["error"] = TRUE;
+        }
+      }
+      catch(Exception $e) {
+        $result["error"] = $e->getMessage();
+      }
+    }
+    
+    echo json_encode($result);
+	}
+
 	function add_track()
 	{
 		$userid = $this->session->userdata('userid');
+		$result = array("error" => FALSE);
 
 		if (!$userid) {
-			throw new Exception("User must be logged in to access her playlist.");
+			$result["error"] = "User must be logged in to access her playlist.";
 		}
-		
-		$result = array("error" => FALSE);
-		$trackid = array($this->input->post('trackid'));
-		$albumid = array($this->input->post('albumid'));
-		$playlistid = $this->input->post('playlistid');
-		
-		try{
-			if( ! Playlist::addTracks($trackid, $albumid, array(), $playlistid)) {
-				$result["error"] = TRUE;
+		else {
+			$trackid = array($this->input->post('trackid'));
+			$albumid = array($this->input->post('albumid'));
+			$playlistid = $this->input->post('playlistid');
+
+			try{
+				if( ! Playlist::addTracks($trackid, $albumid, array(), $playlistid)) {
+					$result["error"] = TRUE;
+				}
+			}
+			catch(Exception $e) {
+				$result["error"] = $e->getMessage();
 			}
 		}
-		catch(Exception $e) {
-			$result["error"] = $e->getMessage();
-		}
-
+		
 		echo json_encode($result);
 	}
 }
