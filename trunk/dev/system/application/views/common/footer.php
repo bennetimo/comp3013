@@ -43,8 +43,23 @@
 </div><!-- Close the container div created in the header -->
 
 <div id="latch">
-	
+	<script type='text/javascript' src='<?=base_url()?>system/application/jwplayer/swfobject.js'></script>
+	<div id='mediaspace'>This text will be replaced</div>
+	<script type='text/javascript'>
+  var so = new SWFObject('<?=base_url()?>system/application/jwplayer/player.swf','ply','470','24','9');
+  so.addParam('allowfullscreen','true');
+  so.addParam('allowscriptaccess','always');
+  so.addParam('wmode','opaque');
+  so.addVariable('duration','33');
+  so.addVariable('file','http://www.longtailvideo.com/jw/upload/bunny.mp3');
+  so.addVariable('backcolor','000000');
+  so.addVariable('frontcolor','FFFFFF');
+  so.addVariable('lightcolor','000000');
+  so.write('mediaspace');
+</script>
 </div>
+
+
 
 </body>
 </html>

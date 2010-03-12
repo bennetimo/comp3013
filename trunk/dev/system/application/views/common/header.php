@@ -33,8 +33,12 @@ window.base_url = "<?=site_url()?>";
 			</form>
 			
 			<? else: ?>
-			<h3>Logout</h3>
-			<a href="<?=site_url('usermanager/logout')?>">logout</a>
+			You are logged in as 
+				<?
+				$user = new User($userid);
+				echo $user->getFName();
+				?>:
+			<a href="<?=site_url('usermanager/logout')?>">Logout</a>
 			<? endif; ?>
 		</div>
 	
@@ -48,13 +52,16 @@ window.base_url = "<?=site_url()?>";
 		<div id="navigation_links">
 			<ul>
 				<li><a href="<?=site_url('register')?>">My Playlists</a></li>
+				<li><a href="<?=site_url('register')?>">My Music Library</a></li>
 				<li><a href="<?=site_url('main/account')?>">My Account</a></li>
-				<li><a href="<?=site_url('register')?>">Add Money</a></li>
+				<li><a href="<?=site_url('register')?>">Top Shared Playlists</a></li>
 				<li><a href="<?=site_url('register')?>">Sign up!</a></li>
 			</ul>
 		</div>
 		</div>
 	</div>
+	
+	<div id="error_box"></div>
 	
 	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
 	<div id="contents_wrapper">	
@@ -64,13 +71,13 @@ window.base_url = "<?=site_url()?>";
 					<h3 class="bold_header">Find Music.</h3>
 					<form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
 						<input type="text" name="search_term"></input>
-						<input type="submit" class="normal_button" value="search" size="15"></input>
-						<br /><input type="radio" name="search_by" value="name" checked="checked" />name
-						<input type="radio" name="search_by" value="genre" />genre
-					</form>
-
+						<input type="submit" class="normal_button" value="search" size="15"></input><br />
+						<input type="radio" name="search_by" value="name" checked="checked" />name
+						<input type="radio" name="search_by" value="genre" />genre<br />
+					</form>	
 				</div>
 		</div>
+
 				<? if($userid): ?>
 				<h3 class="bold_header">Your Playlists</h3>
           <div id="playlists">
@@ -81,7 +88,7 @@ window.base_url = "<?=site_url()?>";
 						 </ul>
           </div>
         <? endif; ?>
-	
+
 		<div id="login_error" style="display: none;"></div>
 		
 		<div id="drag" style="background-color: green;">

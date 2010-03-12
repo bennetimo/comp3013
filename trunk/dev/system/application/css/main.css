@@ -10,37 +10,55 @@ body {
 /*Main container div housing all the content*/
 #container
 {
+	margin-top:50px;
 	margin:auto;
 	width:75%;
 	min-width:800px;
 	padding:0;
+	
 }
 
 /*Header styles*/
 #header{
 	color:#FFFFFF;
 	padding:5px 0;
+	
+}
+
+#error_box{
+	background-color:#CC3333;
+	height:0px;
+	
+	colour:#FFFFFF;
+	padding:5px 15px;
+	text-align:center;
+	font-weight:bold;
+	font-size:22px;
 }
 
 /*Contents wrapper styles*/
 #contents_wrapper{
 	clear:both;
+	
 }
 
 /*Logo styles*/
 #logo{
 	float:left;
+	
 }
 
 /*Blurb Styles*/
 #blurb{
 	margin-left:100px;
 	margin-top:20px;
+	
 }
 
 #blurb h3{
 	padding:0 30px;
 	margin:0;
+	
 }
 
 /*navigation styles*/
@@ -50,11 +68,13 @@ body {
 	margin-top:40px;
 	margin-left:-3px;
 	list-style-type:none;
+	
 }
 
 #navigation ul
 {
 	padding:0;
+	
 }
 
 #navigation li 
@@ -69,16 +89,19 @@ body {
 	font-size:12px;
 	/*border:2px #6FC008 solid;*/
 	background: #000000 url(../images/button_bg.jpg) repeat-x left top;
+	
 }
 
 #navigation ul+li
 {
 	margin-left:0;
+	
 }
 
 #search_bar{
 	margin:30px auto;
 	text-align:center;
+	
 }
 
 /*sidebar styles*/
@@ -88,6 +111,7 @@ body {
 	width:250px;
 	color:#FFFFFF;
 	min-height:620px;
+	
 }
 
 /*content styles*/
@@ -103,18 +127,21 @@ body {
 	border-top-color:#292826;
 	border-top-style:solid;*/
 	position:relative;
+	
 }
 
 #music_note{
 	position: absolute;
 	bottom: 15px;
 	right: 15px;
+	
 }
 
 .content_box{
 	margin:auto;
 	padding:5px 35px;
 	font-family: helvetica,arial,sans-serif;
+	
 }
 
 .content_box p{
@@ -122,6 +149,7 @@ body {
 	font-weight:normal;
 	line-height:25px;
 	padding:10px 0;
+	
 }
 
 .feature_box{
@@ -134,10 +162,12 @@ body {
 	width:180px;
 	background-repeat:no-repeat;
 	height:100px;
+	
 }
 
 .end_features{
 	clear:both;
+	
 }
 
 .bold_header{
@@ -147,6 +177,7 @@ body {
 	font-size:20px;
 	font-family:Verdana,Arial,Helvetica,sans-serif;
 	font-weight:bold;
+	
 }
 
 #footer{
@@ -154,6 +185,7 @@ body {
 	margin:0 auto;
 	padding:30px;
 	height:100px;
+	
 }
 
 .page_title{
@@ -163,23 +195,26 @@ body {
 	padding:10px;
 	color:#FFFFFF;
 	margin:0;
+	
 }
 
 .page_title h3{
 	padding:0;
 	margin:0;	
+	
 }
 
 #login_box{
-	color:#6FC008;
 	float:right;
 	margin-top:20px;
 	padding:0;
+	
 }
 
 #login_box input{
 	padding:0;
 	margin:0;
+	
 }
 
 .styled_button{
@@ -190,6 +225,7 @@ body {
     margin-right: 6px;
     padding-right: 10px; /* sliding doors padding */
 	font-weight:bold;
+	
 }
 
 .styled_button span {
@@ -197,17 +233,20 @@ body {
     display: block;
     line-height: 14px;
     padding: 7px 0 7px 18px;
+	
 } 
 
 .styled_button:active {
     background-position: bottom right;
     color: #000;
     outline: none; /* hide dotted outline in Firefox */
+	
 }
 
 .styled_button:active span {
     background-position: bottom left;
     padding: 8px 0 6px 18px; /* push text down 1px */
+	
 } 
 
 
@@ -219,6 +258,7 @@ body {
 	font-size:14px;
 	font-weight:bold;
 	padding:0 3px;
+	
 }
 
 .list_button{
@@ -233,21 +273,31 @@ body {
 	border:thin black solid;
 	background: #000000 url(../images/button_bg.jpg) repeat-x left top;
 	list-style:none;
+	
 }
 
 #logo a img{
 	border:none;
+	
+}
+
+#mediaspace{
+	bottom:-13px;
+	left:0;
+	right:0;
+	position: relative;
+	text-align:center;
 }
 
 #latch{
 	background:url(../images/latch_bg2.png) bottom left repeat-x;
 	bottom:0;
-	height:52px;
+	height:43px;
 	left:0;
 	position:
 	fixed;
 	right:0;
-	z-index:110;
+	z-index:2;
 	zoom:1;
 	padding:0 30px;
 }
@@ -256,7 +306,9 @@ body {
 	font-size:12px;
 	font-weight:bold;
 	color:#FFFFFF;
+	
 }
+
 
 /*quick_link Styles*/
 #quick_links {
@@ -264,32 +316,38 @@ body {
 	float:left;
 	height:144px;
 	width:100%;
+	
 }
 
 #quick_links div.section 
 {
 	float:left;
 	margin:0 40px 0 0;
+	
 }
 
 #quick_links a:link, #quick_links a:visited{
 	color:#ffffff;
+	
 }
 
 #quick_links a:hover{
 	color:#6FC008;
+	
 }
 
 #quick_links h3 {
 	color:#555555;
 	font-size:11px;
 	line-height:18px;
+	
 }
 
 #quick_links ul {
 	list-style:none outside none;
 	margin:0;
 	padding:0;
+	
 }
 
 #quick_links ul li {
@@ -297,30 +355,37 @@ body {
 	float:left;
 	margin:0;
 	padding:0;
+	
 }
 
 /*General Styles*/
 input{
 	margin-bottom:5px;
+	
 }
 
 a{
 	text-decoration:none;
+	
 }
 
 a:link, a:visited{
 	color:#FFFFFF;
+	
 }
 
 a:hover{
 	color:#6FC008;
+	
 }
 
 a:active{
 	color:#006637;
+	
 }
 
 li{
 	font-size: 13px;
+	
 }
 
