@@ -9,8 +9,6 @@ $(document).ready(function() {
 // global variable mapping tracks list-items to their track/album ids
 window.idToTrack = [];
 
-
-
 loginForm.submit(function()
 {
 	var submit = false;
@@ -73,35 +71,59 @@ searchForm.submit(function()
  * so that I can drop (i.e. add) new tracks to them
  */
 playlistsList.find('li').droppable({
-  over: function(event, ui) {
-   //alert('over');
-  },
-	drop: function(event, ui) {
-    alert("dropped");
-		var listItemId = ui.draggable.attr('id');
-		var playlistId = $(this).attr('id');
-		var trackInfo = idToTrack[listItemId];
-		
-    $.ajax({
-      url: base_url + "/playlistmanager/add_track/",
-      async: true,
-      dataType: 'json',
-      type: 'post',
-      data: {'playlistid': playlistId, 'trackid': trackInfo.trackId, 'albumid': trackInfo.albumId},
-      success: function(data)
-      {
-          if(data.error === false){
-            alert("success!");
-          }
-      }
-    
-    })
-		
-	}
+  
+	drop: onDrop(this, event, ui);
+});
+var add_pl_form = $('#add_pl_form');
+
+$('#add_pl').click(function(e){
+  e.preventDefault();
+  add_pl_form.slideToggle();
+})
+
+add_pl_form.submit(function(e){
+  e.preventDefault();
+  var playlist_name = $('pl_name').val();
+  var shared = $('pl_shared').attr('checked');
+  
+  $.ajax({
+    url: base_url + "/playlistmanager/add_playlist/",
+    async: true,
+    dataType: 'json',
+    type: 'post',
+    data: {'playlist_name': playlist_name, 'shared': shared},
+    success: function(data)
+    {
+        if(data.error === false){
+          alert("success!");
+        }
+    }
+  })
+})
+
 });
 
-
-});
+function onDrop(el, event, ui)
+{
+  var listItemId = ui.draggable.attr('id');
+  var playlistId = $(el).attr('id');
+  var trackInfo = idToTrack[listItemId];
+  
+  $.ajax({
+    url: base_url + "/playlistmanager/add_track/",
+    async: true,
+    dataType: 'json',
+    type: 'post',
+    data: {'playlistid': playlistId, 'trackid': trackInfo.trackId, 'albumid': trackInfo.albumId},
+    success: function(data)
+    {
+        if(data.error === false){
+          alert("success!");
+        }
+    }
+  
+  })
+}
 
 function updatePlaylistBinding(playlistid)
 {
@@ -136,9 +158,7 @@ function updatePlaylistBinding(playlistid)
         });
         
       }
-  );
-  
- 
+  ); 
 }
 
 function loadPlaylist(playlistid)
