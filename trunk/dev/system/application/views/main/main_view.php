@@ -45,17 +45,6 @@
 	<p>To be on your way to enjoying all this music, create an account free now</p>
 	<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a>
 </div>
-	
-
-<? if($userid): ?>
-<div id="playlists">
-	<ul id="playlists_list">
-	<? foreach ($playlists as $playlist): ?>
-		<li><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></li>
-	<? endforeach; ?>
-	</ul>
-</div>
-<? endif; ?>
 
 
 <script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>
