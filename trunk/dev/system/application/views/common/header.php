@@ -83,7 +83,9 @@ window.base_url = "<?=site_url()?>";
 	        	<div id="playlists">
 	            <ul id="playlists_list">
 	              <? foreach ($playlists as $playlist): ?>
-	                <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?></li>
+	                <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?>
+	                 (<a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >remove</a>)
+	                </li>
 	              <? endforeach; ?>
 	             </ul>
 	          </div>
