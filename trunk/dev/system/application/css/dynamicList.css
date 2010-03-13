@@ -55,3 +55,16 @@ td.handle {
 tr.newSort {
     border-top: solid 3px red;
 }
+
+.track_button {
+    width: 12px;
+    height: 12px;
+}
+
+.play_track {
+    background-image: url(../images/button_play.png);
+}
+
+.buy_track {
+    background-image: url(../images/button_buy.png);
+}
