@@ -13,10 +13,10 @@
 </div>
 
 
-<div class="content_box" id="search_results" >
-<!--	<ul id="search_results_list">-->
-<!--	</ul>-->
-	<table><tbody id="search_results_list"></tbody></table>
+<div class="content_box" id="search_results_box" >
+    <table id="search_results_table">
+        <tbody id="search_results_body"></tbody>
+    </table>
 </div>
 
 <div class="feature_box">

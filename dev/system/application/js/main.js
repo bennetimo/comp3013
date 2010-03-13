@@ -1,5 +1,6 @@
-var searchForm = $('#search_form');
-var searchResultsList = $("#search_results_list");
+
+var searchForm = $("#search_form");
+var searchResultsList = $("#search_results_body");
 var playlistsList = $("#playlists_list");
 var loginForm = $("#login_form");
 var loginError = $("#error_box");

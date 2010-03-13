@@ -12,6 +12,7 @@ class Main extends Controller {
 	{
 		$userid = $this->session->userdata('userid');
 		$playlists = null;
+		$user = null;
 		
 		if ($userid) {
 			$this->load->static_model('Playlist');
@@ -21,7 +22,7 @@ class Main extends Controller {
 		
 		$data = array(
 			'userid' => $userid,
-		  'user' => $user,
+		  	'user' => $user,
 			'playlists' => $playlists
 		);
 		
