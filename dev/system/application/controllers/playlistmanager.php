@@ -68,27 +68,55 @@ class PlaylistManager extends Controller {
 	function remove_track()
 	{
 		$userid = $this->session->userdata('userid');
-    $result = array("error" => FALSE);
+		$result = array("error" => FALSE);
 
-    if (!$userid) {
-      $result["error"] = "User must be logged in to access her playlist.";
-    }
-    else {
-    	$trackid = array($this->input->post('trackid'));
-      $albumid = array($this->input->post('albumid'));
-      $playlistid = $this->input->post('playlistid');
-      
-    try{
-        if( ! Playlist::removeTracks($trackid, $albumid, $playlistid)) {
-          $result["error"] = TRUE;
-        }
-      }
-      catch(Exception $e) {
-        $result["error"] = $e->getMessage();
-      }
-    }
-    
-    echo json_encode($result);
+		if (!$userid) {
+			$result["error"] = "User must be logged in to access her playlist.";
+		}
+		else {
+			$trackid = array($this->input->post('trackid'));
+			$albumid = array($this->input->post('albumid'));
+			$playlistid = $this->input->post('playlistid');
+
+			try{
+				if( ! Playlist::removeTracks($trackid, $albumid, $playlistid)) {
+					$result["error"] = TRUE;
+				}
+			}
+			catch(Exception $e) {
+				$result["error"] = $e->getMessage();
+			}
+		}
+
+		echo json_encode($result);
+	}
+	function add_playlist()
+	{
+		$userid = $this->session->userdata('userid');
+		$result = array("error" => FALSE, "playlistid" => NULL);
+
+		if (!$userid) {
+			$result["error"] = "User must be logged in to access her playlist.";
+		}
+		else {
+			$playlist_name = $this->input->post('playlist_name');
+			$shared = $this->input->post('shared');
+				
+			try{
+				$new_pl = Playlist::addPlaylist($playlist_name, $userid, $shared ? TRUE : FALSE);
+				if( ! $new_pl) {
+					$result["error"] = TRUE;
+				}
+				else{
+					$result["playlistid"] = $new_pl->getId();
+				}
+			}
+			catch(Exception $e) {
+				$result["error"] = $e->getMessage();
+			}
+		}
+		
+		echo json_encode($result);
 	}
 
 	function add_track()
@@ -113,7 +141,7 @@ class PlaylistManager extends Controller {
 				$result["error"] = $e->getMessage();
 			}
 		}
-		
+
 		echo json_encode($result);
 	}
 }
