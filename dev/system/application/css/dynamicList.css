@@ -1,43 +1,48 @@
 
-#search_results_table {
-    width: 100%;
+.search_results_table {
     border-collapse: collapse;
     font: 11px Tahoma;
 }
 
-#search_results_body tr {
+.search_results_table tr {
     width: 500px;
 }
 
-#search_results_body tr.even {
+.search_results_table tr.even {
     background-color: #666666;
 }
 
-#search_results_body tr.odd {
+.search_results_table tr.odd {
     background-color: #444444;
 }
 
-#search_results_body td {
+.search_results_table td {
     color: #FFFFFF;
     white-space: nowrap;
     overflow: hidden;
     padding: 3px;
 }
 
-.track_name div {
+.track_name {
     width: 300px;
 }
 
-.track_genres div {
+.track_genres {
     width: 100px;
 }
 
-.track_artists div {
+.track_artists {
     width: 100px;
 }
 
-.album_name div {
+.album_name {
     width: 100px;
+}
+
+.group_info {
+    padding: 20px 5px 5px 5px;
+    color: #ffffff;
+    font: bold 14px Tahoma;
 }
 
 td.handle {
@@ -45,4 +50,8 @@ td.handle {
     cursor: pointer;
     cursor: hand;
     font-weight: bold;
+}
+
+tr.newSort {
+    border-top: solid 3px red;
 }
