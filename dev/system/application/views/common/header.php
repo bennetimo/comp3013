@@ -71,6 +71,7 @@ window.base_url = "<?=site_url()?>";
 						<input type="text" name="search_term"></input>
 						<input type="submit" class="normal_button" value="search" size="15"></input><br />
 						<input type="radio" name="search_by" value="name" checked="checked" />name
+						<input type="radio" name="search_by" value="artist" checked="checked" />artist
 						<input type="radio" name="search_by" value="genre" />genre<br />
 					</form>	
 				</div>
