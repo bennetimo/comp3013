@@ -35,3 +35,25 @@ $.fn.setResults = function(data, options) {
 		this.append(table);
 	}
 };
+
+function setError(error_message)
+{
+  var error_box = $("#error_box");
+  var default_error_msg = "An error occured. Please try again later";
+  
+  if(error_message === false){
+    error_box.animate({      
+      height: '0px'
+    });
+  }
+  else if(typeof error_message != "string" ){
+    error_message = default_error_msg;
+  }
+  
+  error_box.html(error_message).animate({      
+    height: '30px'
+  }).delay(30000).animate({      
+    height: '0px'
+  });
+  
+}
