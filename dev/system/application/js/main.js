@@ -25,15 +25,8 @@ loginForm.submit(function()
 		{
 			if (data.isValid) {
 				submit = true;
-				//loginError.hide();
-				loginError.html("");
-				loginError.height(0);
 			}
-			else {
-				loginError.html(data.error);
-				loginError.height(30);
-				//loginError.show();
-			}
+			setError(data.isValid);
 		}
 	});
 	
@@ -65,7 +58,8 @@ searchForm.submit(function()
 		error: function(err) 
 		{
 			alert(err);
-		}
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
 	});
 
 	return false;
@@ -76,19 +70,23 @@ searchForm.submit(function()
  * so that I can drop (i.e. add) new tracks to them
  */
 playlistsList.find('li').droppable({
-  drop: function(event, ui){onDrop(this, event, ui)}
+  drop: function(event, ui){onDrop(this, event, ui);}
 });
+
 var add_pl_form = $('#add_pl_form');
 
 $('#add_pl').click(function(e){
   e.preventDefault();
   add_pl_form.slideToggle();
-});
 
+});
+/*
+ * Add new Playlist
+ */
 add_pl_form.submit(function(e){
   e.preventDefault();//prevents the form from submitting
-  var playlist_name = $('pl_name').val();
-  var shared = $('pl_shared').attr('checked');
+  var playlist_name = $('#pl_name').val();
+  var shared = $('#pl_shared').attr('checked');
   
   $.ajax({
     url: base_url + "/playlistmanager/add_playlist/",
@@ -99,22 +97,12 @@ add_pl_form.submit(function(e){
     success: function(data)
     {
         if(data.error === false){
-          alert("success!");
-          
-          loginError.height(0);
+          playlistsList.find('li:last').append('<li id="'+data.playlistid+'"><a href="#pl'+data.playlistid+'" onclick="loadPlaylist(\''+data.playlistid+'\')">'+playlist_name+'</li>');      
         }
-        else{
-          var error = "Sorry, an error occurred. Please try again later.";
-          if(data.error !== true){
-            //custom error message
-            error = data.error;
-          }
-          
-          loginError.html(error);
-          loginError.height(30);
-    }       
-  }
-});
+        setError(data.error);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
+  });
 
 return false;
   
@@ -138,9 +126,11 @@ function onDrop(el, event, ui)
     success: function(data)
     {
         if(data.error === false){
-          alert("success!");
+          alert("success");
         }
-    }
+        setError(data.error);
+    },
+    error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
   
   });
 }
@@ -173,7 +163,9 @@ function updatePlaylistBinding(playlistid)
                 trackRow.remove();
                 redrawTable(searchResultsList);
               }
-          }
+              setError(data.error);
+          },
+          error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
         
         });
         
@@ -183,11 +175,12 @@ function updatePlaylistBinding(playlistid)
 
 function loadPlaylist(playlistid)
 {
+  var playlistid = playlistid;
   $.ajax({
     url: base_url + "/playlistmanager/get_tracks/" + playlistid,
     async: true,
     dataType: "json",
-
+    
     success: function(data)
     {
       var startTrackPosition = null;
@@ -195,6 +188,7 @@ function loadPlaylist(playlistid)
       
       searchResultsList.setResults(data, {'playlist': true});
       updatePlaylistBinding(playlistid);
+      setError(data['error']);
       searchResultsList.sortable({
         
         stop: function(event, ui) {
@@ -210,8 +204,6 @@ function loadPlaylist(playlistid)
                     
           redrawTable(searchResultsList);
           
-          //alert(trackId + ", " + albumId + " : " + nextTrackId + ", " + nextAlbumId);
-          
           $.ajax({
             url: base_url + "/playlistmanager/update_tracks/",
             data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
@@ -219,10 +211,10 @@ function loadPlaylist(playlistid)
             type: 'POST',
             
             success: function(data) {
-              if (data.error) {
-                alert("error");
-              }
-            }
+              setError(data.error);
+            },
+            
+            error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
           });
         }
       });
