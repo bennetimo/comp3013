@@ -1,29 +1,4 @@
 
-/* NAVIGATION " */
-#navigation2 {
-}
-
-#navigation2 ul {
-    list-style: none;
-    list-style-type: none;
-    padding: 0px;
-    margin: 0px;
-}
-
-#navigation2 li {
-    background-position: 0 -74px;
-    float: left;
-    height: 25px;
-    width: 118px;
-    background: url(../images/buttons_back.png);
-}
-
-#navigation2 a {
-    height: 25px;
-    padding-top: 12px;
-    width: 118px;
-}
-
 .search_results_table {
     border-collapse: collapse;
     font: 11px Tahoma;
