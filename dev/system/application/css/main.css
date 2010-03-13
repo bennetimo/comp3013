@@ -386,6 +386,7 @@ a:active{
 
 li{
 	font-size: 13px;
-	
 }
-
+#add_pl_form {
+	display:none;
+}
