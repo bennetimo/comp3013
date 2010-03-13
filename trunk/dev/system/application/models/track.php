@@ -224,12 +224,12 @@ class Track extends Model
   {
     $CI = &get_instance();
     
-    $query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+    $query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid`
-    ORDER BY art.`name`";
+    ORDER BY art.`name`, a.`name`";
 
     return self::getTrackList($query);
   }
