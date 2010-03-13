@@ -49,7 +49,7 @@ searchForm.submit(function()
 		data: searchForm.serialize(),
 
 		success: function(data)
-		{
+		{		
 			searchResultsList.setResults(data);
 			
 			searchResultsList.find("li").draggable({
@@ -59,7 +59,11 @@ searchForm.submit(function()
 				opacity : 0.6,
 				helper : "clone"
 			});
-			
+		},
+		
+		error: function(err) 
+		{
+			alert(err);
 		}
 	});
 
@@ -78,7 +82,7 @@ var add_pl_form = $('#add_pl_form');
 $('#add_pl').click(function(e){
   e.preventDefault();
   add_pl_form.slideToggle();
-})
+});
 
 add_pl_form.submit(function(e){
   e.preventDefault();//prevents the form from submitting
