@@ -1,3 +1,5 @@
+<? if ($userid != "" || $userid): ?>
+</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
 
 <div id="search_results_box" >
     <table id="search_results_table">
@@ -5,12 +7,11 @@
     </table>
 </div>
 
+<div> <!--  Open the contents padder again to avoid problems -->
+<? endif; ?>
+
 <? if ($userid == "" || !$userid): ?>
 <div id="hideable">
-	<div class="page_title">
-		<h3>Welcome.</h3>
-	</div>
-
 	<div class="content_box">
 	    <p>
 	    Musique is an online streaming media player allowing you to listen to 
