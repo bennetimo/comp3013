@@ -79,6 +79,15 @@ window.base_url = "<?=site_url()?>";
     	<div id="playlist_section">
 	        <h3 class="bold_header">My Playlists</h3>
 	        	<p>You have no playlists yet, create one below!</p>
+	        	
+	        	<div id="playlists">
+	            <ul id="playlists_list">
+	              <? foreach ($playlists as $playlist): ?>
+	                <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?></li>
+	              <? endforeach; ?>
+	             </ul>
+	          </div>
+	        	
 	          <a href="#" id="add_pl">Add New Playlist</a>
 	          <form id="add_pl_form">
 	            <table>
@@ -86,13 +95,7 @@ window.base_url = "<?=site_url()?>";
 	            <tr><td>Share</td><td><input type="checkbox" value="1" id="pl_shared" />&nbsp;&nbsp;&nbsp;<input type="submit" class="normal_button" value="Add" /></td></tr>
 	          </table>
 	          </form>
-	          <div id="playlists">
-	            <ul id="playlists_list">
-	              <? foreach ($playlists as $playlist): ?>
-	                <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?></li>
-	              <? endforeach; ?>
-	             </ul>
-	          </div>
+	          
          </div>
     <? endif; ?>
 

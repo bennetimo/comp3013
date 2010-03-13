@@ -154,6 +154,30 @@ class User extends Model
 		return $query->first_row()->id;
 	}
 	
+	public static function getNumberOfUsers(){
+		$CI = &get_instance();
+		$queryString = "SELECT COUNT(`id`) AS 'count' FROM `user`";
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
+	
+	public function getNumberOfPurchasedTracks(){
+		$CI = &get_instance();
+		$queryString = "SELECT COUNT(`trackid`) AS 'count' FROM `user_track` WHERE `userid` = ".$CI->db->escape($this->id);
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
+	
+	public function getNumberOfPlaylists(){
+		$CI = &get_instance();
+		$queryString = "SELECT COUNT(`playlistid`) AS 'count' FROM `playlist_user` WHERE `userid` = ".$CI->db->escape($this->id);
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
+	
 	public function getEmail()
 	{
 		return $this->email;
