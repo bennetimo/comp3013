@@ -1,13 +1,42 @@
 
 $.fn.setResults = function(data, options) {
 	
-	// clear any contents of the results container
-	this.html("");
+	// clears any contents from the tracks containter
+	if (options && options["playlist"]) {
+		this.html('<table class="search_results_table"><tbody id="search_results_body"></tbody></table>');
+	}
+	else {
+		this.html('');
+	}
+	
 	// empty array mapping row ids to track info
 	window.idToTrack = [];
 	var styles = ["even", "odd"];
+	var sortKey = "main_artist";
+	
+	if (options && options['sortby']) {
+		sortKey = options['sortby'];
+	}
+	
+	var thisSortBy = null;
+	var newSort = false;
+	var sortId = '';
 
 	for (i in data) {
+		
+		if (!options || !options["playlist"]) {
+			if (thisSortBy == data[i][sortKey].name) {
+				newSort = false;
+			}
+			else {
+				thisSortBy = data[i][sortKey].name;
+				sortId = 'table' + i;
+				this.append('<div class="group_info">' + data[i][sortKey].name + '</div>');
+				this.append('<table id="'+sortId+'" class="search_results_table"></table>');
+				newSort = true;
+			}
+		}
+		
 		var rowStyle = styles[i % 2];
 		var genres = data[i].genres.length > 0 ? data[i].genres[0].name : "";
 		var artists = data[i].main_artist.name;
@@ -26,9 +55,9 @@ $.fn.setResults = function(data, options) {
 		};
 		
 		var t = '';
-		t += '<tr id="${rowId}" class="${rowStyle}"><td class="handle">::</td><td class="track_name">${trackName}</td>';
-		t += '<td class="track_genres">${genres}</td><td class="album_name"><div>${albumName}</div></td>';
-		t += '<td class="track_artists">${artists}</td>';
+		t += '<tr id="${rowId}" class="${rowStyle}"><td class="handle">::</td><td><div class="track_name">${trackName}</div></td>';
+		t += '<td><div class="track_genres">${genres}</div></td><td><div class="album_name">${albumName}</div></td>';
+		t += '<td><div class="track_artists">${artists}</div></td>';
 		t += (options && options['playlist']) ? '<td><a href="#" class="pl_remove" title="Delete From Playlist">X</a></td>' : '';
 		t += '</tr>';
 		
@@ -38,10 +67,15 @@ $.fn.setResults = function(data, options) {
 			trackName: data[i].name,
 			genres: genres,
 			albumName: data[i].album.name,
-			artists: artists
+			artists: artists,
 		};
 		
-		this.append($.template(t).apply(tData));
+		if (options && options["playlist"]) {
+			this.find("#search_results_body").append($.template(t).apply(tData));
+		}
+		else {
+			this.find("#" + sortId).append($.template(t).apply(tData));
+		}
 	}
 };
 
@@ -65,7 +99,7 @@ function setError(error_message) {
 		}).delay(30000).animate( {
 			height: '0px'
 		}, 250, function() {
-		  $(this).html('').css('');
+			$(this).html('');
 		});
 		
 		var offset = error_box.offset();
