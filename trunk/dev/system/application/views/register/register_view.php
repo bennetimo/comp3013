@@ -1,7 +1,3 @@
-<div class="page_title">
-	<h3>Register</h3>
-</div>
-
 <form id="reg_form" action="<?=site_url('usermanager/register')?>" method="POST">
 
 	<table>

@@ -14,7 +14,8 @@ class Register extends Controller {
 		
 		$data = array(
 			'userid' => $userid,
-		  'user' => $userid ? new User($userid) : NULL
+		  	'user' => $userid ? new User($userid) : NULL,
+			'page_title' => "Register"
 		);
 		
 		$this->load->view("common/header.php", $data);

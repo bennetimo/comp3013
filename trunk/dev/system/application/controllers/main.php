@@ -25,7 +25,8 @@ class Main extends Controller {
 		$data = array(
 			'userid' => $userid,
 		  	'user' => $user,
-			'playlists' => $playlists
+			'playlists' => $playlists,
+			'page_title' => "Welcome."
 		);
 		
 		$this->load->view("common/header.php", $data);
@@ -54,7 +55,8 @@ class Main extends Controller {
 			'last_name' => $last_name,
 			'email' => $email,
 			'joined' => $joined,
-			'credit' => $credit
+			'credit' => $credit,
+			'page_title' => "My Account"
 		);
 		
 		$this->load->view("common/header.php", $data);
@@ -83,7 +85,8 @@ class Main extends Controller {
 			'last_name' => $last_name,
 			'email' => $email,
 			'joined' => $joined,
-			'credit' => $credit
+			'credit' => $credit,
+			'page_title' => "Add Money"
 		);
 		
 		$this->load->view("common/header.php", $data);

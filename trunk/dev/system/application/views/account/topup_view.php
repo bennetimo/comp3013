@@ -1,12 +1,8 @@
-<div class="page_title">
-	<h3>Add Money</h3>
-</div>
-
 <div class="content_box">
 	<p><?=$user->getFName()?>, you currently have</p>
 	<p class="balance">&pound;<? echo sprintf("%01.2f", ($credit/100)) ?></p>
 	<p>in your Musique account</p>
-	<p>You may deposit additional money to you account below:</p>
+	<p>You may deposit additional money to your account below:</p>
 </div>
 
 <div class="content_box">
