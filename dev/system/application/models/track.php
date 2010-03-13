@@ -207,7 +207,7 @@ class Track extends Model
 		
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
     ORDER BY g.`name`, art.name, a.name";
@@ -226,7 +226,7 @@ class Track extends Model
     
     $query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid`
     ORDER BY art.`name`, a.`name`";
@@ -245,7 +245,7 @@ class Track extends Model
 			
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
-		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).")
+		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`, a.name";
