@@ -1,13 +1,12 @@
 
-td.handle {
-    width: 10px;
-    padding-right: 0px;
-    cursor: pointer;
-    cursor: hand;
-}
-
 #search_results_table {
     width: 100%;
+    border-collapse: collapse;
+    font: 11px Tahoma;
+}
+
+#search_results_body tr {
+    width: 500px;
 }
 
 #search_results_body tr.even {
@@ -22,22 +21,28 @@ td.handle {
     color: #FFFFFF;
     white-space: nowrap;
     overflow: hidden;
+    padding: 3px;
 }
 
 .track_name div {
     width: 300px;
 }
 
-.genres div {
+.track_genres div {
+    width: 100px;
+}
+
+.track_artists div {
     width: 100px;
 }
 
 .album_name div {
     width: 100px;
-    overflow: hidden;
-    white-space: nowrap;
 }
 
-.artists {
-    width: 100px;
+td.handle {
+    width: 8px;
+    cursor: pointer;
+    cursor: hand;
+    font-weight: bold;
 }
