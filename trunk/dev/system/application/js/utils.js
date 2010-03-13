@@ -50,7 +50,7 @@ function setError(error_message) {
 	var error_box = $("#error_box");
 	var default_error_msg = "An error occured. Please try again later.";
 
-	if (error_message === false || typeof error_message == "undefined") {
+	if (error_message === false || typeof error_message != "undefined") {
 		error_box.animate({
 			height: '0px'
 		});
@@ -61,11 +61,11 @@ function setError(error_message) {
 		}
 
 		error_box.html(error_message).animate({
-			height: '35px'
+			height: '35'
 		}).delay(30000).animate( {
-			height: '0px'
+			height: '0'
 		}, 250, function() {
-			$(this).html('');
+		  $(this).html('');
 		});
 		
 		var offset = error_box.offset();
