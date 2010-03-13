@@ -26,7 +26,7 @@ ul#search_results {
     font-size: 0.8em;
     white-space: nowrap;
 }
-#search_results li {
+#search_results li, #search_results table {
     width: 100%;	
 }
 #search_results li.even {
