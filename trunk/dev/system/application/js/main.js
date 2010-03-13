@@ -249,7 +249,7 @@ function removePlaylist(playlistid)
       setError(data.error);
       
       if(!data.error){
-        playlistsList.find("#"+playlistid).remove();
+        playlistsList.find("#"+playlistid).hide();
       }
     }
   });
