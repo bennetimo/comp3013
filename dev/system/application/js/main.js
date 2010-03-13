@@ -1,6 +1,6 @@
 
 var searchForm = $("#search_form");
-var searchResultsList = $("#search_results_body");
+var searchResultsContainer = $("#search_results_container");
 var playlistsList = $("#playlists_list");
 var loginForm = $("#login_form");
 var loginError = $("#error_box");
@@ -43,22 +43,23 @@ searchForm.submit(function()
 		data: searchForm.serialize(),
 
 		success: function(data)
-		{		
-	    if(data['error'] === false){
-  	    searchResultsList.setResults(data);
-  			
-  			searchResultsList.find("tr").draggable({
-  				revert : true,
-  				revertDuration : 0,
-  				handle : ".handle",
-  				opacity : 0.6,
-  				helper : "clone"
-  			});
-	    }
-	    setError(data.error);
+		{
+	    	if (!data['error'] || data['error'] === false) {
+	    		searchResultsContainer.setResults(data);	    		
+	    		searchResultsContainer.find("tr").draggable({
+	    			revert : true,
+	    			revertDuration : 0,
+	    			handle : ".handle",
+	    			opacity : 0.6,
+	    			helper : "clone"
+	    		});
+	    	}
+	    	setError(data.error);
 		},
 		
-		error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			setError(true);
+		}
 	});
 
 	return false;
@@ -170,7 +171,7 @@ function updatePlaylistBinding(playlistid)
                  * deleted track
                  */
                 trackRow.remove();
-                redrawTable(searchResultsList);
+                redrawTable(searchResultsContainer.find("#search_results_body"));
               }
               setError(data.error);
           },
@@ -195,10 +196,10 @@ function loadPlaylist(playlistid)
       var startTrackPosition = null;
       var endTrackPosition = null;
       
-      searchResultsList.setResults(data, {'playlist': true});
+      searchResultsContainer.setResults(data, {'playlist': true});
       updatePlaylistBinding(playlistid);
       setError(data['error']);
-      searchResultsList.sortable({
+      searchResultsContainer.find("#search_results_body").sortable({
         
         stop: function(event, ui) {
           var trackId = idToTrack[ui.item.attr("id")].trackId;
@@ -211,7 +212,7 @@ function loadPlaylist(playlistid)
             nextAlbumId = idToTrack[ui.item.next().attr("id")].albumId;
           }
                     
-          redrawTable(searchResultsList);
+          redrawTable(searchResultsContainer.find("#search_results_body"));
           
           $.ajax({
             url: base_url + "/playlistmanager/update_tracks/",
