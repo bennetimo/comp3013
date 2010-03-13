@@ -55,8 +55,16 @@ function setError(error_message)
   
   error_box.html(error_message).animate({      
     height: '30px'
-  }).delay(30000).animate({      
-    height: '0px'
-  });
+  }).delay(3000).animate({      
+    height: '0px'},
+    250,
+    function() {
+      alert("aa");
+      $(this).html('');
+    }
+  );
+  var offset = error_box.offset();
+  $('html, body').animate({scrollTop:offset.top - 20}, 'slow');
+  
   
 }
