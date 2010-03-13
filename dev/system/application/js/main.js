@@ -44,16 +44,18 @@ searchForm.submit(function()
 
 		success: function(data)
 		{		
+	    if(data['error'] === false){
+  	    searchResultsList.setResults(data);
+  			
+  			searchResultsList.find("tr").draggable({
+  				revert : true,
+  				revertDuration : 0,
+  				handle : ".handle",
+  				opacity : 0.6,
+  				helper : "clone"
+  			});
+	    }
 	    setError(data.error);
-	    searchResultsList.setResults(data);
-			
-			searchResultsList.find("tr").draggable({
-				revert : true,
-				revertDuration : 0,
-				handle : ".handle",
-				opacity : 0.6,
-				helper : "clone"
-			});
 		},
 		
 		error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
