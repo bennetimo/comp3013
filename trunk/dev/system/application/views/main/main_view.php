@@ -1,10 +1,22 @@
 <? if ($userid != "" || $userid): ?>
 </div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
 
-<div id="search_results_box" >
-    <table id="search_results_table">
-        <tbody id="search_results_body"></tbody>
+<div id="search_results_box">
+
+    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse;">
+        <tbody>
+            <tr>
+                <td class="handle" style="padding: 3px;"></td>
+                <td class="track_name" style="padding: 3px;">Track</td>
+                <td class="track_genres" style="padding: 3px;">Genre</td>
+                <td class="album_name" style="padding: 3px;">Album</td>
+                <td class="track_artists" style="padding: 3px;">Artist</td>
+            </tr>
+        </tbody>
     </table>
+
+    <div id="search_results_container">
+    </div>
 </div>
 
 <div> <!--  Open the contents padder again to avoid problems -->

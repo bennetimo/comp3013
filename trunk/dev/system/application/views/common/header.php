@@ -21,7 +21,7 @@ window.base_url = "<?=site_url()?>";
 	<div id="header">
 		<div id="logo">
 			<a href="<?=site_url('main')?>">
-			<img src="<?=base_url()?>system/application/images/musique_logo_small.png"></img>
+			<img src="<?=base_url()?>system/application/images/musique_logo.jpg"></img>
 			</a>
 		</div>
 		
@@ -41,7 +41,7 @@ window.base_url = "<?=site_url()?>";
 		</div>
 	
 		<div id="blurb">
-			<h3 class="bold_header">Discover Play Enjoy</h3>
+<!--			<h3 class="bold_header">Discover Play Enjoy</h3>-->
 		</div>
 		
 		
