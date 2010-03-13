@@ -14,8 +14,9 @@
 
 
 <div class="content_box" id="search_results" >
-	<ul id="search_results_list">
-	</ul>
+<!--	<ul id="search_results_list">-->
+<!--	</ul>-->
+	<table><tbody id="search_results_list"></tbody></table>
 </div>
 
 <div class="feature_box">

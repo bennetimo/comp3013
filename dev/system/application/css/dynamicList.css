@@ -25,11 +25,12 @@ ul#search_results {
     color: #ffffff;
     font-size: 0.8em;
     white-space: nowrap;
+    overflow: hidden;
 }
 #search_results li, #search_results table {
-    width: 100%;	
+    /*width: 100%;*/	
 }
-#search_results li.even {
+#search_results tr.even {
     background-color: #222222;
 }
 
@@ -38,7 +39,11 @@ ul#search_results {
     cursor: pointer;
 }
 
-#search_results li.odd {
+td.handle {
+    width: 20px;
+}
+
+#search_results tr.odd {
     background-color: #444444;
 }
 

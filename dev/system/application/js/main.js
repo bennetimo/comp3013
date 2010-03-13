@@ -52,7 +52,7 @@ searchForm.submit(function()
 		{		
 			searchResultsList.setResults(data);
 			
-			searchResultsList.find("li").draggable({
+			searchResultsList.find("tr").draggable({
 				revert : true,
 				revertDuration : 0,
 				handle : ".handle",
@@ -141,7 +141,7 @@ function onDrop(el, event, ui)
         }
     }
   
-  })
+  });
 }
 
 function updatePlaylistBinding(playlistid)
@@ -153,7 +153,7 @@ function updatePlaylistBinding(playlistid)
   $(".pl_remove").click(
       function(event){
         event.preventDefault();
-        var trackRow = $(this).parents('li');
+        var trackRow = $(this).parents('tr');
         var trackInfo = idToTrack[trackRow.attr('id')];
                 
         $.ajax({
@@ -223,8 +223,6 @@ function loadPlaylist(playlistid)
               }
             }
           });
-          
-          
         }
       });
     }
@@ -233,7 +231,7 @@ function loadPlaylist(playlistid)
 
 function redrawTable(searchResultsList)
 {
-  searchResultsList.find('li').each(function(i){
+  searchResultsList.find('tr').each(function(i){
     var className = i % 2 == 0 ? "even" : "odd";
     $(this).attr("class", className);
   });
