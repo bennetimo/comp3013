@@ -210,7 +210,7 @@ class Track extends Model
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
-    ORDER BY g.`name`";
+    ORDER BY g.`name`, art.name, a.name";
 
 		return self::getTrackList($query);
 	}
@@ -248,7 +248,7 @@ class Track extends Model
 		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
-		ORDER BY t.`name`";
+		ORDER BY t.`name`, a.name";
 		
 		return self::getTrackList($query);
 	}
