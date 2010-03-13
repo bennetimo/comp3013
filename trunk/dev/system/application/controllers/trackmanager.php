@@ -28,6 +28,9 @@ class TrackManager extends Controller {
 			else if ($searchBy == "genre") {
 				$tracks = Track::searchByGenre($term, $userid);
 			}
+			else if($searchBy == "artist"){
+				$tracks = Track::searchByArtist($term, $userid);
+			}
 			else {
 				echo json_encode(array("error" => "The search criteria is not recognized"));
 				return;

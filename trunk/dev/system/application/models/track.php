@@ -204,17 +204,36 @@ class Track extends Model
 	static function &searchByGenre($genre, $userid = NULL)
 	{
 		$CI = &get_instance();
-		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
-
+		
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
-    ORDER BY t.`name`";
+    ORDER BY g.`name`";
 
 		return self::getTrackList($query);
 	}
+	
+ /**
+   * NOTE: it only search in the main artist
+   * @param string $artist
+   * @return array of Track
+   */
+  static function &searchByArtist($artist, $userid = NULL)
+  {
+    $CI = &get_instance();
+    
+    $query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+    FROM `track` t, `artist` art,`album` a, `album_track` at 
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+    WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
+    AND t.id = at.`trackid` AND a.id = at.`albumid`
+    ORDER BY art.`name`";
+
+    return self::getTrackList($query);
+  }
+	
 	/**
 	 *
 	 * @param string $track_name
@@ -223,7 +242,6 @@ class Track extends Model
 	static function &searchTrackName($track_name, $userid = NULL)
 	{
 		$CI = &get_instance();
-		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 			
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
