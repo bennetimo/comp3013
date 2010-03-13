@@ -44,7 +44,8 @@ searchForm.submit(function()
 
 		success: function(data)
 		{		
-			searchResultsList.setResults(data);
+	    setError(data.error);
+	    searchResultsList.setResults(data);
 			
 			searchResultsList.find("tr").draggable({
 				revert : true,
@@ -55,10 +56,6 @@ searchForm.submit(function()
 			});
 		},
 		
-		error: function(err) 
-		{
-			alert(err);
-		},
 		error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
 	});
 
@@ -103,16 +100,11 @@ add_pl_form.submit(function(e){
               playlist_name : playlist_name
           };
           
-          var t = '<li id="${playlistid}"><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a>';
+          var t = '<li id="${playlistid}" styele="display:inline;"><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a>';
               t+= shared ? ' *' : '';
               t+= ' (<a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">remove</a>)</li>';
-          var li = playlistsList.find('li:last');
           
-          if(li.length == 0){
-           li =  playlistsList;
-          }
-          
-          li.append($.template(t).apply(data));      
+          playlistsList.append($.template(t).apply(data));      
         }
         setError(data.error);
     },
