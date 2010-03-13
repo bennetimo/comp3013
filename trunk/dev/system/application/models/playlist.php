@@ -200,12 +200,13 @@ class Playlist extends Model
 	public static function removePlaylist($playlistid, $userid)
 	{
 		$CI =& get_instance();
-		$CI->db->trans_start();
+		//$CI->db->trans_start();
 
-		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
-		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
+		$CI->db->query("DELETE FROM `playlist` WHERE `id` = ?", array($playlistid));
+		$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
+		$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?", array($playlistid));
 
-		return $CI->db->trans_status();
+		return TRUE; //$CI->db->trans_status();
 	}
 
 	public function remove()
