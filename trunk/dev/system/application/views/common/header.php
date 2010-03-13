@@ -42,23 +42,24 @@ window.base_url = "<?=site_url()?>";
 			<? endif; ?>
 		</div>
 	
-		<div id="blurb">
-<!--			<h3 class="bold_header">Discover Play Enjoy</h3>-->
-		</div>
+<!--		<div id="blurb">-->
+<!--<h3 class="bold_header">Discover Play Enjoy</h3>-->
+<!--		</div>-->
 		
 		
-		<div id="navigation">
-		<!-- The navigation links present on every page -->
-		<div id="navigation_links">
-			<ul>
-				<li><a href="<?=site_url('main')?>">Home</a></li>
-				<li><a href="<?=site_url('search')?>">Search</a></li>
-				<li><a href="<?=site_url('main/account')?>">My Account</a></li>
-				<li><a href="<?=site_url('main')?>">My Music</a></li>
-				<li><a href="<?=site_url('register')?>">Sign up!</a></li>
-			</ul>
+		<div id="navigation2">
+			<!-- The navigation links present on every page -->
+			<div id="navigation_links">
+				<ul>
+					<li><a href="<?=site_url('main')?>">Home</a></li>
+					<li><a href="<?=site_url('search')?>">Search</a></li>
+					<li><a href="<?=site_url('main/account')?>">My Account</a></li>
+					<li><a href="<?=site_url('main')?>">My Music</a></li>
+					<li><a href="<?=site_url('register')?>">Sign up!</a></li>
+				</ul>
+			</div>
 		</div>
-		</div>
+		
 	</div>
 	
 	<div id="error_box"></div>
