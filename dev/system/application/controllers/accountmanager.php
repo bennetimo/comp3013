@@ -18,6 +18,6 @@ class AccountManager extends Controller {
 		
 		$user = new User($userid);
 		$user->addCredit($ammount);
-		redirect('/main/account');
+		redirect('/main/topup');
 	}
 }

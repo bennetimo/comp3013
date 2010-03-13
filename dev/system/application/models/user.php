@@ -178,6 +178,14 @@ class User extends Model
 		return $query->first_row()->count;
 	}
 	
+	public function getNumberOfSharedPlaylists(){
+		$CI = &get_instance();
+		$queryString = "SELECT count(`shared`) AS 'count' FROM `playlist` WHERE `id` IN(SELECT `playlistid` FROM `playlist_user` WHERE `userid` = ".$CI->db->escape($this->id) .")";
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
+	
 	public function getEmail()
 	{
 		return $this->email;
