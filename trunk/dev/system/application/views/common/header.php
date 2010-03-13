@@ -8,6 +8,8 @@
 	<script src="<?=base_url()?>system/application/js/jquery-ui.js" type="text/javascript"></script>
 	<script src="<?=base_url()?>system/application/js/jquery-template.js" type="text/javascript"></script>
 	<script src="<?=base_url()?>system/application/js/utils.js" type="text/javascript"></script>
+	<script src="<?=base_url()?>system/application/js/player.js" type="text/javascript"></script>
+	<script src="<?=base_url()?>system/application/js/swfobject.js" type="text/javascript"></script>
 </head>
 
 <body>
