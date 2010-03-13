@@ -205,7 +205,7 @@ class Playlist extends Model
 		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ?", array($playlistid));
 		$CI->db->query("DELETE FROM `playlist` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
 
-		return $this->db->trans_status();
+		return $CI->db->trans_status();
 	}
 
 	public function remove()
