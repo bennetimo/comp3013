@@ -150,11 +150,10 @@ class Playlist extends Model
 			if(empty($play_orders)){
 				//add it to the end
 				$result = $CI->db->query("SELECT (MAX(`play_order`) + 1) AS `play_order` FROM `playlist_track` WHERE `playlistid` = $playlistid")->result();
-				$play_order = $result[0]->play_order;
+				$play_order = $result[0]->play_order ? $result[0]->play_order : 1;
 			}
 			else{
-				$order = isset($play_orders[$i]) ? $play_orders[$i] : 0;
-				$play_order = $CI->db->escape($play_orders[$i]);
+				$play_order = isset($play_orders[$i]) ? $play_orders[$i] : 1;
 			}
 			$CI->db->query("INSERT IGNORE INTO `playlist_track` (`playlistid`, `albumid`, `trackid`, `play_order`) VALUES ($playlistid, $albumid, $trackid, $play_order)");
 		}
@@ -185,17 +184,16 @@ class Playlist extends Model
 	{
 		$CI =& get_instance();
 		$CI->db->trans_start();
-			
-		$is_shared = $is_shared ? 1 : 0;
+		
 		// add playlist
 		$CI->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
 		$playlistid = $CI->db->insert_id();
 		// add user -> playlist relation
-		$this->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
+		$CI->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
 			
-		$this->db->trans_complete();
+		$CI->db->trans_complete();
 			
-		return $this->db->trans_status() ? new Playlist($playlistid, $name, $is_shared, $userid) : FALSE;
+		return $CI->db->trans_status() ? new Playlist($playlistid, $name, $is_shared, $userid) : FALSE;
 			
 	}
 
