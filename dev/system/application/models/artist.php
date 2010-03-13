@@ -76,4 +76,12 @@ class Artist extends Model
 		
 		return array();
 	}
+	
+	public static function getNumberOfArtists(){
+		$CI = &get_instance();
+		$queryString = "SELECT COUNT(`id`) AS 'count' FROM `artist`";
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
 }

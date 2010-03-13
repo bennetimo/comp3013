@@ -259,4 +259,12 @@ class Track extends Model
 		
 		return $tracks;
 	}
+	
+	public static function getNumberOfTracks(){
+		$CI = &get_instance();
+		$queryString = "SELECT COUNT(`id`) AS 'count' FROM `track`";
+		$query = $CI->db->query($queryString);
+		
+		return $query->first_row()->count;
+	}
 }

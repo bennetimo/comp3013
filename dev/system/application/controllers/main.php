@@ -6,6 +6,8 @@ class Main extends Controller {
 	{
 		parent::Controller();
 		$this->load->static_model("User");
+		$this->load->static_model("Track");
+		$this->load->static_model("Artist");
 	}
 	
 	function index()
@@ -47,6 +49,7 @@ class Main extends Controller {
 		
 		$data = array(
 			'userid' => $userid,
+			'user' => $user,
 			'first_name' => $first_name,
 			'last_name' => $last_name,
 			'email' => $email,

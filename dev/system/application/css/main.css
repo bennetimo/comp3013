@@ -116,6 +116,10 @@ width:150px;
 	padding:5px 15px;
 }
 
+#playlists{
+	text-align:left;
+}
+
 #playlist_section{
 	padding:3px;
 	background-color:#333;
@@ -152,6 +156,13 @@ width:150px;
 	
 }
 
+.summary_box{
+	margin:auto;
+	width:90%;
+	padding:3px;
+	color:black;
+}
+	
 .content_box{
 	margin:auto;
 	padding:5px 35px;
@@ -183,6 +194,15 @@ width:150px;
 .end_features{
 	clear:both;
 	
+}
+
+.black_header{
+	color:#000000;
+	padding:0 10px;
+	margin:5px 0;
+	font-size:16px;
+	font-family:Verdana,Arial,Helvetica,sans-serif;
+	font-weight:bold;
 }
 
 .bold_header{
