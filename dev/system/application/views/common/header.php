@@ -10,7 +10,7 @@
 	<script src="<?=base_url()?>system/application/js/jquery-template.js" type="text/javascript"></script>
 	<script src="<?=base_url()?>system/application/js/utils.js" type="text/javascript"></script>
 	<script src="<?=base_url()?>system/application/js/player.js" type="text/javascript"></script>
-	<script> window.size_url = "<?=site_url()?>"; window.base_url = "<?=base_url()?>";</script>
+	<script> window.site_url = "<?=site_url()?>"; window.base_url = "<?=base_url()?>";</script>
 </head>
 
 <body>

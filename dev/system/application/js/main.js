@@ -15,7 +15,7 @@ loginForm.submit(function()
 	var submit = false;
 
 	$.ajax({
-		url: base_url + "/usermanager/validate_login_form",
+		url: site_url + "/usermanager/validate_login_form",
 		async: false,
 		type: "post",
 		dataType: "json",
@@ -36,7 +36,7 @@ loginForm.submit(function()
 searchForm.submit(function()
 {
 	$.ajax({
-		url: base_url + "/trackmanager/search",
+		url: site_url + "/trackmanager/search",
 		async: true,
 		type: "post",
 		dataType: "json",
@@ -89,7 +89,7 @@ add_pl_form.submit(function(e){
   var shared = $('#pl_shared').attr('checked') ? 1 : 0;
   
   $.ajax({
-    url: base_url + "/playlistmanager/add_playlist/",
+    url: site_url + "/playlistmanager/add_playlist/",
     async: true,
     dataType: 'json',
     type: 'post',
@@ -128,7 +128,7 @@ function onDrop(el, event, ui)
   var trackInfo = idToTrack[listItemId];
   
   $.ajax({
-    url: base_url + "/playlistmanager/add_track/",
+    url: site_url + "/playlistmanager/add_track/",
     async: true,
     dataType: 'json',
     type: 'post',
@@ -158,7 +158,7 @@ function updatePlaylistBinding(playlistid)
         var trackInfo = idToTrack[trackRow.attr('id')];
                 
         $.ajax({
-          url: base_url + "/playlistmanager/remove_track/",
+          url: site_url + "/playlistmanager/remove_track/",
           async: true,
           dataType: 'json',
           type: 'post',
@@ -187,7 +187,7 @@ function loadPlaylist(playlistid)
 {
   var playlistid = playlistid;
   $.ajax({
-    url: base_url + "/playlistmanager/get_tracks/" + playlistid,
+    url: site_url + "/playlistmanager/get_tracks/" + playlistid,
     async: true,
     dataType: "json",
     
@@ -215,7 +215,7 @@ function loadPlaylist(playlistid)
           redrawTable(searchResultsContainer.find("#search_results_body"));
           
           $.ajax({
-            url: base_url + "/playlistmanager/update_tracks/",
+            url: site_url + "/playlistmanager/update_tracks/",
             data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
             dataType: 'json',
             type: 'POST',
@@ -235,7 +235,7 @@ function removePlaylist(playlistid)
 {
   var playlistid = playlistid;
   $.ajax({
-    url: base_url + "/playlistmanager/remove_playlist/" + playlistid,
+    url: site_url + "/playlistmanager/remove_playlist/" + playlistid,
     async: true,
     dataType: "json",
     
