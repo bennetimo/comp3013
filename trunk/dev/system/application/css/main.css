@@ -140,7 +140,7 @@ width:150px;
 	margin-bottom:20px;
 	padding:0;
 	/*background-image:url("../images/background_light_slice2.jpg");*/
-	background-color:#212121;
+	background-color:#ffffff;
 	min-height:620px;
 	/*border-top-width:10px;
 	border-top-color:#292826;
@@ -176,6 +176,13 @@ width:150px;
 	line-height:25px;
 	padding:10px 0;
 	
+}
+
+.content_box .balance{
+	font-size:32;
+	font-weight:bold;
+	padding-left:20px;
+	margin:0;
 }
 
 .feature_box{
