@@ -1,66 +1,41 @@
 
-ul#search_results {
-    margin: 0px;
-    list-style: none;
-    padding: 0px;
-}
-
-#search_results_list {
-    margin: 0px;
-    padding: 0px;
-}
-
-#search_results li {
-    width: 500px;
-    list-style: none;
-    margin: 0px;
-}
-
-#search_results table {
-    border-collapse: collapse;
-}
-
-#search_results td {
-    padding: 4px;
-    color: #ffffff;
-    font-size: 0.8em;
-    white-space: nowrap;
-    overflow: hidden;
-}
-#search_results li, #search_results table {
-    /*width: 100%;*/	
-}
-#search_results tr.even {
-    background-color: #222222;
-}
-
-.handle {
-    cursor: hand;
-    cursor: pointer;
-}
-
 td.handle {
-    width: 20px;
+    width: 10px;
+    padding-right: 0px;
+    cursor: pointer;
+    cursor: hand;
 }
 
-#search_results tr.odd {
+#search_results_table {
+    width: 100%;
+}
+
+#search_results_body tr.even {
+    background-color: #666666;
+}
+
+#search_results_body tr.odd {
     background-color: #444444;
 }
 
-.results_break_float {
-    clear: both;
+#search_results_body td {
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.track_name {
+.track_name div {
     width: 300px;
 }
 
-.genres {
+.genres div {
     width: 100px;
 }
 
-.album_name {
+.album_name div {
     width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .artists {
