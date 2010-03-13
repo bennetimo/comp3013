@@ -10,12 +10,11 @@ body {
 /*Main container div housing all the content*/
 #container
 {
-	margin-top:50px;
-	margin:auto;
-	width:75%;
-	min-width:800px;
-	padding:0;
-	
+	margin-top: 50px;
+	margin: 0px auto;
+	width: 75%;
+	width: 900px;
+	padding: 0px;
 }
 
 /*Header styles*/
@@ -28,7 +27,7 @@ body {
 #error_box{
 	background-color:#CC3333;
 	height:0px;
-	
+	clear: both;
 	colour:#FFFFFF;
 	padding:5px 15px;
 	text-align:center;
