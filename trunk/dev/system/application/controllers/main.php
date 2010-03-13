@@ -41,6 +41,8 @@ class Main extends Controller {
 			redirect("/main");
 		}
 		
+		$this->load->static_model('Playlist');
+		$playlists = Playlist::getUsersPlaylists($userid);
 		$user = new User($userid);
 		$first_name = $user->getFName();
 		$last_name = $user->getLName();
@@ -56,7 +58,8 @@ class Main extends Controller {
 			'email' => $email,
 			'joined' => $joined,
 			'credit' => $credit,
-			'page_title' => "My Account"
+			'page_title' => "My Account",
+			'playlists' => $playlists
 		);
 		
 		$this->load->view("common/header.php", $data);
@@ -71,6 +74,8 @@ class Main extends Controller {
 			redirect("/main");
 		}
 		
+		$this->load->static_model('Playlist');
+		$playlists = Playlist::getUsersPlaylists($userid);
 		$user = new User($userid);
 		$first_name = $user->getFName();
 		$last_name = $user->getLName();
@@ -86,7 +91,8 @@ class Main extends Controller {
 			'email' => $email,
 			'joined' => $joined,
 			'credit' => $credit,
-			'page_title' => "Add Money"
+			'page_title' => "Add Money",
+			'playlists' => $playlists
 		);
 		
 		$this->load->view("common/header.php", $data);
