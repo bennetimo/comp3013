@@ -50,7 +50,7 @@ function setError(error_message) {
 	var error_box = $("#error_box");
 	var default_error_msg = "An error occured. Please try again later.";
 
-	if (error_message === false) {
+	if (error_message === false || typeof error_message == "undefined") {
 		error_box.animate({
 			height: '0px'
 		});
