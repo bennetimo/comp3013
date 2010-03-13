@@ -33,7 +33,14 @@ class PlaylistManager extends Controller {
 
 	function get_tracks($playlistid)
 	{
-		$tracks = Playlist::load($playlistid)->getTracks();
+		try{
+			$tracks = Playlist::load($playlistid)->getTracks();
+		}
+		catch(Exception $e) {
+			echo json_encode(array("error" => $e->getMessage()));
+			return;
+		}
+			
 		$newTracks = array();
 
 		foreach ($tracks as $track) {
@@ -57,9 +64,13 @@ class PlaylistManager extends Controller {
 			$next_trackid = NULL;
 			$next_albumid = NULL;
 		}
-
-		if (!Playlist::updateTracks($trackid, $albumid, $next_trackid, $next_albumid, $playlistid)) {
-			$result['error'] = TRUE;
+		try{
+			if (!Playlist::updateTracks($trackid, $albumid, $next_trackid, $next_albumid, $playlistid)) {
+				$result['error'] = TRUE;
+			}
+		}
+		catch(Exception $e) {
+			$result['error'] = $e->getMessage();
 		}
 
 		echo json_encode($result);
@@ -90,6 +101,7 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($result);
 	}
+
 	function add_playlist()
 	{
 		$userid = $this->session->userdata('userid');
@@ -101,7 +113,7 @@ class PlaylistManager extends Controller {
 		else {
 			$playlist_name = $this->input->post('playlist_name');
 			$shared = $this->input->post('shared');
-				
+
 			try{
 				$new_pl = Playlist::addPlaylist($playlist_name, $userid, $shared ? TRUE : FALSE);
 				if( ! $new_pl) {
@@ -115,7 +127,31 @@ class PlaylistManager extends Controller {
 				$result["error"] = $e->getMessage();
 			}
 		}
-		
+
+		echo json_encode($result);
+	}
+
+	function remove_playlist()
+	{
+		$userid = $this->session->userdata('userid');
+		$result = array("error" => FALSE);
+
+		if (!$userid) {
+			$result["error"] = "User must be logged in to access her playlist.";
+		}
+		else {
+			$playlistid = $this->input->post('playlistid');
+
+			try{
+				if( ! Playlist::removePlaylist($playlistid, $userid)) {
+					$result["error"] = TRUE;
+				}
+			}
+			catch(Exception $e) {
+				$result["error"] = $e->getMessage();
+			}
+		}
+
 		echo json_encode($result);
 	}
 
