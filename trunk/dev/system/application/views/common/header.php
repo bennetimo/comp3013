@@ -78,7 +78,7 @@ window.base_url = "<?=site_url()?>";
     <? if($userid): ?>
     	<div id="playlist_section">
 	        <h3 class="bold_header">My Playlists</h3>
-	        	<p>You have no playlists yet, create one below!</p>
+	        	<?if(!count($playlists)):?><p>You have no playlists yet, create one below!</p><?endif;?>
 	        	
 	        	<div id="playlists">
 	            <ul id="playlists_list">
