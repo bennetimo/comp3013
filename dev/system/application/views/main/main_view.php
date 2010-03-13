@@ -40,16 +40,6 @@
 		<h3>127</h3>
 		<p>registered users</p>
 	</div>
-	
-	<div class="feature_box">
-		<h3>3402</h3>
-		<p>total tracks</p>
-	</div>
-	
-	<div class="feature_box">
-		<h3>82</h3>
-		<p>featured artists</p>
-	</div>
 
 	<br /><br /><br /><br /><br /><br />
 	
