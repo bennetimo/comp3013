@@ -28,7 +28,7 @@ class TrackManager extends Controller {
 			$tracks = Track::searchByGenre($term, $userid);
 		}
 		else {
-			throw new Exception("Searching by wrong parameter.");
+			echo json_encode(array("error" => TRUE));
 		}
 		
 		$newTracks = array();
