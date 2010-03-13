@@ -16,10 +16,12 @@ class Main extends Controller {
 		if ($userid) {
 			$this->load->static_model('Playlist');
 			$playlists = Playlist::getUsersPlaylists($userid);
+			$user = new User($userid);
 		}
 		
 		$data = array(
 			'userid' => $userid,
+		  'user' => $user,
 			'playlists' => $playlists
 		);
 		

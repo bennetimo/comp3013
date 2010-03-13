@@ -34,10 +34,7 @@ window.base_url = "<?=site_url()?>";
 			
 			<? else: ?>
 			You are logged in as 
-				<?
-				$user = new User($userid);
-				echo $user->getFName();
-				?>:
+				<?=$user->getFName()?>:
 			<a href="<?=site_url('usermanager/logout')?>">Logout</a>
 			<? endif; ?>
 		</div>
@@ -78,23 +75,7 @@ window.base_url = "<?=site_url()?>";
 				</div>
 		</div>
 
-				<? if($userid): ?>
-				<h3 class="bold_header">Your Playlists</h3>
-          <a href="#" id="add_pl">Add New Playlist</a>
-          <form id="add_pl_form">
-            <table>
-            <tr><td>Name</td><td><input type="text" value="playlist name" id="pl_name" /></td></tr>
-            <tr><td>Share</td><td><input type="checkbox" value="1" id="pl_shared" />&nbsp;&nbsp;&nbsp;<input type="submit" value="Add" /></td></tr>
-          </table>
-          </form>
-          <div id="playlists">
-            <ul id="playlists_list">
-						  <? foreach ($playlists as $playlist): ?>
-						    <li id="<?=$playlist->getId()?>"><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?></li>
-						  <? endforeach; ?>
-						 </ul>
-          </div>
-        <? endif; ?>
+				
 
 		<div id="login_error" style="display: none;"></div>
 		
