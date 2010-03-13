@@ -118,6 +118,8 @@ return false;
   
 });
 
+window.player = new Player("ply");
+
 //end of document.ready
 });
 
