@@ -159,7 +159,6 @@ width:150px;
 }
 
 .summary_box{
-	margin:auto;
 	width:90%;
 	padding:3px;
 	color:black;
@@ -169,15 +168,13 @@ width:150px;
 	margin:auto;
 	padding:5px 35px;
 	font-family: helvetica,arial,sans-serif;
-	
+	padding:15px 0;
 }
 
 .content_box p{
 	font-size:15px;
 	font-weight:normal;
 	line-height:25px;
-	padding:10px 0;
-	
 }
 
 .content_box .balance{
