@@ -86,7 +86,7 @@ $('#add_pl').click(function(e){
 add_pl_form.submit(function(e){
   e.preventDefault();//prevents the form from submitting
   var playlist_name = $('#pl_name').val();
-  var shared = $('#pl_shared').attr('checked');
+  var shared = $('#pl_shared').attr('checked') ? 1 : 0;
   
   $.ajax({
     url: base_url + "/playlistmanager/add_playlist/",
@@ -97,7 +97,22 @@ add_pl_form.submit(function(e){
     success: function(data)
     {
         if(data.error === false){
-          playlistsList.find('li:last').append('<li id="'+data.playlistid+'"><a href="#pl'+data.playlistid+'" onclick="loadPlaylist(\''+data.playlistid+'\')">'+playlist_name+'</li>');      
+          
+          var data = {
+              playlistid : data.playlistid,
+              playlist_name : playlist_name
+          };
+          
+          var t = '<li id="${playlistid}"><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a>';
+              t+= shared ? ' *' : '';
+              t+= ' (<a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">remove</a>)</li>';
+          var li = playlistsList.find('li:last');
+          
+          if(li.length == 0){
+           li =  playlistsList;
+          }
+          
+          li.append($.template(t).apply(data));      
         }
         setError(data.error);
     },
@@ -218,6 +233,24 @@ function loadPlaylist(playlistid)
           });
         }
       });
+    }
+  });
+}
+function removePlaylist(playlistid)
+{
+  var playlistid = playlistid;
+  $.ajax({
+    url: base_url + "/playlistmanager/remove_playlist/" + playlistid,
+    async: true,
+    dataType: "json",
+    
+    success: function(data)
+    {
+      setError(data.error);
+      
+      if(!data.error){
+        playlistsList.find("#"+playlistid).remove();
+      }
     }
   });
 }

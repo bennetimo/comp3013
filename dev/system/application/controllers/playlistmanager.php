@@ -115,7 +115,7 @@ class PlaylistManager extends Controller {
 			$shared = $this->input->post('shared');
 
 			try{
-				$new_pl = Playlist::addPlaylist($playlist_name, $userid, $shared ? TRUE : FALSE);
+				$new_pl = Playlist::addPlaylist($playlist_name, $userid, $shared == 1 ? TRUE : FALSE);
 				if( ! $new_pl) {
 					$result["error"] = TRUE;
 				}
@@ -131,7 +131,7 @@ class PlaylistManager extends Controller {
 		echo json_encode($result);
 	}
 
-	function remove_playlist()
+	function remove_playlist($playlistid)
 	{
 		$userid = $this->session->userdata('userid');
 		$result = array("error" => FALSE);
@@ -140,8 +140,6 @@ class PlaylistManager extends Controller {
 			$result["error"] = "User must be logged in to access her playlist.";
 		}
 		else {
-			$playlistid = $this->input->post('playlistid');
-
 			try{
 				if( ! Playlist::removePlaylist($playlistid, $userid)) {
 					$result["error"] = TRUE;
