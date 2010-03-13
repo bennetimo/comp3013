@@ -47,6 +47,7 @@ function setError(error_message)
     error_box.animate({      
       height: '0px'
     });
+    return;
   }
   else if(typeof error_message != "string" ){
     error_message = default_error_msg;
