@@ -42,6 +42,19 @@ var Player = function(playerid) {
     this.playerObj.sendEvent('PLAY');
   };
   
+  this.playPlaylist = function(playlistid) {
+    if(!this.playerObj){
+      setError("The Flash Player is not ready yet. Try again shortly");
+      return;
+    }
+    
+    var src = window.site_url + '/trackmanager/getXMLPlaylist/' + trackid + '/' + albumid + '/.xml';
+    
+    this.playerObj.add;
+    this.playerObj.sendEvent('LOAD', src);
+    this.playerObj.sendEvent('PLAY');
+  };
+  
   this.embedPlayer();
 
 };
