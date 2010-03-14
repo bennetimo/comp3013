@@ -1,16 +1,16 @@
 <? if ($userid != "" || $userid): ?>
-</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
-
 <div id="search_results_box">
 
-    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse;">
+    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
         <tbody>
             <tr>
                 <td class="handle" style="padding: 3px;"></td>
                 <td class="track_name" style="padding: 3px;">Track</td>
+                <td class="track_button_cell" style="padding: 3px;"></td>
                 <td class="track_genres" style="padding: 3px;">Genre</td>
                 <td class="album_name" style="padding: 3px;">Album</td>
-                <td class="track_artists" style="padding: 3px;">Artist</td>
+                <td colspan="2" class="track_artists" style="padding: 3px;">Artist</td>
+                <td colspan="2" class="track_delete" style="padding: 3px;"></td>
             </tr>
         </tbody>
     </table>
@@ -20,6 +20,14 @@
 </div>
 
 <div> <!--  Open the contents padder again to avoid problems -->
+<? else: ?>
+    <div class="page_title">
+        <h3><?= $page_title?></h3>
+    </div>
+
+    <!-- A simple padding div to ensure that all content is padding appropriately, except the page title -->
+<div id="content_padder">
+</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
 <? endif; ?>
 
 <? if ($userid == "" || !$userid): ?>

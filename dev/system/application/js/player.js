@@ -34,7 +34,7 @@ var Player = function(playerid) {
       return;
     }
     
-    var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/a.mp3';
+    var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
     
     this.playerObj.add;
@@ -46,8 +46,7 @@ var Player = function(playerid) {
 
 };
 
-function playerReady(thePlayer) { 
-  alert("player ready");
+function playerReady(thePlayer) {
   player.playerObj = window.document[player.playerid]; 
   player.playerObj.addModelListener("STATE", "stateListener");
 }

@@ -32,8 +32,8 @@ h3 {
 /*Header styles*/
 #header{
 	color:#FFFFFF;
-	padding:5px 0;
-	height: 50px;
+	padding: 5px 0;
+	height: 66px;
 }
 
 #error_box{
@@ -73,23 +73,22 @@ h3 {
 }
 
 /*navigation styles*/
-#navigation
-{
+#navigation {
 	height: 40px;
 	margin-top: 40px;
 	margin-left: -3px;
 	list-style-type: none;
-	
 }
 
-#navigation ul
-{
-	padding:0;
-	
+#navigation ul {
+	padding: 0;
 }
 
-#navigation li 
-{
+#navigation_links {
+    clear: both;
+}
+
+#navigation li {
 	background-color:#000000;
 	/*color:#8dd006;*/
 	list-style:none;
@@ -204,7 +203,7 @@ h3 {
 /* content styles */
 
 #content {
-	margin-left: 270px;
+	margin-left: 247px;
 	margin-top: 0;
 	margin-bottom: 20px;
 	/*background-image:url("../images/background_light_slice2.jpg");*/
