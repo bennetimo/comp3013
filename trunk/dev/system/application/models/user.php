@@ -186,6 +186,47 @@ class User extends Model
 		return $query->first_row()->count;
 	}
 	
+	public function hasRightsToTrack($trackid, $albumid){
+		$CI = &get_instance();
+		//Use this query string to force a user to have to buy a track again if it is in a different album
+		//$queryString = "SELECT `bought` FROM `user_track` WHERE `userid` = ".$CI->db->escape($this->id) ." AND `trackid` = ".$CI->db->escape($trackid) ." AND `albumid` = ".$CI->db->escape(albumid);
+		
+		$queryString = "SELECT `bought` FROM `user_track` WHERE `userid` = ".$CI->db->escape($this->id) ." AND `trackid` = ".$CI->db->escape($trackid);
+		$query = $CI->db->query($queryString);
+		
+		if ($query->num_rows() < 1) {
+			//No records were returned, the user doesn't own the rights to the track
+			return false;
+		}else{
+			//The user has the rights to this track
+			return true;
+		}
+	}
+	
+	public function aquireRightsToTrack($trackid, $albumid){
+		//First get the cost of the track
+		$queryString = "SELECT `cost` FROM `track` WHERE `id` = ".$this->db->escape($trackid);
+		$query = $this->db->query($queryString);
+		$cost = $query->first_row()->cost;
+		
+		///Start the transaction
+		$this->db->trans_start();	
+		//Deduct the credit from the users account
+		$queryString = "UPDATE `user_account` SET `credit` = (`credit` - ".$this->db->escape($cost).")";
+		$query = $this->db->query($queryString);
+		//Assign the rights of the track to the user
+		$queryString = "INSERT INTO `user_track` (`userid`, `albumid`, `trackid`) VALUES (".$this->db->escape($this->id).", ".$this->db->escape($albumid).", ".$this->db->escape($trackid).")";
+		$query = $this->db->query($queryString);
+		$this->db->trans_complete();
+		
+		if ($this->db->trans_status() === FALSE)
+		{
+			//If there was an error with the transaction, return false
+		    return false;
+		}
+		return true;
+	}
+	
 	public function updateEmail($email){
 		$CI = &get_instance();
 		$queryString = "UPDATE `user` SET  `email` = ".$CI->db->escape($email) ." WHERE `id` = ".$CI->db->escape($this->id) .")";
