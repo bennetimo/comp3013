@@ -17,24 +17,32 @@ class TrackManager extends Controller {
 	{
 		$userid = $this->session->userdata('userid');
 
-		if($userid === FALSE) {
-			set_status_header(400);
-			return;
-		}
-
-		$track = Track::load($trackid, $albumid, $userid);
+//		if($userid === FALSE) {
+//			set_status_header(400);
+//			return;
+//		}
+    try{
+			$track = Track::load($trackid, $albumid, $userid);
+    }
+    catch(Exception $e){
+    	echo $e->getMessage();
+    }
 
 		if($track == NULL){
 			set_status_header(400);
 			return;
 		}
-
-		$src = $track->getSrc(); 
-
-		header("Content-Type: audio/mpeg");
-		header('Content-length: ' . filesize($src));
-
-		echo file_get_contents($src);
+		
+		$src = $track->getSrc();
+		$bought = $track->getBoughtTime();	
+		//echo "SRC=$src, BOUGHT=$bought\n\n";
+				
+		if(empty($scr) || empty($bought)) {
+			set_status_header(400);
+      return;
+		}
+	
+		header("Location: $src");
 	}
 
 	function search()

@@ -183,7 +183,7 @@ class PlaylistManager extends Controller {
 	function getXMLPlaylist($playlistid)
 	{
 		$userid = $this->session->userdata('userid');
-		header("Content-Type: application/xspf+xml");
+		//header("Content-Type: application/xspf+xml");
 		try{
 			if($userid !== FALSE && $pl = Playlist::load($playlistid)){
 
