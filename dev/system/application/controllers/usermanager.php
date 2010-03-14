@@ -20,8 +20,9 @@ class UserManager extends Controller {
 		$lname = $_POST['reg_last_name'];
 		$email = $_POST['reg_email'];
 		$password = $_POST['reg_password'];
+		$password2 = $_POST['reg_password2'];
 		
-		if (strlen($fname) < 2 || strlen($lname) < 2) {
+		if(strlen($fname) < 2 || strlen($lname) < 2) {
 			echo json_encode(array('error' => "Please enter your real name."));
 			return;
 		}
@@ -38,6 +39,11 @@ class UserManager extends Controller {
 		
 		if (strlen(trim($password)) < 6) {
 			echo json_encode(array('error' => "Password must be at least 6 characters long."));
+			return;
+		}
+		
+		if (strcmp(trim($password), trim($password2)) != 0) {
+			echo json_encode(array('error' => "The two passwords you entered did not match"));
 			return;
 		}
 		
