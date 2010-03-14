@@ -5,21 +5,45 @@ class TrackManager extends Controller {
 	function TrackManager()
 	{
 		parent::Controller();
+		$this->load->static_model("Track");
 	}
 
 	function index()
 	{
 		echo "TrackManager Controller...";
 	}
+  
+	function play($trackid, $albumid)
+	{
+		$userid = $this->session->userdata('userid');
+		
+		if($userid === FALSE) {
+			set_status_header(400);
+			return;
+		}
+		
+		$track = Track::load($trackid, $albumid, $userid);
+		
+		if($track == NULL){
+			set_status_header(400);
+      return;
+		}
+		$src = "/home/logiusto/Music/blunotte/layla.mp3";//$track->getSrc();
 
+		header("Content-Type: audio/mpeg");
+		header('Content-length: ' . filesize($src));
+
+    echo file_get_contents($src);
+		
+		
+	}
+	
 	function search()
 	{
 		$searchBy = $_POST["search_by"];
 		$term = $_POST["search_term"];
 		$userid = $this->session->userdata('userid');
 		$tracks = array();
-
-		$this->load->static_model("Track");
 
 		try{
 			if ($searchBy == "name") {

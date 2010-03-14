@@ -14,7 +14,8 @@ var Player = function(playerid) {
     var params = {
       allowfullscreen : "true",
       wmode : "opaque",
-      allowscriptaccess : "always"
+      allowscriptaccess : "always",
+      type: "mp3"
     };
     var attributes = {
       id : playerid,
@@ -33,8 +34,10 @@ var Player = function(playerid) {
       return;
     }
     
-    var src = window.site_url + '/trackmanager/get_src/' + trackid + '/' + albumid;
+    var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid;
     src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
+    type
+    this.playerObj.add
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
   };
