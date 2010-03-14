@@ -28,7 +28,35 @@ var Player = function(playerid) {
   };
   
   this.playTrack = function(trackid, albumid){
-    
+	  //Check if the user has already bought the track
+  	$.ajax({
+  		url: site_url + "/accountmanager/ownstrack/" + trackid + "/" + albumid +"",
+  		async: false,
+  		type: "post",
+  		dataType: "json",
+  		data: searchForm.serialize(),
+
+  		success: function(data)
+  		{
+  			if(data['yes']){
+  				//The user has the rights to play this track
+  				actuallyPlayTrack(trackid, albumid);
+  				return;
+  			}else if(data['no']){
+  				//Have the user acquire rights to this track, debiting their account
+  				buyTrack(trackid, albumid);
+  			}
+  			//Otherwise, display any errors
+	    	setError(data.error);
+  		},
+  		
+  		error: function(XMLHttpRequest, textStatus, errorThrown) {
+  			setError(true);
+  		}
+  	});
+  };
+  		  	
+  actuallyPlayTrack = function(trackid, albumid){   
     if(!this.playerObj){
       setError("The Flash Player is not ready yet. Try again shortly");
       return;

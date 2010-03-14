@@ -259,3 +259,28 @@ function redrawTable(searchResultsList)
     $(this).attr("class", className);
   });
 }
+
+buyTrack = function(trackid, albumid){
+	  //Check if the user has already bought the track
+	  	$.ajax({
+	  		url: site_url + "/accountmanager/buytrack/" + trackid + "/" + albumid +"",
+	  		async: false,
+	  		type: "post",
+	  		dataType: "json",
+	  		data: searchForm.serialize(),
+
+	  		success: function(data)
+	  		{
+	  			if(data['bought']){
+	  				setError("Great! The track is yours and will play shortly");
+	  				actuallyPlayTrack(trackid, albumid);
+	  			}
+	  			//Otherwise, display any errors
+		    	setError(data.error);
+	  		},
+	  		
+	  		error: function(XMLHttpRequest, textStatus, errorThrown) {
+	  			setError(true);
+	  		}
+	  	});
+};

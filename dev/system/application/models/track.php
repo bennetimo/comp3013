@@ -207,7 +207,7 @@ class Track extends Model
 
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
     ORDER BY g.`name`, art.name, a.name";
@@ -226,7 +226,7 @@ class Track extends Model
 
 		$query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid`
     ORDER BY art.`name`, a.`name`";
@@ -245,7 +245,7 @@ class Track extends Model
 			
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
-		LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
+		LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`, a.name";
@@ -297,6 +297,25 @@ class Track extends Model
 		
 		return count($track) > 0 ? $track[0] : NULL;
     
+	}
+	
+	public static function loadTrack($trackid){
+		$CI =& get_instance();
+		$queryString = "SELECT `name`, `cost`, `src`, `main_artistid`, `duration` FROM `track` WHERE `id` = ".$CI->db->escape($trackid);
+		$query = $CI->db->query($queryString);
+		
+		if ($query->num_rows() < 1) {
+			throw new Exception("Could not load track object with id: $trackid");
+		}else{
+			$name = $query->first_row()->name;
+			$cost = $query->first_row()->cost;
+			$src = $query->first_row()->src;
+			$main_artistid = $query->first_row()->main_artistid;
+			$duration = $query->first_row()->duration;
+			
+			$track = new Track($trackid, $name, $duration, $cost, $src);
+			return $track;
+		}
 	}
 
 	public static function getNumberOfTracks(){
