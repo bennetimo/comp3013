@@ -273,6 +273,8 @@ buyTrack = function(trackid, albumid){
 	  		{
 	  			if(data['bought']){
 	  				setError("Great! The track is yours and will play shortly");
+	  				//Giacomo/David should add the correct way to refesh the results list here :-)
+	  				searchForm.submit();
 	  				actuallyPlayTrack(trackid, albumid);
 	  			}
 	  			//Otherwise, display any errors
