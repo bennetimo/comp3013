@@ -23,7 +23,7 @@ class Track extends Model
 	public function __construct($trackid = NULL, $name = NULL, $duration = NULL, $cost = NULL, $src = NULL, $bought_time = NULL)
 	{
 		// Call the Model constructor
-    parent::Model();
+		parent::Model();
 
 		$this->trackid = $trackid;
 		$this->name = $name;
@@ -31,7 +31,7 @@ class Track extends Model
 		$this->cost = $cost;
 		$this->src = $src;
 		$this->bought_time = $bought_time;
-		
+
 	}
 
 	public function getBoughtTime()
@@ -174,7 +174,7 @@ class Track extends Model
 
 		return $this->feat_artists;
 	}
-	
+
 	public function &toArray()
 	{
 		$array = array();
@@ -188,12 +188,12 @@ class Track extends Model
 		$array['genres'] = $this->getGenres();
 		$array['album'] = $this->getAlbum()->toArray();
 		$array['main_artist'] = $this->getArtist()->toArray();
-		
+
 		$array['feat_artists'] = array();
 		foreach($this->getFeatArtists() as $art) {
 			$array['feat_artists'][] = $art->toArray();
 		}
-		
+
 		return $array;
 	}
 	/**
@@ -204,7 +204,7 @@ class Track extends Model
 	static function &searchByGenre($genre, $userid = NULL)
 	{
 		$CI = &get_instance();
-		
+
 		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
@@ -214,26 +214,26 @@ class Track extends Model
 
 		return self::getTrackList($query);
 	}
-	
- /**
-   * NOTE: it only search in the main artist
-   * @param string $artist
-   * @return array of Track
-   */
-  static function &searchByArtist($artist, $userid = NULL)
-  {
-    $CI = &get_instance();
-    
-    $query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+
+	/**
+	 * NOTE: it only search in the main artist
+	 * @param string $artist
+	 * @return array of Track
+	 */
+	static function &searchByArtist($artist, $userid = NULL)
+	{
+		$CI = &get_instance();
+
+		$query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
     AND t.id = at.`trackid` AND a.id = at.`albumid`
     ORDER BY art.`name`, a.`name`";
 
-    return self::getTrackList($query);
-  }
-	
+		return self::getTrackList($query);
+	}
+
 	/**
 	 *
 	 * @param string $track_name
@@ -249,11 +249,11 @@ class Track extends Model
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`, a.name";
-		
+
 		return self::getTrackList($query);
 	}
 
-	static function &getTrackList($query)
+	static function &getTrackList($query, $includeAll = TRUE)
 	{
 		$CI = &get_instance();
 		$CI->load->static_model('Artist');
@@ -265,24 +265,45 @@ class Track extends Model
 
 		foreach ($result as $row)	{
 			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src, $row->bought);
-			$artist = new Artist($row->artist_id, $row->artist_name);
-			$album = new Album($row->album_id, $row->album_name);
+				
+			if($includeAll){
+				$artist = new Artist($row->artist_id, $row->artist_name);
+				$album = new Album($row->album_id, $row->album_name);
 
-			$track->setArtist($artist);
-			$track->setAlbum($album);
-
+				$track->setArtist($artist);
+				$track->setAlbum($album);
+			}
 			$tracks[] = $track;
 
 		}
-		
+
 		return $tracks;
 	}
-	
+
+	public static function load($trackid, $albumid, $userid){
+		
+		$CI =& get_instance();
+		$trackid = $CI->db->escape($trackid);
+		$albumid = $CI->db->escape($albumid);
+		$userid = $CI->db->escape($userid);
+		
+		$query = "SELECT t.*, ut.bought
+    FROM `track` t, `album` a, `album_track` at
+    LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = $userid)
+    WHERE t.id = $trackid AND a.id = $albumid
+    AND t.id = at.`trackid` AND a.id = at.`albumid`";
+     
+		$track = self::getTrackList($query, FALSE);
+		
+		return count($track) > 0 ? $track[0] : NULL;
+    
+	}
+
 	public static function getNumberOfTracks(){
 		$CI = &get_instance();
 		$queryString = "SELECT COUNT(`id`) AS 'count' FROM `track`";
 		$query = $CI->db->query($queryString);
-		
+
 		return $query->first_row()->count;
 	}
 }
