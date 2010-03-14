@@ -69,11 +69,7 @@ searchForm.submit(function()
  * Make the playlist list droppable
  * so that I can drop (i.e. add) new tracks to them
  */
-playlistsList.find('tr').droppable({
-  drop: function(event, ui){onDrop(this, event, ui);},
-  hoverClass: 'playlist_hovered',
-  activerClass: 'playlist_dragged'
-});
+makePlDroppable(playlistsList);
 
 var add_pl_form = $('#add_pl_form');
 
@@ -110,7 +106,9 @@ add_pl_form.submit(function(e){
               t+= '<td class="playlist_is_shared">' + (shared ? '*' : '') + '</td>';
               t+= '<td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">X</a></td></tr>';
           
-          playlistsList.append($.template(t).apply(data));      
+          playlistsList.append($.template(t).apply(data));
+          //important: make the newly added pl droppable
+          makePlDroppable(playlistsList);
         }
         setError(data.error);
     },
@@ -126,6 +124,15 @@ window.player.embedPlayer();
 
 //end of document.ready
 });
+
+function makePlDroppable(playlistsList)
+{
+  playlistsList.find('tr').droppable({
+    drop: function(event, ui){onDrop(this, event, ui);},
+    hoverClass: 'playlist_hovered',
+    activerClass: 'playlist_dragged'
+  });
+}
 
 function onDrop(el, event, ui)
 {
