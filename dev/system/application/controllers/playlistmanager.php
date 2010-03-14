@@ -34,7 +34,8 @@ class PlaylistManager extends Controller {
 	function get_tracks($playlistid)
 	{
 		try{
-			$tracks = Playlist::load($playlistid)->getTracks();
+			$userid = $this->session->userdata('userid');
+			$tracks = Playlist::load($playlistid)->getTracks($userid);
 		}
 		catch(Exception $e) {
 			echo json_encode(array("error" => $e->getMessage()));
