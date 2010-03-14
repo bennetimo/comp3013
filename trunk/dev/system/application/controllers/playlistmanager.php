@@ -183,7 +183,7 @@ class PlaylistManager extends Controller {
 	function getXMLPlaylist($playlistid)
 	{
 		$userid = $this->session->userdata('userid');
-		header("Content-Type: text/xml");
+		header("Content-Type: application/xspf+xml");
 		try{
 			if($userid !== FALSE && $pl = Playlist::load($playlistid)){
 
@@ -194,7 +194,7 @@ class PlaylistManager extends Controller {
 				foreach($pl->getTracks($userid) as $track) {
 					$xml .= "<track><title>{$track->getName()}</title>
                   <location>".site_url("trackmanager/play/".$track->getId()."/".$track->getAlbum()->getId()."/.mp3")."</location>
-                  <identifier>{$track->getName()}</identifier>
+                  <identifier>{$track->getId()}</identifier>
                   </track>";
 				}
 
