@@ -48,8 +48,8 @@ var Player = function(playerid) {
       return;
     }
     
-    var src = window.site_url + '/trackmanager/getXMLPlaylist/' +playlistid + '/.xml';
-    
+    var src = window.site_url + '/playlistmanager/getXMLPlaylist/' +playlistid + '/.xml';
+    alert(src)
     this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
