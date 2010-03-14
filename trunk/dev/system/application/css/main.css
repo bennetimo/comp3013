@@ -11,8 +11,12 @@ body {
 
 h3 {
     color: #eeeeee;
-    font-size: 20px;
+    font-size: 16px;
     margin: 9px 0px;
+}
+
+.normal_button {
+    margin: 0px;
 }
 
 /* main container div housing all the content*/
@@ -138,6 +142,10 @@ h3 {
 	margin: 0px auto;
 }
 
+#search_input {
+    width: 150px;
+}
+
 .search_by_label {
     font-size: 12px;
 }
@@ -157,17 +165,40 @@ h3 {
 	text-align: left;
 }
 
-#playlist_section{
-	padding:3px;
-	background-color:#333;
-	color:black;
-	text-align:center;
-	border-top:6px #CC3333 solid;
-	border-bottom:6px #CC3333 solid;
+#playlist_section {
+    color: #ffffff;
 }
 
 #playlist_section .bold_header{
 	padding:10px 0;
+}
+
+#playlists_list {
+    border-collapse: collapse;
+    width: 100%;
+    list-style: none;
+    list-style-type: none;
+    padding: 0px;
+    color: #ffffff;
+    font-size: 13px;
+}
+
+#add_playlist_box {
+    margin-top: 20px;
+}
+
+#add_playlist_table {
+    color: #ffffff;
+    font-size: 13px;
+    border-collapse: collapse;
+}
+
+#add_playlist_table td {
+    padding: 0px 0px 10px 0px;
+}
+
+#pl_name {
+    width: 170px;
 }
 
 /* content styles */
@@ -446,8 +477,8 @@ h3 {
 
 /*General Styles*/
 input{
-	margin-bottom:5px;
-	
+    margin: 0px 5px 0px 0px;
+    vertical-align:middle;
 }
 
 a{
