@@ -12,7 +12,7 @@
 				<td><input type="text" name="reg_first_name"></input></td>
 			</tr>
 			<tr>
-				<td>last Name:</td>
+				<td>Last Name:</td>
 				<td><input type="text" name="reg_last_name"></input></td>
 			</tr>
 			<tr>
@@ -22,6 +22,10 @@
 			<tr>
 				<td>Password:</td>
 				<td><input type="password" name="reg_password"></input></td>
+			</tr>
+			<tr>
+				<td>Confirm Password:</td>
+				<td><input type="password" name="reg_password2"></input></td>
 			</tr>
 			<tr>
 				<td></td>

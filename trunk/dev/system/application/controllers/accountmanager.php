@@ -8,6 +8,11 @@ class AccountManager extends Controller {
 		$this->load->static_model('User');
 	}
 	
+	function index()
+	{
+		echo "account manager controller...";
+	}
+	
 	public function addCredit($ammount){
 		$userid = $this->session->userdata('userid');
 		
@@ -19,5 +24,9 @@ class AccountManager extends Controller {
 		$user = new User($userid);
 		$user->addCredit($ammount);
 		redirect('/main/topup');
+	}
+	
+	public function buyTrack($userid, $trackid){
+		
 	}
 }

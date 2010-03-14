@@ -186,6 +186,12 @@ class User extends Model
 		return $query->first_row()->count;
 	}
 	
+	public function updateEmail($email){
+		$CI = &get_instance();
+		$queryString = "UPDATE `user` SET  `email` = ".$CI->db->escape($email) ." WHERE `id` = ".$CI->db->escape($this->id) .")";
+		$query = $CI->db->query($queryString);
+	}
+	
 	public function getEmail()
 	{
 		return $this->email;

@@ -11,10 +11,13 @@ class Register extends Controller {
 	function index()
 	{
 		$userid = $this->session->userdata('userid');
+		$this->load->static_model('Playlist');
+		$playlists = Playlist::getUsersPlaylists($userid);
 		
 		$data = array(
 			'userid' => $userid,
 		  	'user' => $userid ? new User($userid) : NULL,
+			'playlists' => $playlists,
 			'page_title' => "Register"
 		);
 		
