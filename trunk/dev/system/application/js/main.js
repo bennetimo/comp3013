@@ -103,9 +103,9 @@ add_pl_form.submit(function(e){
               playlist_name : playlist_name
           };
           
-          var t = '<li id="${playlistid}" styele="display:inline;"><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a>';
-              t+= shared ? ' *' : '';
-              t+= ' (<a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">remove</a>)</li>';
+          var t = '<tr id="${playlistid}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
+              t+= '<td>' + (shared ? '*' : '') + '</td>';
+              t+= '<td><a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">X</a></td></tr>';
           
           playlistsList.append($.template(t).apply(data));      
         }

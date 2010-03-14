@@ -2,10 +2,11 @@
 .search_results_table {
     border-collapse: collapse;
     font: 11px Tahoma;
+    width: 100%;
 }
 
 .search_results_table tr {
-    width: 500px;
+    width: 100%;
 }
 
 .search_results_table tr.even {
@@ -24,18 +25,25 @@
 }
 
 .track_name {
-    width: 300px;
 }
 
 .track_genres {
-    width: 100px;
+    width: 60px;
 }
 
 .track_artists {
     width: 100px;
 }
 
+.track_artists div {
+    width: 100px;
+}
+
 .album_name {
+    width: 100px;
+}
+
+.album_name div {
     width: 100px;
 }
 
@@ -61,6 +69,10 @@ tr.newSort {
     height: 13px;
 }
 
+.track_button_cell {
+    width: 13px;       
+}
+
 .play_track {
     display: block;
     background-image: url(../images/button_play.png);
@@ -69,4 +81,8 @@ tr.newSort {
 .buy_track {
     display: block;
     background-image: url(../images/button_buy.png);
+}
+
+.track_delete {
+    width: 10px;
 }
