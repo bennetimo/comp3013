@@ -178,4 +178,32 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($result);
 	}
+
+	function getXMLPlaylist($playlistid)
+	{
+		$userid = $this->session->userdata('userid');
+		header("Content-Type: text/xml");
+
+		if($userid !== FALSE && $pl = Playlist::load($playlistid)){
+				
+				
+			$xml ='<?xml version="1.0" encoding="UTF-8"?><playlist version="1" xmlns="http://xspf.org/ns/0/">';
+			$xml.='<trackList>';
+
+			foreach($pl->getTracks($userid) as $track) {
+				$xml .= "<track><title>{$track->getName()}</title>
+                  <location>".site_url("trackmanager/play/".$track->getId()."/".$track->getAlbum()->getId())."</location>
+                  <identifier>{$track->getName()}</identifier>
+                  </track>";
+			}
+
+			$xml .= '</trackList></playlist>';
+
+			echo $xml;
+			 
+		}
+		else{
+			set_status_header(400);
+		}
+	}
 }

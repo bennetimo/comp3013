@@ -58,15 +58,13 @@ class Playlist extends Model
 		return $this->owner;
 	}
 
-	public function &getTracks($userid = NULL)
+	public function &getTracks($userid)
 	{
 		if($this->id == NULL){
 			throw new Exception("Missing playlist ID when getting playlist's tracks");
 		}
 
-		if($this->tracks == NULL){
-
-			$userid = $userid === NULL ? $this->session->userdata('userid') : $userid;
+		if($this->tracks == NULL){		
 			$this->load->static_model('Track');
 
 			$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
@@ -89,7 +87,7 @@ class Playlist extends Model
 		$query = "SELECT pl.* FROM playlist pl WHERE pl.id = $playlistid LIMIT 1";
 		$result = $CI->db->query($query)->result();
 
-		return new Playlist($result[0]->id, $result[0]->name, $result[0]->shared);
+		return count($result) ? new Playlist($result[0]->id, $result[0]->name, $result[0]->shared) : NULL;
 	}
 	/**
 	 * This method let you re-arrange the order of tracks in the given playlist
@@ -104,32 +102,32 @@ class Playlist extends Model
 	{
 		$CI =& get_instance();
 		$CI->db->trans_start();
-		
+
 		$CI->db->trans_start();
-		
+
 		$result = $CI->db->query("SELECT `play_order` AS old_position FROM `playlist_track` WHERE `playlistid` = ? AND `trackid` = ? AND `albumid` = ?", array($playlistId, $trackId, $albumId))->result();
 		$old_position = $result[0]->old_position;
-		
+
 		if ($nextTrackId == NULL || $nextAlbumId == NULL) {
-			$result = $CI->db->query("SELECT MAX(`play_order`) AS new_position FROM `playlist_track` WHERE `playlistid` = ?", array($playlistId))->result();			
+			$result = $CI->db->query("SELECT MAX(`play_order`) AS new_position FROM `playlist_track` WHERE `playlistid` = ?", array($playlistId))->result();
 		}
 		else {
 			$result = $CI->db->query("SELECT (`play_order` - 1) AS new_position FROM `playlist_track` WHERE `playlistid` = ? AND `trackid` = ? AND `albumid` = ?", array($playlistId, $nextTrackId, $nextAlbumId))->result();
 		}
-	
+
 		$new_position = $result[0]->new_position == 0 ? 1 : $result[0]->new_position;
-		
+
 		if ($old_position > $new_position) {
 			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order + 1 WHERE `playlistid` = ? AND `play_order` >=  ? AND `play_order` < ?", array($playlistId, $new_position, $old_position));
 		}
 		else {
 			$CI->db->query("UPDATE `playlist_track` SET `play_order` = play_order - 1 WHERE `playlistid` = ? AND `play_order` <= ? AND `play_order` > ?", array($playlistId, $new_position, $old_position));
 		}
-		
+
 		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistId, $albumId, $trackId));
-		
+
 		return $CI->db->trans_status();
-		
+
 		return $CI->db->trans_status();
 	}
 
@@ -184,7 +182,7 @@ class Playlist extends Model
 	{
 		$CI =& get_instance();
 		$CI->db->trans_start();
-		
+
 		// add playlist
 		$CI->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
 		$playlistid = $CI->db->insert_id();
