@@ -99,9 +99,9 @@
                 <? foreach ($playlists as $playlist): ?>
                 <tr id="<?=$playlist->getId()?>">
                     <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
-                    <td><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>">p</a></td>
-                    <td><?php if($playlist->isShared()){echo " *";}?></td>
-                    <td><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >X</a></td>
+                    <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>">p</a></td>
+                    <td class="playlist_is_shared"><?php if($playlist->isShared()){echo " *";}?></td>
+                    <td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >X</a></td>
                 </tr>	                
                 <? endforeach; ?>
                     

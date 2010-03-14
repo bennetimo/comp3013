@@ -1,7 +1,19 @@
 <? if ($userid != "" || $userid): ?>
+<div> <!--  Open the contents padder again to avoid problems -->
+
+<? else: ?>
+    <div class="page_title">
+        <h3><?= $page_title?></h3>
+    </div>
+
+    <!-- A simple padding div to ensure that all content is padding appropriately, except the page title -->
+<div id="content_padder">
+</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
+<? endif; ?>
+
 <div id="search_results_box">
 
-    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%; color: black;">
+    <table style="background-color: #212121; font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
         <tbody>
             <tr>
                 <td class="handle" style="padding: 3px;"></td>
@@ -16,18 +28,8 @@
 
     <div id="search_results_container">
     </div>
+    
 </div>
-
-<div> <!--  Open the contents padder again to avoid problems -->
-<? else: ?>
-    <div class="page_title">
-        <h3><?= $page_title?></h3>
-    </div>
-
-    <!-- A simple padding div to ensure that all content is padding appropriately, except the page title -->
-<div id="content_padder">
-</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
-<? endif; ?>
 
 <? if ($userid == "" || !$userid): ?>
 <div id="hideable">

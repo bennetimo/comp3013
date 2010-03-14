@@ -69,8 +69,10 @@ searchForm.submit(function()
  * Make the playlist list droppable
  * so that I can drop (i.e. add) new tracks to them
  */
-playlistsList.find('li').droppable({
-  drop: function(event, ui){onDrop(this, event, ui);}
+playlistsList.find('tr').droppable({
+  drop: function(event, ui){onDrop(this, event, ui);},
+  hoverClass: 'playlist_hovered',
+  activerClass: 'playlist_dragged'
 });
 
 var add_pl_form = $('#add_pl_form');
@@ -104,8 +106,9 @@ add_pl_form.submit(function(e){
           };
           
           var t = '<tr id="${playlistid}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
-              t+= '<td>' + (shared ? '*' : '') + '</td>';
-              t+= '<td><a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">X</a></td></tr>';
+          	  t+= '<td class="playlist_play"></pl>';
+              t+= '<td class="playlist_is_shared">' + (shared ? '*' : '') + '</td>';
+              t+= '<td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">X</a></td></tr>';
           
           playlistsList.append($.template(t).apply(data));      
         }

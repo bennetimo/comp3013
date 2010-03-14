@@ -48,8 +48,8 @@
 }
 
 .group_info {
-    padding: 20px 5px 5px 5px;
-    color: #ffffff;
+    padding: 5px 5px 5px 5px;
+    color: #212121;
     font: bold 14px Tahoma;
 }
 
@@ -85,4 +85,24 @@ tr.newSort {
 
 .track_delete {
     width: 10px;
+}
+
+.playlist_play {
+    width: 5px;
+}
+
+.playlist_is_shared {
+    width: 5px;
+}
+
+.playlist_delete {
+    width: 5px;
+}
+
+.playlist_hovered {
+    color: red !important;
+}
+
+.playlist_dragged {
+    color: green;
 }
