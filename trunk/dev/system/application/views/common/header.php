@@ -69,7 +69,7 @@
 	
 	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
 	<div id="contents_wrapper">	
-	<div id="sidebar">
+	<div id="sidebar" style="position: relative;">
 		<div id="search_bar">
 			<div id="search_box">
 			
@@ -97,7 +97,7 @@
             <table id="playlists_list">
 
                 <? foreach ($playlists as $playlist): ?>
-                <tr id="<?=$playlist->getId()?>">
+                <tr id="<?=$playlist->getId()?>" style="position: relative;">
                     <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
                     <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>">p</a></td>
                     <td class="playlist_is_shared"><?php if($playlist->isShared()){echo " *";}?></td>
