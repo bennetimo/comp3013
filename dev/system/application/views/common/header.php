@@ -75,8 +75,7 @@
 			
                 <h3>Find Music.</h3>
                 <form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
-                    <input type="text" name="search_term"></input>
-                    <input type="submit" class="normal_button" value="search" size="15"></input><br />
+                    <input type="text" id="search_input" name="search_term"></input><input type="submit" class="normal_button" value="search" size="15"></input><br />
                     <span class="search_by_label">search by</span>
                     <input type="radio" name="search_by" value="name" checked="checked" /><span class="search_by_label">name</span>
                     <input type="radio" name="search_by" value="artist" checked="checked" /><span class="search_by_label">artist</span>
@@ -89,35 +88,38 @@
     <? if($userid): ?>
     <div id="playlist_section">
     
-        <h3 class="bold_header">My Playlists</h3>
+        <h3>My Playlists</h3>
         
-            <!-- USER PLAYLISTS SECION -->
+        <!-- USER PLAYLISTS SECION -->
             
-            <?if(!count($playlists)):?><p>You have no playlists yet, create one below!</p><?endif;?>
-            <div id="playlists">
-                <ul id="playlists_list">
-                
-                    <? foreach ($playlists as $playlist): ?>
-                    <li id="<?=$playlist->getId()?>">
-                        <a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a><?php if($playlist->isShared()){echo " *";}?>
-                        (<a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >remove</a>)
-	                </li>
-	              <? endforeach; ?>
-	              
-                </ul>
-            </div>
+        <?if(!count($playlists)):?><p>You have no playlists yet, create one below!</p><?endif;?>
+        <div id="playlists">
+            <table id="playlists_list">
+
+                <? foreach ($playlists as $playlist): ?>
+                <tr id="<?=$playlist->getId()?>">
+                    <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
+                    <td><?php if($playlist->isShared()){echo " *";}?></td>
+                    <td><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >X</a></td>
+                </tr>	                
+                <? endforeach; ?>
+                    
+            </table>
+        </div>
             
-            <!--  ADD NEW PLAYLIST SECTION -->
+        <!--  ADD NEW PLAYLIST SECTION -->
+        
+        <div id="add_playlist_box">
             
-            <a href="#" id="add_pl">Add New Playlist</a>
-            
-            <form id="add_pl_form">
-                <table>
-                    <tr><td>Name</td><td><input type="text" value="playlist name" id="pl_name" /></td></tr>
-                    <tr><td>Share</td><td><input type="checkbox" value="1" id="pl_shared" />&nbsp;&nbsp;&nbsp;<input type="submit" class="normal_button" value="Add" /></td></tr>
-                </table>
-            </form>
-	          
+	        <a href="#" id="add_pl"><h3>Add New Playlist</h3></a>
+	        <form id="add_pl_form">
+	            <table id="add_playlist_table">
+	                <tr><td><input type="text" value="playlist name" id="pl_name" /></td><td><input type="submit" class="normal_button" value="Add" /></td></tr>
+	                <tr><td><input type="checkbox" value="1" id="pl_shared" />shared</td><td></td></tr>
+	            </table>
+	        </form>
+	        
+        </div>
     </div>
     <? endif; ?>
 

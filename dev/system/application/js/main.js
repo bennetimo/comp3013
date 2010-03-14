@@ -26,7 +26,7 @@ loginForm.submit(function()
 			if (data.isValid) {
 				submit = true;
 			}
-			setError(data.isValid);
+			setError(!data.isValid);
 		}
 	});
 	

@@ -56,7 +56,7 @@ $.fn.setResults = function(data, options) {
 		
 		var t = '';
 		t += '<tr id="${rowId}" class="${rowStyle}"><td class="handle">::</td><td><div class="track_name">${trackName}</div></td>';
-		t += '<td><a href="#" class="track_button ${buttonStyle}"></a></td><td><div class="track_genres">${genres}</div></td><td><div class="album_name">${albumName}</div></td>';
+		t += '<td><a href="javascript:player.playTrack(${trackId}, ${albumId})" class="track_button ${buttonStyle}"></a></td><td><div class="track_genres">${genres}</div></td><td><div class="album_name">${albumName}</div></td>';
 		t += '<td><div class="track_artists">${artists}</div></td>';
 		t += (options && options['playlist']) ? '<td><a href="#" class="pl_remove" title="Delete From Playlist">X</a></td>' : '';
 		t += '</tr>';
@@ -65,6 +65,8 @@ $.fn.setResults = function(data, options) {
 			rowId: i,
 			rowStyle: rowStyle,
 			trackName: data[i].name,
+			trackId: data[i].id,
+			albumId: data[i].album.id,
 			genres: genres,
 			albumName: data[i].album.name,
 			artists: artists,
