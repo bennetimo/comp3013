@@ -131,14 +131,5 @@
 
 <!-- The main content div. All content for the pages should go within here, closed in footer -->
 <div id="content">
-
-    <div class="page_title">
-        <h3><?= $page_title?></h3>
-    </div>
-
-    <!-- A simple padding div to ensure that all content is padding appropriately, except the page title -->
-    <div id="content_padder">
-    
-    
-    
+ 
     
