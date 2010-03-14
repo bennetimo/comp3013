@@ -152,7 +152,7 @@ h3 {
 /* sidebar styles */
 
 #sidebar {
-	float: left;
+    float: left;
 	background:none repeat scroll 0 0 #212121;
 	width: 220px;
 	color: #FFFFFF;
