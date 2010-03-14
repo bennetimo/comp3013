@@ -48,7 +48,7 @@ var Player = function(playerid) {
       return;
     }
     
-    var src = window.site_url + '/trackmanager/getXMLPlaylist/' + trackid + '/' + albumid + '/.xml';
+    var src = window.site_url + '/trackmanager/getXMLPlaylist/' +playlistid + '/.xml';
     
     this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
