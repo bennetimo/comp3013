@@ -34,10 +34,10 @@ var Player = function(playerid) {
       return;
     }
     
-    var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid;
-    src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
-    type
-    this.playerObj.add
+    var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/a.mp3';
+    //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
+    
+    this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
   };
