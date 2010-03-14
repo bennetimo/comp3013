@@ -14,8 +14,7 @@ var Player = function(playerid) {
     var params = {
       allowfullscreen : "true",
       wmode : "opaque",
-      allowscriptaccess : "always",
-      type: "mp3"
+      allowscriptaccess : "always"
     };
     var attributes = {
       id : playerid,
@@ -96,5 +95,5 @@ function stateListener(stateObj){
   currentState = stateObj.newstate; 
   previousState = stateObj.oldstate;
 
-  //alert(currentState +" - "+ previousState);
+  alert(previousState +" -> "+ currentState);
 }
