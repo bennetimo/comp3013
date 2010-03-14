@@ -119,6 +119,7 @@ return false;
 });
 
 window.player = new Player("ply");
+window.player.embedPlayer();
 
 //end of document.ready
 });
@@ -267,7 +268,6 @@ buyTrack = function(trackid, albumid){
 	  		async: false,
 	  		type: "post",
 	  		dataType: "json",
-	  		data: searchForm.serialize(),
 
 	  		success: function(data)
 	  		{

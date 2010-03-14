@@ -34,7 +34,6 @@ var Player = function(playerid) {
   		async: false,
   		type: "post",
   		dataType: "json",
-  		data: searchForm.serialize(),
 
   		success: function(data)
   		{
