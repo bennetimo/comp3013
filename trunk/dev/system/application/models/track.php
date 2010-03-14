@@ -205,7 +205,7 @@ class Track extends Model
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
     LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
@@ -224,7 +224,7 @@ class Track extends Model
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+		$query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
     LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
     WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
@@ -243,12 +243,26 @@ class Track extends Model
 	{
 		$CI = &get_instance();
 			
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
 		LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY t.`name`, a.name";
+
+		return self::getTrackList($query);
+	}
+
+	public static function &getUserCollection($userid)
+	{
+		$CI = &get_instance();
+
+		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
+    FROM `track` t, `artist` art,`album` a, `album_track` at 
+    WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
+    t.main_artistid = art.id
+    AND t.id = at.`trackid` AND a.id = at.`albumid` 
+    ORDER BY t.`name`, a.name";
 
 		return self::getTrackList($query);
 	}
@@ -264,8 +278,8 @@ class Track extends Model
 		$tracks = array();
 
 		foreach ($result as $row)	{
-			$track = new Track($row->id, $row->name, $row->duration, $row->cost, $row->src, $row->bought);
-				
+			$track = new Track($row->id, $row->name, $row->duration, $row->cost, isset($row->src) ? $row->src : NULL, $row->bought);
+
 			if($includeAll){
 				$artist = new Artist($row->artist_id, $row->artist_name);
 				$album = new Album($row->album_id, $row->album_name);
@@ -281,29 +295,29 @@ class Track extends Model
 	}
 
 	public static function load($trackid, $albumid, $userid){
-		
+
 		$CI =& get_instance();
 		$trackid = $CI->db->escape($trackid);
 		$albumid = $CI->db->escape($albumid);
 		$userid = $CI->db->escape($userid);
-		
+
 		$query = "SELECT t.*, ut.bought
     FROM `track` t, `album` a, `album_track` at
     LEFT JOIN `user_track` ut ON(ut.albumid = at.albumid AND ut.trackid = at.trackid AND ut.userid = $userid)
     WHERE t.id = $trackid AND a.id = $albumid
     AND t.id = at.`trackid` AND a.id = at.`albumid`";
-     
+		 
 		$track = self::getTrackList($query, FALSE);
-		
+
 		return count($track) > 0 ? $track[0] : NULL;
-    
+
 	}
-	
+
 	public static function loadTrack($trackid){
 		$CI =& get_instance();
 		$queryString = "SELECT `name`, `cost`, `src`, `main_artistid`, `duration` FROM `track` WHERE `id` = ".$CI->db->escape($trackid);
 		$query = $CI->db->query($queryString);
-		
+
 		if ($query->num_rows() < 1) {
 			throw new Exception("Could not load track object with id: $trackid");
 		}else{
@@ -312,7 +326,7 @@ class Track extends Model
 			$src = $query->first_row()->src;
 			$main_artistid = $query->first_row()->main_artistid;
 			$duration = $query->first_row()->duration;
-			
+				
 			$track = new Track($trackid, $name, $duration, $cost, $src);
 			return $track;
 		}
