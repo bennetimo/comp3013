@@ -54,7 +54,7 @@ var Player = function(playerid) {
   	});
   };
   		  	
-  actuallyPlayTrack = function(trackid, albumid){   
+  this.actuallyPlayTrack = function(trackid, albumid){   
     if(!this.playerObj){
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
@@ -62,7 +62,7 @@ var Player = function(playerid) {
     
     var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
-    
+    alert(src)
     this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
