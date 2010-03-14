@@ -252,7 +252,7 @@ class CI_DB_driver {
 			}
 			return FALSE;
 		}
-
+		
 		// Verify table prefix and replace if necessary
 		if ( ($this->dbprefix != '' AND $this->swap_pre != '') AND ($this->dbprefix != $this->swap_pre) )
 		{			
@@ -279,7 +279,7 @@ class CI_DB_driver {
 		{
 			$sql = $this->compile_binds($sql, $binds);
 		}
-
+    //echo "/*$sql*/\n";
 		// Save the  query for debugging
 		if ($this->save_queries == TRUE)
 		{

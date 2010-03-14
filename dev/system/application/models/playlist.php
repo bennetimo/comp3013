@@ -103,7 +103,7 @@ class Playlist extends Model
 		$CI =& get_instance();
 		$CI->db->trans_start();
 
-		$CI->db->trans_start();
+		//$CI->db->trans_start();
 
 		$result = $CI->db->query("SELECT `play_order` AS old_position FROM `playlist_track` WHERE `playlistid` = ? AND `trackid` = ? AND `albumid` = ?", array($playlistId, $trackId, $albumId))->result();
 		$old_position = $result[0]->old_position;
@@ -126,9 +126,7 @@ class Playlist extends Model
 
 		$CI->db->query("UPDATE `playlist_track` SET `play_order` = ? WHERE `playlistid` = ? AND `albumid` = ? AND `trackid` = ?", array($new_position, $playlistId, $albumId, $trackId));
 
-		return $CI->db->trans_status();
-
-		return $CI->db->trans_status();
+		return TRUE;//$CI->db->trans_status();
 	}
 
 	public static function addTracks(array $trackids, array $albumids, array $play_orders, $playlistid)
