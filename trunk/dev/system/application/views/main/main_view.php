@@ -1,16 +1,15 @@
 <? if ($userid != "" || $userid): ?>
 <div id="search_results_box">
 
-    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
+    <table style="font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%; color: black;">
         <tbody>
             <tr>
                 <td class="handle" style="padding: 3px;"></td>
                 <td class="track_name" style="padding: 3px;">Track</td>
-                <td class="track_button_cell" style="padding: 3px;"></td>
-                <td class="track_genres" style="padding: 3px;">Genre</td>
-                <td class="album_name" style="padding: 3px;">Album</td>
-                <td colspan="2" class="track_artists" style="padding: 3px;">Artist</td>
-                <td colspan="2" class="track_delete" style="padding: 3px;"></td>
+                <td class="track_genres" style="padding: 3px;">Genres</td>
+                <td class="album_name" style="padding: 3px;">Artist</td>
+                <td class="track_artists" style="padding: 3px;">Artist</td>
+                <td class="track_delete" style="padding: 3px;"></td>
             </tr>
         </tbody>
     </table>
