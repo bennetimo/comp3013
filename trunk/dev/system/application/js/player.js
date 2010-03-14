@@ -28,17 +28,18 @@ var Player = function(playerid) {
   
   this.playTrack = function(trackid, albumid){
 	  //Check if the user has already bought the track
-  	$.ajax({
+    var player = this;
+    $.ajax({
   		url: site_url + "/accountmanager/ownstrack/" + trackid + "/" + albumid +"",
   		async: false,
   		type: "post",
   		dataType: "json",
-
+  		
   		success: function(data)
   		{
   			if(data['yes']){
   				//The user has the rights to play this track
-  				actuallyPlayTrack(trackid, albumid);
+  				player.actuallyPlayTrack(trackid, albumid);
   				return;
   			}else if(data['no']){
   				//Have the user acquire rights to this track, debiting their account
