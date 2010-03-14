@@ -69,7 +69,7 @@ class Playlist extends Model
 
 			$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at, `playlist_track` pt
-    LEFT JOIN `user_track` ut ON(ut.albumid = pt.albumid AND ut.trackid = ut.trackid AND ut.userid = ".$this->db->escape($userid).")
+    LEFT JOIN `user_track` ut ON(ut.trackid = ut.trackid AND ut.userid = ".$this->db->escape($userid).")
     WHERE pt.playlistid = ".$this->db->escape($this->id)." AND pt.albumid = a.id AND pt.trackid = t.id   
     AND t.main_artistid = art.id AND t.id = at.`trackid` AND a.id = at.`albumid` ORDER BY pt.`play_order`";
 
