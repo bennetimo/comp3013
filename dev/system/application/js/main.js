@@ -196,6 +196,30 @@ function updatePlaylistBinding(playlistid)
   ); 
 }
 
+function loadUserCollection()
+{
+  $.ajax({
+    url: site_url + "/trackmanager/getUserCollection",
+    async: true,
+    dataType: "json",
+    
+    success: function(data) {
+      setError(data.error);
+      
+      if(!data['error']){
+        searchResultsContainer.setResults(data);          
+        searchResultsContainer.find("tr").draggable({
+          revert : true,
+          revertDuration : 0,
+          handle : ".handle",
+          opacity : 0.6,
+          helper : "clone"
+        });
+      }
+    }
+  });
+}
+
 function loadPlaylist(playlistid)
 {
   var playlistid = playlistid;

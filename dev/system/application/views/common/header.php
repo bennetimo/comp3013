@@ -57,7 +57,7 @@
 					<li><a href="<?=site_url('main')?>">Home</a></li>
 					<li><a href="<?=site_url('search')?>">Search</a></li>
 					<li><a href="<?=site_url('main/account')?>">My Account</a></li>
-					<li><a href="<?=site_url('main')?>">My Music</a></li>
+					<li><a href="javascript:loadUserCollection()">My Music</a></li>
 					<li><a href="<?=site_url('register')?>">Sign up!</a></li>
 				</ul>
 			</div>
