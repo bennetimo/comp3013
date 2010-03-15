@@ -117,6 +117,6 @@
 	
 
 <!-- The main content div. All content for the pages should go within here, closed in footer -->
-<div id= <?=(isset($dark)? "\"content_dark\"":"\"content\"")?> >
+<div id= <?=(isset($dark) && $userid? "\"content_dark\"":"\"content\"")?> >
  
     
