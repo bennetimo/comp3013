@@ -13,6 +13,35 @@ class PlaylistManager extends Controller {
 		echo "playlist controller...";
 	}
 
+	function import($playlistid)
+	{
+		$userid = $this->session->userdata('userid');
+		$result = array("error" => FALSE);
+
+		try{
+			if (!$userid) {
+				throw new Exception("User must be logged in to access her playlist.");
+			}
+
+			$playlist = Playlist::load($playlistid);
+
+			if($playlist == NULL) {
+				throw new Exception("Sorry, playlist not found");
+			}
+
+			$playlist->shareTo($userid);
+			
+			$result['imported_pl'] = $playlist->toArray();
+
+		}
+		catch(Exception $e) {
+			$result['error'] = $e->getMEssage();
+		}
+    
+		echo json_encode($result);
+
+	}
+
 	function get_user_playlists()
 	{
 		$userid = $this->session->userdata('userid');
@@ -133,28 +162,28 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($result);
 	}
-	
-//	function search($term)
-//	{
-//		$userid = $this->session->userdata('userid');
-//    $result = array("error" => FALSE, "playlists" => array());
-//    
-//    try{
-//    	$pls = Playlist::searchByName($term, NULL, TRUE);
-//    }
-//    catch(Exception $e){
-//    	$result["error"] = $e->getMessage();
-//    	echo json_encode($result);
-//    	return;
-//    }
-//    
-//    foreach($pls as $pl) {
-//    	$result["playlists"][] = $pl->toArray();
-//    }
-//    
-//    echo json_encode($result);
-//	}
-	
+
+	//	function search($term)
+	//	{
+	//		$userid = $this->session->userdata('userid');
+	//    $result = array("error" => FALSE, "playlists" => array());
+	//
+	//    try{
+	//    	$pls = Playlist::searchByName($term, NULL, TRUE);
+	//    }
+	//    catch(Exception $e){
+	//    	$result["error"] = $e->getMessage();
+	//    	echo json_encode($result);
+	//    	return;
+	//    }
+	//
+	//    foreach($pls as $pl) {
+	//    	$result["playlists"][] = $pl->toArray();
+	//    }
+	//
+	//    echo json_encode($result);
+	//	}
+
 	function remove_playlist($playlistid)
 	{
 		$userid = $this->session->userdata('userid');
