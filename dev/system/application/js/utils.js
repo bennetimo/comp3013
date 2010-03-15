@@ -51,6 +51,7 @@ $.fn.setResults = function(data, options) {
 		var rowStyle = styles[i % 2];
 		var genres = data[i].genres.length > 0 ? data[i].genres[0].name : "";
 		var artists = data[i].main_artist.name;
+		var price = "&pound;" + data[i].cost;
 		
 		for (var j = 1; j < data[i].genres.length; j++) {
 			genres += ", " + data[i].genres[j].name;
@@ -81,7 +82,8 @@ $.fn.setResults = function(data, options) {
 			genres: genres,
 			albumName: data[i].album.name,
 			artists: artists,
-			buttonStyle: data[i].bought_time === null ? "buy_track" : "play_track"
+			buttonStyle: data[i].bought_time === null ? "buy_track" : "play_track",
+			price: price
 		};
 		
 		if (options && options["playlist"]) {
