@@ -14,7 +14,7 @@
 }
 
 .search_results_table tr.odd {
-    background-color: #444444;
+    background-color: #555555;
 }
 
 .search_results_table td {
@@ -85,11 +85,15 @@ tr.newSort {
 .play_track {
     display: block;
     background-image: url(../images/button_play.png);
+    background-repeat: no-repeat;
+    background-position: 0px;
 }
 
 .buy_track {
     display: block;
     background-image: url(../images/button_buy.png);
+    background-repeat: no-repeat;
+    background-position: 0px;
 }
 
 .track_delete {
@@ -98,10 +102,17 @@ tr.newSort {
 
 .playlist_play {
     width: 5px;
+    padding-right: 5px;
 }
 
 .playlist_is_shared {
-    width: 5px;
+    width: 10px;
+}
+
+.shared {
+    background-image: url(../images/icon_shared.png);
+    background-repeat: no-repeat;
+    background-position: 0px;
 }
 
 .playlist_delete {

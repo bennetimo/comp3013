@@ -341,5 +341,9 @@ function setTracksListHeaderDisplay(show) {
 		$(".welcome_text").show();
 	}
 }
+
+function setButtonPlaying(rowId) {
 	
+	$("#search_results_container").find("#" + rowId).find("img").attr("src", base_url + "asd");
+}
 	
