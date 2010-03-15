@@ -260,10 +260,11 @@ class Playlist extends Model
 	{
 		$CI = &get_instance();
 		$result = array();
+		$userid = $CI->db->escape($userid);
 
-		$query = "SELECT p.*, u.id AS in_user_playlists FROM `playlist` p, `playlist_user` pu LEFT JOIN `user` u ON (pu.userid = u.id)
-		WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'	AND (p.shared OR p.ownerid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
-
+		$query = "SELECT p.*, (pu.userid OR p.ownerid = $userid) AS in_user_playlists FROM `playlist` p  LEFT JOIN `playlist_user` pu ON (pu.playlistid = p.id)
+    WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'  AND (p.shared OR p.ownerid = $userid) AND pu.playlistid = p.id GROUP BY p.id";
+    
 		foreach($CI->db->query($query)->result() as $p) {
 			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid, $p->in_user_playlists != NULL);
 		}
@@ -287,4 +288,29 @@ class Playlist extends Model
 
 		return $result;
 	}
+	/**
+	 *
+	 * @param $playlistid the playlist we want
+	 * @param $userid
+	 */
+	public function shareTo($userid)
+	{
+		if($this->getOwnerId() == $userid){
+			throw new Exception("Playlist is owned by the user");
+		}
+
+		if(!$this->isShared()){
+			throw new Exception("Cannot import playlist: it's not shared!");
+		}
+
+		$query = "INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES(?, ?)";
+		
+		try{
+			$this->db->query($query, array($this->getId(), $userid));
+		}
+		catch(Exception $e) {
+			throw new Exception("Playlist is already in user playlists");
+		}
+	}
+
 }
