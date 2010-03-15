@@ -315,7 +315,7 @@ buyTrack = function(trackid, albumid){
 	  		success: function(data)
 	  		{
 	  			if(data['bought']){
-	  				setError("Great! The track is yours and will play shortly");
+	  				setNotification("Great! The track is yours and will play shortly...");
 	  				//Giacomo/David should add the correct way to refesh the results list here :-)
 	  				searchForm.submit();
 	  				player.actuallyPlayTrack(trackid, albumid);

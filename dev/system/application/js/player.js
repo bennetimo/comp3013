@@ -63,7 +63,7 @@ var Player = function(playerid) {
     
     var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
-    alert(src)
+    //alert(src)
     this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
@@ -76,7 +76,7 @@ var Player = function(playerid) {
     }
     
     var src = window.site_url + '/playlistmanager/getXMLPlaylist/' +playlistid + '/.xml';
-    alert(src)
+    //alert(src)
     this.playerObj.add;
     this.playerObj.sendEvent('LOAD', src);
     this.playerObj.sendEvent('PLAY');
@@ -96,5 +96,5 @@ function stateListener(stateObj){
   currentState = stateObj.newstate; 
   previousState = stateObj.oldstate;
 
-  alert(previousState +" -> "+ currentState);
+  //alert(previousState +" -> "+ currentState);
 }

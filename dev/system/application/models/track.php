@@ -98,8 +98,8 @@ class Track extends Model
 		if($this->trackid == NULL){
 			throw new Exception("Missing track ID when requesting track's cost");
 		}
-
-		return sprintf("%01.2f", ($this->cost/100));
+		
+		return $this->cost;
 	}
 
 	public function getSrc()
