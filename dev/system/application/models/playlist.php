@@ -205,7 +205,7 @@ class Playlist extends Model
 		//$CI->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
 		//$CI->db->trans_complete();
 			
-		return new Playlist($playlistid, $name, $is_shared, $userid);
+		return new Playlist($playlistid, $name, $is_shared, $ownerid);
 			
 	}
 
@@ -279,7 +279,7 @@ class Playlist extends Model
 		$userid = $CI->db->escape($userid);
 
 		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p , `playlist_user` pu  WHERE
-     (p.ownerid = $userid OR pu.userid = $userid)  GROUP BY p.id";
+     (p.ownerid = $userid OR (pu.userid = $userid AND pu.playlistid = p.id))  GROUP BY p.id";
 
 		foreach($CI->db->query($query)->result() as $p) {
 			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid);
