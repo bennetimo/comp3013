@@ -21,29 +21,36 @@ class TrackManager extends Controller {
 			set_status_header(400);
 			return;
 		}
-    try{
+		try{
 			$track = Track::load($trackid, $albumid, $userid);
-    }
-    catch(Exception $e){
-    	echo $e->getMessage();
-    }
+		}
+		catch(Exception $e){
+			echo $e->getMessage();
+		}
 
 		if($track == NULL){
 			set_status_header(400);
 			return;
 		}
-		
+
 		$src = $track->getSrc();
-		$bought = $track->getBoughtTime();	
+		$bought = $track->getBoughtTime();
 		//echo "SRC=$src, BOUGHT=$bought\n\n";
-				
+
 		if(empty($src)|| empty($bought)) {
 			set_status_header(400);
-      return;
+			return;
 
 		}
+		if(preg_match('/^(http)(s)?/', $src)){
+			header("Location: $src");
+		}
+		else {
+			header("Content-Type: audio/mpeg");
+			header('Content-length: ' . filesize($src));
 
-		header("Location: $src");
+			print file_get_contents($src);
+		}
 	}
 
 	function search()
@@ -81,32 +88,32 @@ class TrackManager extends Controller {
 
 		echo json_encode($newTracks);
 	}
-	
+
 	function getUserCollection()
 	{
 		$userid = $this->session->userdata('userid');
-    $result_tracks = array();
-    
-    if(! $userid) {
-    	echo json_encode(array("error" => "User must be logged in to access her playlist."));
-    	return;
-    }
-    
-    try{
-    	$tracks = Track::getUserCollection($userid);
-    }
-    catch(Exception $e) {
-    	echo json_encode(array("error" => "User must be logged in to access her playlist."));
-      return;
-    }
+		$result_tracks = array();
 
-    foreach ($tracks as $track) {
+		if(! $userid) {
+			echo json_encode(array("error" => "User must be logged in to access her playlist."));
+			return;
+		}
 
-      $result_tracks[] = $track->toArray();
-    }
+		try{
+			$tracks = Track::getUserCollection($userid);
+		}
+		catch(Exception $e) {
+			echo json_encode(array("error" => "User must be logged in to access her playlist."));
+			return;
+		}
 
-    echo json_encode($result_tracks);
-     
+		foreach ($tracks as $track) {
+
+			$result_tracks[] = $track->toArray();
+		}
+
+		echo json_encode($result_tracks);
+		 
 	}
 }
 
