@@ -262,7 +262,7 @@ class Track extends Model
     WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
     t.main_artistid = art.id
     AND t.id = at.`trackid` AND a.id = at.`albumid` 
-    ORDER BY t.`name`, a.name";
+    ORDER BY t.`name`, art.name, a.name";
 
 		return self::getTrackList($query);
 	}
@@ -313,7 +313,7 @@ class Track extends Model
 
 	}
 
-	public static function loadTrack($trackid){
+	public static function &loadTrack($trackid){
 		$CI =& get_instance();
 		$queryString = "SELECT `name`, `cost`, `src`, `main_artistid`, `duration` FROM `track` WHERE `id` = ".$CI->db->escape($trackid);
 		$query = $CI->db->query($queryString);

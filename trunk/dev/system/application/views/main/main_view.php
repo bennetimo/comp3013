@@ -19,7 +19,7 @@
                 <td class="handle" style="padding: 3px;"></td>
                 <td class="track_name" style="padding: 3px;">Track</td>
                 <td class="track_genres" style="padding: 3px;">Genres</td>
-                <td class="album_name" style="padding: 3px;">Artist</td>
+                <td class="album_name" style="padding: 3px;">Album</td>
                 <td class="track_artists" style="padding: 3px;">Artist</td>
                 <td class="track_delete" style="padding: 3px;"></td>
             </tr>
