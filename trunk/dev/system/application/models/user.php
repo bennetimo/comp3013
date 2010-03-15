@@ -258,4 +258,9 @@ class User extends Model
 		return $this->credit;
 	}
 	
+	public function getId()
+	{
+		return $this->id;
+	}
+	
 }

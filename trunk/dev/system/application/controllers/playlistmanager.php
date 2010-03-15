@@ -131,7 +131,28 @@ class PlaylistManager extends Controller {
 
 		echo json_encode($result);
 	}
-
+	
+//	function search($term)
+//	{
+//		$userid = $this->session->userdata('userid');
+//    $result = array("error" => FALSE, "playlists" => array());
+//    
+//    try{
+//    	$pls = Playlist::searchByName($term, NULL, TRUE);
+//    }
+//    catch(Exception $e){
+//    	$result["error"] = $e->getMessage();
+//    	echo json_encode($result);
+//    	return;
+//    }
+//    
+//    foreach($pls as $pl) {
+//    	$result["playlists"][] = $pl->toArray();
+//    }
+//    
+//    echo json_encode($result);
+//	}
+	
 	function remove_playlist($playlistid)
 	{
 		$userid = $this->session->userdata('userid');

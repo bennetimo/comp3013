@@ -80,6 +80,7 @@
                     <input type="radio" name="search_by" value="name" checked="checked" /><span class="search_by_label">name</span>
                     <input type="radio" name="search_by" value="artist" checked="checked" /><span class="search_by_label">artist</span>
                     <input type="radio" name="search_by" value="genre" /><span class="search_by_label">genre</span>
+                    <input type="radio" name="search_by" value="playlist" /><span class="search_by_label">playlist</span>
                 </form>
                 
             </div>
@@ -89,6 +90,7 @@
     <div id="playlist_section">
     
         <h3>My Playlists</h3>
+
         
         <!-- USER PLAYLISTS SECION -->
             

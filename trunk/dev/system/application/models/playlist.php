@@ -24,7 +24,7 @@ class Playlist extends Model
 	{
 		return $this->id;
 	}
-
+	
 	public function getName()
 	{
 		if($this->id == NULL){
@@ -64,7 +64,7 @@ class Playlist extends Model
 			throw new Exception("Missing playlist ID when getting playlist's tracks");
 		}
 
-		if($this->tracks == NULL){		
+		if($this->tracks == NULL){
 			$this->load->static_model('Track');
 
 			$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
@@ -210,11 +210,13 @@ class Playlist extends Model
 		return self::removePlaylist($this->id, $this->userid);
 	}
 
-	public static function toArray($withTracks = TRUE)
+	public function toArray($withTracks = TRUE)
 	{
 		$array = array();
 		$array['id'] = $this->getId();
 		$array['name'] = $this->getName();
+		$array['user_name'] = $this->getOwner()->getFName();
+		$array['user_id'] = $this->getOwner()->getId();
 
 		if ($withTracks) {
 			// TODO.
@@ -228,15 +230,21 @@ class Playlist extends Model
 	 * @param Playlist's name string $pl_name
 	 * @return array<Playlist>
 	 */
-	public static function &searchByName($pl_name, $userid = NULL)
+	public static function &searchByName($pl_name, $userid = NULL, $include_own = FALSE)
 	{
 		$CI = &get_instance();
 		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 		$result = array();
 
-		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p, `playlist_user` pu WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'
-		AND (p.shared OR pu.userid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
-
+		if($include_own){
+			$include_user_pl = "OR pu.userid = ".$CI->db->escape($userid);
+		}
+		else {
+			$include_user_pl = "AND pu.userid != ".$CI->db->escape($userid);
+		}
+		$query = "SELECT p.*, pu.userid AS `userid` FROM `playlist` p, `playlist_user` pu, `user` u WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'
+		AND (p.shared $include_user_pl) AND pu.playlistid = p.id GROUP BY p.id";
+		
 		foreach($CI->db->query($query)->result() as $p) {
 			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid);
 		}
