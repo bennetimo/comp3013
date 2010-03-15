@@ -24,7 +24,7 @@ class Main extends Controller {
 		
 		$data = array(
 			'userid' => $userid,
-		  	'user' => $user,
+		  'user' => $user,
 			'playlists' => $playlists,
 			'page_title' => "Welcome.",
 			'dark' => TRUE
