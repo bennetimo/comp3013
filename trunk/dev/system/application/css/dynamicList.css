@@ -99,10 +99,6 @@ tr.newSort {
     width: 5px;
 }
 
-.playlist_hovered {
-    color: red !important;
-}
-
-.playlist_dragged {
-    color: green;
+.ui-playlist-hovered {
+    background-color: #666666;
 }

@@ -135,8 +135,8 @@ function makePlDroppable(playlistsList)
 {
   playlistsList.find('tr').droppable({
     drop: function(event, ui){onDrop(this, event, ui);},
-    hoverClass: 'playlist_hovered',
-    activerClass: 'playlist_dragged'
+    hoverClass: 'ui-playlist-hovered',
+    tolerance: 'pointer'
   });
 }
 

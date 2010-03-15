@@ -54,9 +54,10 @@ h3 {
 }
 
 /*Logo styles*/
-#logo{
+#logo_box {
 	float:left;
     padding-left: 10px;
+    border: 0px;
 }
 
 /*Blurb Styles*/
