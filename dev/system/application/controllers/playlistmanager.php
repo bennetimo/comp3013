@@ -25,7 +25,9 @@ class PlaylistManager extends Controller {
 		$newPlaylists = array();
 
 		foreach ($playlists as $playlist) {
-			$newPlaylists[] = $playlist->toArray(FALSE);
+			$pl = $playlist->toArray(FALSE);
+			$pl['read_only'] = $userid != $playlist->getOwnerId();
+			$newPlaylists[] = $pl;
 		}
 
 		echo json_encode($newPlaylists);

@@ -4,7 +4,7 @@ class Playlist extends Model
 	private $id;
 	private $name;
 	private $shared;
-	private $userid;
+	private $ownerid;
 	// is this playlist in the user playlists collection
 	private $in_user_playlists = FALSE;
 	// type User
@@ -12,14 +12,14 @@ class Playlist extends Model
 	// type Track
 	private $tracks;
 
-	public function __construct($id = NULL, $name = NULL, $shared = NULL, $userid = NULL, $in_user_playlists = FALSE)
+	public function __construct($id = NULL, $name = NULL, $shared = NULL, $ownerid = NULL, $in_user_playlists = FALSE)
 	{
 		parent::Model();
 
 		$this->id = $id;
 		$this->name = $name;
 		$this->shared = $shared;
-		$this->userid = $userid;
+		$this->ownerid = $ownerid;
 		$this->in_user_playlists = $in_user_playlists;
 	}
 
@@ -60,10 +60,19 @@ class Playlist extends Model
 		$this->load->static_model('User');
 
 		if($this->owner == NULL) {
-			$this->owner = new User($this->userid);
+			$this->owner = new User($this->ownerid);
 		}
 
 		return $this->owner;
+	}
+
+	public function getOwnerId()
+	{
+		if($this->id == NULL){
+			throw new Exception("Missing playlist ID when getting playlist's owner");
+		}
+
+		return $this->ownerid;
 	}
 
 	public function &getTracks($userid)
@@ -95,7 +104,7 @@ class Playlist extends Model
 		$query = "SELECT pl.* FROM playlist pl WHERE pl.id = $playlistid LIMIT 1";
 		$result = $CI->db->query($query)->result();
 
-		return count($result) ? new Playlist($result[0]->id, $result[0]->name, $result[0]->shared) : NULL;
+		return count($result) ? new Playlist($result[0]->id, $result[0]->name, $result[0]->shared, $result[0]->ownerid) : NULL;
 	}
 	/**
 	 * This method let you re-arrange the order of tracks in the given playlist
@@ -184,20 +193,19 @@ class Playlist extends Model
 		return $CI->db->trans_status();
 	}
 
-	public static function addPlaylist($name, $userid, $is_shared)
+	public static function addPlaylist($name, $ownerid, $is_shared)
 	{
 		$CI =& get_instance();
-		$CI->db->trans_start();
+		//$CI->db->trans_start();
 
 		// add playlist
-		$CI->db->query("INSERT INTO `playlist` (`name`, `shared`) VALUES (?, ?)", array($name, $is_shared));
+		$CI->db->query("INSERT INTO `playlist` (`name`, `ownerid`, `shared`) VALUES (?, ?, ?)", array($name, $ownerid, $is_shared));
 		$playlistid = $CI->db->insert_id();
 		// add user -> playlist relation
-		$CI->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
+		//$CI->db->query("INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES (?, ?)", array($playlistid, $userid));
+		//$CI->db->trans_complete();
 			
-		$CI->db->trans_complete();
-			
-		return $CI->db->trans_status() ? new Playlist($playlistid, $name, $is_shared, $userid) : FALSE;
+		return new Playlist($playlistid, $name, $is_shared, $userid);
 			
 	}
 
@@ -206,9 +214,18 @@ class Playlist extends Model
 		$CI =& get_instance();
 		//$CI->db->trans_start();
 
-		$CI->db->query("DELETE FROM `playlist` WHERE `id` = ?", array($playlistid));
-		$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
-		$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?", array($playlistid));
+		$result = $CI->db->query("SELECT `ownerid` FROM `playlist` WHERE `id` = ?", array($playlistid))->result();
+
+		if( ! count($result)) {
+			throw new Exception("Playlist $playlistid not found");
+		}
+
+		$CI->db->query("DELETE FROM `playlist` WHERE `id` = ? AND `ownerid`", array($playlistid, $userid));
+		$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ?", array($playlistid));
+
+		if($userid == $result[0]->ownerid) {
+			$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?", array($playlistid));
+		}
 
 		return TRUE; //$CI->db->trans_status();
 	}
@@ -259,11 +276,13 @@ class Playlist extends Model
 		$CI = &get_instance();
 		$result = array();
 
-		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p, `playlist_user` pu WHERE
-		pu.userid = ".$CI->db->escape($userid)." AND pu.playlistid = p.id GROUP BY p.id";
+		$userid = $CI->db->escape($userid);
+
+		$query = "SELECT p.*, pu.userid AS userid FROM `playlist` p , `playlist_user` pu  WHERE
+     (p.ownerid = $userid OR pu.userid = $userid)  GROUP BY p.id";
 
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid);
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid);
 		}
 
 		return $result;

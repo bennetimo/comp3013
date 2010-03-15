@@ -262,7 +262,7 @@ class Track extends Model
     WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
     t.main_artistid = art.id
     AND t.id = at.`trackid` AND a.id = at.`albumid` 
-    ORDER BY t.`name`, art.name, a.name";
+    ORDER BY art.name, a.name, t.`name`";
 
 		return self::getTrackList($query);
 	}
