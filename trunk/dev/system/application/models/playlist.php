@@ -5,12 +5,14 @@ class Playlist extends Model
 	private $name;
 	private $shared;
 	private $userid;
+	// is this playlist in the user playlists collection
+	private $in_user_playlists = FALSE;
 	// type User
 	private $owner;
 	// type Track
 	private $tracks;
 
-	public function __construct($id = NULL, $name = NULL, $shared = NULL, $userid = NULL)
+	public function __construct($id = NULL, $name = NULL, $shared = NULL, $userid = NULL, $in_user_playlists = FALSE)
 	{
 		parent::Model();
 
@@ -18,13 +20,19 @@ class Playlist extends Model
 		$this->name = $name;
 		$this->shared = $shared;
 		$this->userid = $userid;
+		$this->in_user_playlists = $in_user_playlists;
 	}
 
 	public function getId()
 	{
 		return $this->id;
 	}
-	
+
+	public function isInUserPlaylists()
+	{
+		return$this->in_user_playlists;
+	}
+
 	public function getName()
 	{
 		if($this->id == NULL){
@@ -217,6 +225,7 @@ class Playlist extends Model
 		$array['name'] = $this->getName();
 		$array['user_name'] = $this->getOwner()->getFName();
 		$array['user_id'] = $this->getOwner()->getId();
+		$array['in_user_playlists'] = $this->isInUserPlaylists();
 
 		if ($withTracks) {
 			// TODO.
@@ -230,23 +239,16 @@ class Playlist extends Model
 	 * @param Playlist's name string $pl_name
 	 * @return array<Playlist>
 	 */
-	public static function &searchByName($pl_name, $userid = NULL, $include_own = FALSE)
+	public static function &searchByName($pl_name, $userid)
 	{
 		$CI = &get_instance();
-		$userid = $userid === NULL ? $CI->session->userdata('userid') : $userid;
 		$result = array();
 
-		if($include_own){
-			$include_user_pl = "OR pu.userid = ".$CI->db->escape($userid);
-		}
-		else {
-			$include_user_pl = "AND pu.userid != ".$CI->db->escape($userid);
-		}
-		$query = "SELECT p.*, pu.userid AS `userid` FROM `playlist` p, `playlist_user` pu, `user` u WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'
-		AND (p.shared $include_user_pl) AND pu.playlistid = p.id GROUP BY p.id";
-		
+		$query = "SELECT p.*, pu.userid AS `userid`, u.id AS in_user_playlists FROM `playlist` p, `playlist_user` pu LEFT JOIN `user` u ON (pu.userid = u.id)
+		WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'	AND (p.shared OR pu.userid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
+
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid);
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid, $p->in_user_playlists != NULL);
 		}
 
 		return $result;
