@@ -51,7 +51,7 @@ $.fn.setResults = function(data, options) {
 		var rowStyle = styles[i % 2];
 		var genres = data[i].genres.length > 0 ? data[i].genres[0].name : "";
 		var artists = data[i].main_artist.name;
-		var price = "&pound;" + data[i].cost;
+		var price = "&pound;" + (data[i].cost/100).toFixed(2);
 		
 		for (var j = 1; j < data[i].genres.length; j++) {
 			genres += ", " + data[i].genres[j].name;
@@ -95,9 +95,23 @@ $.fn.setResults = function(data, options) {
 	}
 };
 
-function setError(error_message) {
+function setNotification(message){
+	setError(message, true);
+}
+
+function setError(error_message, notification) {
+	if(notification){
+		var wait = 3000;
+	}else{
+		var wait = 15000;
+	}
 	
 	var error_box = $("#error_box");
+	
+	if(notification){
+		error_box.css("backgroundColor", "green");
+	}
+	
 	var default_error_msg = "An error occured. Please try again later.";
 
 	if (error_message === false || typeof error_message == "undefined") {
@@ -112,10 +126,11 @@ function setError(error_message) {
 
 		error_box.html(error_message).animate({
 			height: '35px'
-		}).delay(30000).animate( {
+		}).delay(wait).animate( {
 			height: '0px'
 		}, 250, function() {
 			$(this).html('');
+			error_box.css("backgroundColor", "#CC3333");
 		});
 		
 		var offset = error_box.offset();
@@ -124,4 +139,6 @@ function setError(error_message) {
 			scrollTop: offset.top - 20
 		}, 'slow');
 	}
+	
+	
 }
