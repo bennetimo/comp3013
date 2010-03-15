@@ -24,7 +24,6 @@
 	<div id="header">
 
         <div id="login_box">
-        
             <? if($userid == ""): ?>            
             <form id="login_form" action="<?=site_url('usermanager/login')?>" method="POST">
                 <input type="text" id="login_email" name="login_email" value="email"></input>
@@ -32,47 +31,39 @@
                 <input type="submit" class="normal_button" value="login"></input>
             </form>            
             <? else: ?>
-                You are logged in as 
-                <?=$user->getFName()?>:
-                <a href="<?=site_url('usermanager/logout')?>">Logout</a>
+            You are logged in as <?=$user->getFName()?>: <a href="<?=site_url('usermanager/logout')?>">Logout</a>
             <? endif; ?>
-            
         </div>
 	
-		<div id="logo">
+		<div id="logo_box">
 			<a href="<?=site_url('main')?>">
-			<img src="<?=base_url()?>system/application/images/musique_logo.jpg"></img>
+			<img src="<?=base_url()?>system/application/images/musique_logo2.png" border="0"></img>
 			</a>
 		</div>
-	
-<!--		<div id="blurb">-->
-<!--<h3 class="bold_header">Discover Play Enjoy</h3>-->
-<!--		</div>-->
-		
-		
-		<div id="navigation">
-			 <!-- The navigation links present on every page -->
-			<div id="navigation_links">
-			<ul>
-					<li><a href="<?=site_url('main')?>">Home</a></li>
-					<li><a href="<?=site_url('search')?>">Search</a></li>
-					<li><a href="<?=site_url('main/account')?>">My Account</a></li>
-					<li><a href="javascript:loadUserCollection()">My Music</a></li>
-					<li><a href="<?=site_url('register')?>">Sign up!</a></li>
-				</ul>
-			</div>
-		</div>
-		
+        
+        <div id="navigation">
+        <!-- The navigation links present on every page -->
+            <div id="navigation_links">
+                <ul>
+                    <li><a href="<?=site_url('main')?>">Home</a></li>
+                    <!--<li><a href="<?=site_url('search')?>">Search</a></li>-->
+                    <li><a href="<?=site_url('main/account')?>">My Account</a></li>
+                    <li><a href="javascript:loadUserCollection()">My Music</a></li>
+                    <li><a href="<?=site_url('register')?>">Sign up!</a></li>
+                </ul>
+            </div>
+       </div>
 	</div>
 	
 	<div id="error_box"></div>
 	
 	<!-- Create the content wrapper div which contains all actual contact. Closed in footer -->
-	<div id="contents_wrapper">	
+	
+	<div id="contents_wrapper">
+	
 	<div id="sidebar" style="position: relative;">
 		<div id="search_bar">
 			<div id="search_box">
-			
                 <h3>Find Music.</h3>
                 <form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
                     <input type="text" id="search_input" name="search_term"></input><input type="submit" class="normal_button" value="search" size="15"></input><br />
@@ -82,7 +73,6 @@
                     <input type="radio" name="search_by" value="genre" /><span class="search_by_label">genre</span>
                     <input type="radio" name="search_by" value="playlist" /><span class="search_by_label">playlist</span>
                 </form>
-                
             </div>
 		</div>
 		
@@ -91,13 +81,11 @@
     
         <h3>My Playlists</h3>
 
-        
         <!-- USER PLAYLISTS SECION -->
             
         <?if(!count($playlists)):?><p>You have no playlists yet, create one below!</p><?endif;?>
         <div id="playlists">
             <table id="playlists_list">
-
                 <? foreach ($playlists as $playlist): ?>
                 <tr id="<?=$playlist->getId()?>" style="position: relative;">
                     <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
@@ -106,14 +94,12 @@
                     <td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >X</a></td>
                 </tr>	                
                 <? endforeach; ?>
-                    
             </table>
         </div>
             
         <!--  ADD NEW PLAYLIST SECTION -->
         
         <div id="add_playlist_box">
-            
 	        <a href="#" id="add_pl"><h3>Add New Playlist</h3></a>
 	        <form id="add_pl_form">
 	            <table id="add_playlist_table">
@@ -121,13 +107,9 @@
 	                <tr><td><input type="checkbox" value="1" id="pl_shared" />shared</td><td></td></tr>
 	            </table>
 	        </form>
-	        
         </div>
     </div>
     <? endif; ?>
-
-	<div id="login_error" style="display: none;"></div>
-	<div id="drag" style="background-color: green;"></div>
 	
 </div>
 	
