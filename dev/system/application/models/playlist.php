@@ -261,11 +261,11 @@ class Playlist extends Model
 		$CI = &get_instance();
 		$result = array();
 
-		$query = "SELECT p.*, pu.userid AS `userid`, u.id AS in_user_playlists FROM `playlist` p, `playlist_user` pu LEFT JOIN `user` u ON (pu.userid = u.id)
-		WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'	AND (p.shared OR pu.userid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
+		$query = "SELECT p.*, u.id AS in_user_playlists FROM `playlist` p, `playlist_user` pu LEFT JOIN `user` u ON (pu.userid = u.id)
+		WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'	AND (p.shared OR p.ownerid = ".$CI->db->escape($userid).") AND pu.playlistid = p.id GROUP BY p.id";
 
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->userid, $p->in_user_playlists != NULL);
+			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid, $p->in_user_playlists != NULL);
 		}
 
 		return $result;
