@@ -49,8 +49,8 @@ searchForm.submit(function()
 	    	  if($('input[name=search_by]:checked').val() == "playlist"){
 	    	    searchResultsContainer.setPlResults(data);
 	    	  }
-	    	  else{
-  	    	  searchResultsContainer.setResults(data);	    		
+	    	  else {
+	    		  searchResultsContainer.setResults(data);	    		
   	    		searchResultsContainer.find("tr").draggable({
   	    			revert : true,
   	    			revertDuration : 0,
@@ -58,6 +58,8 @@ searchForm.submit(function()
   	    			opacity : 0.6,
   	    			helper : "clone"
   	    		});
+  	    		
+  	    		setTracksListHeaderDisplay(true);
   	    	}
 	    	}
 	    	setError(data.error);
@@ -240,6 +242,7 @@ function loadPlaylist(playlistid)
       var endTrackPosition = null;
       
       searchResultsContainer.setResults(data, {'playlist': true});
+      setTracksListHeaderDisplay(true);
       updatePlaylistBinding(playlistid);
       setError(data['error']);
       searchResultsContainer.find("#search_results_body").sortable({
@@ -326,3 +329,17 @@ buyTrack = function(trackid, albumid){
 	  		}
 	  	});
 };
+
+function setTracksListHeaderDisplay(show) {
+	
+	if (show) {
+		$(".welcome_text").hide();
+		$(".tracks_list_header").show();
+	}
+	else {
+		$(".tracks_list_header").hide();
+		$(".welcome_text").show();
+	}
+}
+	
+	

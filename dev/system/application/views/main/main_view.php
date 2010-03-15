@@ -1,19 +1,15 @@
-<? if ($userid != "" || $userid): ?>
-<div> <!--  Open the contents padder again to avoid problems -->
 
-<? else: ?>
+<? if ($userid == "" || !$userid): ?>
+<div id="content_padder" class="welcome_text">
     <div class="page_title">
         <h3><?= $page_title?></h3>
     </div>
-
-    <!-- A simple padding div to ensure that all content is padding appropriately, except the page title -->
-<div id="content_padder">
-</div> <!-- Close the content_padder if we are displaying search results. This stops the forced padding -->
+</div>
 <? endif; ?>
 
-<div id="search_results_box">
+<div id="search_results_box" class="tracks_list_box">
 
-    <table style="background-color: #212121; font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
+    <table class="tracks_list_header" style="display: none; background-color: #212121; font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
         <tbody>
             <tr>
                 <td class="handle" style="padding: 3px;"></td>
@@ -32,7 +28,8 @@
 </div>
 
 <? if ($userid == "" || !$userid): ?>
-<div id="hideable">
+<div id="content_padder" class="welcome_text">
+
 	<div class="content_box">
 	    <p>
 	    Musique is an online streaming media player allowing you to listen to 
@@ -75,6 +72,7 @@
 		<p>To be on your way to enjoying all this music, create an account free now</p>
 		<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a>
 	</div>
+	
 </div>
 <? endif; ?>
 

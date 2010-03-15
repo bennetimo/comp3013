@@ -29,7 +29,7 @@
                 <input type="text" id="login_email" name="login_email" value="email"></input>
                 <input type="password" id="login_password" name="login_password" value="password"></input>
                 <input type="submit" class="normal_button" value="login"></input>
-            </form>            
+            </form>
             <? else: ?>
             You are logged in as <?=$user->getFName()?>: <a href="<?=site_url('usermanager/logout')?>">Logout</a>
             <? endif; ?>
