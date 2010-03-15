@@ -1,4 +1,15 @@
-
+$.fn.setPlResults = function(data) {
+  var HTML = '<h4>Playlists Search Result</h4><table class="search_results_table">';
+  var t;
+  
+  for (i in data) {
+      
+      t = '<tr class="'+(i%2 == 0 ? 'even' : 'odd')+'"><td><a href="javascript:loadPlaylist(${playlistid})">${playlist_name}</a></td><td>By ${username}</td></tr>';
+      HTML += $.template(t).apply({playlistid: data[i].id, playlist_name: data[i].name, username: data[i].user_name});
+  }
+  
+  this.html(HTML);
+};
 $.fn.setResults = function(data, options) {
 	
 	// clears any contents from the tracks containter

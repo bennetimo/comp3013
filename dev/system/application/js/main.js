@@ -45,14 +45,20 @@ searchForm.submit(function()
 		success: function(data)
 		{
 	    	if (!data['error'] || data['error'] === false) {
-	    		searchResultsContainer.setResults(data);	    		
-	    		searchResultsContainer.find("tr").draggable({
-	    			revert : true,
-	    			revertDuration : 0,
-	    			handle : ".handle",
-	    			opacity : 0.6,
-	    			helper : "clone"
-	    		});
+	    		
+	    	  if($('input[name=search_by]:checked').val() == "playlist"){
+	    	    searchResultsContainer.setPlResults(data);
+	    	  }
+	    	  else{
+  	    	  searchResultsContainer.setResults(data);	    		
+  	    		searchResultsContainer.find("tr").draggable({
+  	    			revert : true,
+  	    			revertDuration : 0,
+  	    			handle : ".handle",
+  	    			opacity : 0.6,
+  	    			helper : "clone"
+  	    		});
+  	    	}
 	    	}
 	    	setError(data.error);
 		},
