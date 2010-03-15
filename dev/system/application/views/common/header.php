@@ -101,7 +101,7 @@
                 <? foreach ($playlists as $playlist): ?>
                 <tr id="<?=$playlist->getId()?>" style="position: relative;">
                     <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
-                    <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>">p</a></td>
+                    <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>"><img src="<?=base_url()?>system/application/images/button_play.png" /></a></td>
                     <td class="playlist_is_shared"><?php if($playlist->isShared()){echo " *";}?></td>
                     <td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" >X</a></td>
                 </tr>	                
