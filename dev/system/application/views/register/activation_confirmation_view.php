@@ -1,4 +1,3 @@
-
 <h3>Welcome.</h3>
 <p>
 Congratulations, your account has been successfully activated!
