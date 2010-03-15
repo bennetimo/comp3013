@@ -216,6 +216,15 @@ h3 {
 	position: relative;
 }
 
+#content_dark{
+	margin-left: 247px;
+	margin-top: 0;
+	margin-bottom: 20px;
+	background-color: #444444;
+	min-height: 620px;
+	position: relative;
+}
+
 #content_padder{
 	padding:0px 30px;
 }

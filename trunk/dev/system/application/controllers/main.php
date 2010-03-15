@@ -26,7 +26,8 @@ class Main extends Controller {
 			'userid' => $userid,
 		  	'user' => $user,
 			'playlists' => $playlists,
-			'page_title' => "Welcome."
+			'page_title' => "Welcome.",
+			'dark' => TRUE
 		);
 		
 		$this->load->view("common/header.php", $data);
