@@ -70,7 +70,7 @@ $.fn.setResults = function(data, options) {
 		t += '<tr id="${rowId}" class="${rowStyle}"><td class="handle">::</td><td class="track_name"><div>${trackName}</div></td>';
 		t += '<td class="track_button_cell"><a href="javascript:player.playTrack(${trackId}, ${albumId})" class="track_button"><img src="${baseUrl}/system/application/images/${buttonSrc}.png" border="0"></a></td><td class="track_price"><div>${price}</div></td><td class="track_genres"><div>${genres}</div></td><td class="album_name"><div>${albumName}</div></td>';
 		t += '<td class="track_artists"><div>${artists}</div></td>';
-		t += (options && options['playlist']) ? '<td class="track_delete"><a href="#" class="pl_remove" title="Delete From Playlist"><img src="${baseUrl}/system/application/images/icon_delete.png" border="0"></a></td>' : '';
+		t += (options && options['playlist']) ? '<td class="track_delete"><a href="#"  class="ui-playlist-delete-button" title="Delete From Playlist"></a></td>' : '';
 		t += '</tr>';
 		
 		var tData = {
