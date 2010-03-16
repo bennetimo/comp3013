@@ -27,7 +27,14 @@ var Player = function(playerid) {
   };
   
   this.setNowPlaying = function(){
-    alert(window.idToTrack[this.currentTrack].full_info.name);
+    var info = window.idToTrack[this.currentTrack].full_info;
+    var notif = $('#ms-notification');
+    //notif.hide();
+    notif.html('<img border="0" src="'+base_url+'/system/application/images/button_play.png"/> <strong>'+info.name+'</strong> by <strong>'+info.main_artist.name+'</strong>');
+    notif.animate({backgroundColor:"#8fcb41"}, 500, "swing", function(){
+      
+      notif.animate({backgroundColor:"#000"}, 500, "swing", function(){notif.css('background-color', 'transparent')});
+      });
   };
   
   this.currentTrack = false;
@@ -57,7 +64,7 @@ var Player = function(playerid) {
   				return;
   			}else if(data['no']){
   				//Have the user acquire rights to this track, debiting their account
-  				buyTrack(trackid, albumid);
+  				buyTrack(trackid, albumid, track_index);
   			}
   			//Otherwise, display any errors
 	    	setError(data.error);
@@ -102,16 +109,21 @@ var Player = function(playerid) {
 
 function playerReady(thePlayer) {
   player.playerObj = window.document[player.playerid]; 
-  player.playerObj.addModelListener("STATE", "stateListener");
+  player.playerObj.addModelListener("STATE", "_stateListener");
 }
 
 
-function stateListener(stateObj){
+function _stateListener(stateObj){
   currentState = stateObj.newstate; 
   previousState = stateObj.oldstate;
 
-  alert(previousState +" -> "+ currentState);
+  //alert(previousState +" -> "+ currentState);
   if(previousState == 'BUFFERING' && currentState == 'PLAYING'){  
     player.setNowPlaying();
+  }
+  else if(previousState == 'BUFFERING' && currentState == 'IDLE'){  
+    player.setNowPlaying();
+    // space it out in time to avoid colliding with other concurrent notifications
+    setTimeout('setError("Sorry, the track is not available at the moment")', 3500);
   }
 }

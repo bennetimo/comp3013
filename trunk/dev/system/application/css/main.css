@@ -424,12 +424,23 @@ playlist_add_table {
 
 #mediaspace {
     bottom: -13px;
-    left: 0;
-    right: 0;
+    margin: 0 auto;
     position: relative;
     text-align: center;
+    width: 950px;
 }
 
+#ms-notification{
+    color:white;
+    width:240px;
+    margin-left:-50px;  
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
 #latch {
     background: url(../images/latch_bg2.png) bottom left repeat-x;
     bottom: 0;

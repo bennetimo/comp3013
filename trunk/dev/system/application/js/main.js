@@ -348,7 +348,7 @@ function redrawTable(searchResultsList) {
     });
 }
 
-buyTrack = function(trackid, albumid) {
+buyTrack = function(trackid, albumid, row_index) {
     
     // Check if the user has already bought the track
     $.ajax({
@@ -363,7 +363,7 @@ buyTrack = function(trackid, albumid) {
                 setNotification("Great! The track is yours and will play shortly...");
                 // Giacomo/David should add the correct way to refesh
                 // the results list here :-)
-                searchForm.submit();
+                setButtonPlaying(row_index);
                 player.actuallyPlayTrack(trackid, albumid);
             }
             // Otherwise, display any errors
@@ -439,9 +439,9 @@ function setButtonPlaying(rowId, play) {
 
     if (play) {
         $("#search_results_container").find("#" + rowId).find(".track_button").find("img").attr("src", base_url +
-        "/system/application/images/button_play_now.png");
+        "/system/application/images/button_play_now.png").attr("href", "javascript:player.playTrack('"+rowId+"')");
     }
     else {
-        $("#search_results_container").find("#" + rowId).find(".track_button").find("img").attr("src", base_url + "/system/application/images/button_play.png");
+        $("#search_results_container").find("#" + rowId).find(".track_button").find("img").attr("src", base_url + "/system/application/images/button_play.png").attr("href", "javascript:player.playTrack('"+rowId+"')");
     }
 }
