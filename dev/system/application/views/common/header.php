@@ -92,11 +92,13 @@
                     <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
                     <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')"  href="#pl<?=$playlist->getId()?>"><img src="<?=base_url()?>system/application/images/button_play.png" /></a></td>
                     <td class="playlist_is_shared<?=($playlist->isShared() ? " shared" : "")?>"></td>
-                    <td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist('<?=$playlist->getId()?>')" ><img src="<?=base_url()?>system/application/images/icon_delete.png" border="0"></a></td>
+                    <td class="playlist_delete"><a href="javascript:void(0)" class="ui-playlist-delete-button" onclick="removePlaylist('<?=$playlist->getId()?>')" ></a></td>
                 </tr>	                
                 <? endforeach; ?>
             </table>
         </div>
+            
+<!--            <img src="<?=base_url()?>system/application/images/icon_delete.png" border="0">-->
             
         <!--  ADD NEW PLAYLIST SECTION -->
         
