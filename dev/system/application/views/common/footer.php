@@ -42,14 +42,13 @@
 
 </div>
 <!-- Close the contents_wrapper created in the header -->
-
-
-
 </div>
 <!-- Close the container div created in the header -->
 
 <div id="latch">
-<div id='mediaspace'><span id="media_container">This text will be replaced</span></div>
+<div id='mediaspace'>
+  <div id="ms-notification">&nbsp;</div><span id="media_container">This text will be replaced</span>
+</div>
 </div>
 
 </body>
