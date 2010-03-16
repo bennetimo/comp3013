@@ -263,7 +263,7 @@ function loadPlaylist(playlistid) {
             var startTrackPosition = null;
             var endTrackPosition = null;
             
-            searchResultsContainer.setResults(data.tracks, {
+            searchResultsContainer.setResults(data, {
                 'playlist': true
             });
             
