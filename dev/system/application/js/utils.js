@@ -4,7 +4,15 @@ $.fn.setPlResults = function(data) {
   
   for (i in data) {
       
-      t = '<tr class="'+(i%2 == 0 ? 'even' : 'odd')+'"><td><a href="javascript:loadPlaylist(${playlistid})">${playlist_name}</a></td><td>By ${username}</td></tr>';
+      t = '<tr class="'+(i%2 == 0 ? 'even' : 'odd')+'"><td><a href="javascript:loadPlaylist(${playlistid})">${playlist_name}</a></td><td>By ${username}</td>';
+      t += '<td>';
+      if( ! data[i].in_user_playlists){
+        t += '<a title="Import playlist" href="javascript:importPlaylist(${playlistid})"><img src="'+base_url+'/system/application/images/button_add_to_playlist.png"/></a>';
+      }else{
+        t += '<a title="Remove playlist" href="javascript:removePlaylist(${playlistid})" class="ui-playlist-delete-button"></a>';
+      }
+      t +='</td></tr>';
+      
       HTML += $.template(t).apply({playlistid: data[i].id, playlist_name: data[i].name, username: data[i].user_name});
   }
   
