@@ -133,50 +133,51 @@ $.fn.setResults = function(data, options) {
 	this.append(appendString);
 };
 
-function setNotification(message){
-	setError(message, true);
-}
-
-function setError(error_message, notification) {
-	if(notification){
-		var wait = 3000;
+function setNotification(message, error){
+	if(error){
+		var wait = 5000;
 	}else{
-		var wait = 15000;
+		var wait = 3000;
 	}
 	
 	var error_box = $("#error_box");
 	
-	if(notification){
-		error_box.addClass("error_box_green");
+	if(error){
+		error_box.addClass("error_box_red");
 	}
 	
 	var default_error_msg = "An error occured. Please try again later.";
 
-	if (error_message === false || typeof error_message == "undefined") {
+	if (message === false || typeof message == "undefined") {
 		error_box.animate({
 			height: '0px'
 		});
+		if(error){error_box.removeClass("error_box_red")};
 	}
 	else {
-		if (typeof error_message != "string") {
-			error_message = default_error_msg;
+		if (typeof message != "string") {
+			message = default_error_msg;
 		}
 
-		error_box.html(error_message).animate({
+		error_box.html(message).animate({
 			height: '35px'
 		}).delay(wait).animate( {
 			height: '0px'
 		}, 250, function() {
 			$(this).html('');
-			error_box.removeClass("error_box_green");
+			error_box.removeClass("error_box_red");
 		});
 		
 		var offset = error_box.offset();
 		
+		
 		$('html, body').animate({
 			scrollTop: offset.top - 20
-		}, 'slow');
+		}, 'slow');	
 	}
 	
-	
+}
+
+function setError(error_message) {
+	setNotification(error_message, true);
 }
