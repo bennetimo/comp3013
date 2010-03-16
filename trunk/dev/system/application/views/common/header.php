@@ -106,7 +106,7 @@
 	        <a href="#" id="playlist_add_link"><h3>Add New Playlist</h3></a>
 	        <form id="playlist_add_form">
 	            <table id="playlist_add_table">
-	                <tr><td><input type="text" value="playlist name" id="pl_name" /></td><td><input type="submit" class="normal_button" value="Add" /></td></tr>
+	                <tr><td><input type="text" value="playlist name" id="playlist_new_input" /></td><td><input type="submit" class="normal_button" value="Add" /></td></tr>
 	                <tr><td><input type="checkbox" value="1" id="pl_shared" />shared</td><td></td></tr>
 	            </table>
 	        </form>
