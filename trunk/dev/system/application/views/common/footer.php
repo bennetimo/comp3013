@@ -1,7 +1,4 @@
 
-<div id="music_note"><img
-	src="<?=base_url()?>system/application/images/music_note.png"></img></div>
-
 </div>
 <!-- Close the contents created in the header -->
 
