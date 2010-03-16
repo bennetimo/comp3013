@@ -82,7 +82,7 @@ img {
 #header {
     color: #FFFFFF;
     padding: 5px 0;
-    height: 97px;
+    height: 84px;
 }
 
 #error_box {
@@ -117,7 +117,7 @@ img {
 /* navigation styles */
 #navigation {
     height: 40px;
-    margin-top: 70px;
+    margin-top: 57px;
     margin-left: -3px;
     list-style-type: none;
 }

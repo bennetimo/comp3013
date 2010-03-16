@@ -365,7 +365,7 @@ buyTrack = function(trackid, albumid, row_index) {
             if (data['bought']) {
                 setNotification("Great! The track is yours and will play shortly...");
                 // Giacomo/David should add the correct way to refesh
-                // the results list here :-)
+                //DONE
                 setButtonPlaying(row_index);
                 player.actuallyPlayTrack(trackid, albumid);
             }
