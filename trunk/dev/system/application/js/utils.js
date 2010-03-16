@@ -5,11 +5,11 @@ $.fn.setPlResults = function(data) {
   for (i in data) {
       
       t = '<tr id ="${row}" class="'+(i%2 == 0 ? 'even' : 'odd')+'"><td><a href="javascript:loadPlaylist(${playlistid})">${playlist_name}</a></td><td>By ${username}</td>';
-      t += '<td>';
+      t += '<td class="pl_button">';
       if( ! data[i].in_user_playlists){
-        t += '<a class="pl_button" title="Import playlist" href="javascript:importPlaylist(${playlistid}, ${row})"><img src="'+base_url+'/system/application/images/button_add_to_playlist.png"/></a>';
+        t += '<a class="pl_button" title="Import playlist" href="javascript:importPlaylist(${playlistid}, ${row})" class="ui-playlist-import-button"></a>';
       }else{
-        t += '<a title="Remove playlist" href="javascript:removePlaylist(${playlistid}, ${row})" class="ui-playlist-delete-button pl_button"></a>';
+        t += '<a title="Remove playlist" href="javascript:removePlaylist(${playlistid}, ${row})" class="ui-playlist-delete-button"></a>';
       }
       t +='</td></tr>';
       
