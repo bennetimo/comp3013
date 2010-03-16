@@ -25,7 +25,7 @@
 }
 
 .track_name {
-	
+	max-width: 250px;
 }
 
 .track_price{
