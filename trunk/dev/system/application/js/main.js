@@ -344,6 +344,6 @@ function setTracksListHeaderDisplay(show) {
 
 function setButtonPlaying(rowId) {
 	
-	$("#search_results_container").find("#" + rowId).find("img").attr("src", base_url + "asd");
+	$("#search_results_container").find("#" + rowId).find(".play_track").css("background-image", "url(../images/button_play_now.png)");
 }
 	
