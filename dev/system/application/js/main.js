@@ -342,8 +342,15 @@ function setTracksListHeaderDisplay(show) {
 	}
 }
 
-function setButtonPlaying(rowId) {
+function setButtonPlaying(rowId, play) {
 	
-	$("#search_results_container").find("#" + rowId).find(".play_track").css("background-image", "url(../images/button_play_now.png)");
+	if (play) {
+		$("#search_results_container").find("#" + rowId).find(".track_button").find("img")
+		.attr("src", base_url + "/system/application/images/button_play_now.png");
+	}
+	else {
+		$("#search_results_container").find("#" + rowId).find(".track_button").find("img")
+		.attr("src", base_url + "/system/application/images/button_play.png");
+	}
 }
 	
