@@ -4,6 +4,7 @@ var searchResultsContainer = $("#search_results_container");
 var playlistsList = $("#playlists_list");
 var loginForm = $("#login_form");
 var loginError = $("#error_box");
+var playlistAddForm = $('#playlist_add_form');
 
 $(document).ready(function() {
     
@@ -76,23 +77,20 @@ $(document).ready(function() {
      * Make the playlist list droppable so that I can drop (i.e. add) new
      * tracks to them
      */
-    makePlDroppable(playlistsList);
-    
-    var add_pl_form = $('#playlist_add_form');
+    makePlaylistDroppable(playlistsList);
     
     $('#playlist_add_link').click(function(e) {
         e.preventDefault();
-        add_pl_form.slideToggle();
-        
+        playlistAddForm.slideToggle();
     });
     
     /*
      * Add new Playlist
      */
-    add_pl_form.submit(function(e) {
+    playlistAddForm.submit(function(e) {
         
         e.preventDefault();// prevents the form from submitting
-        var playlist_name = $('#pl_name').val();
+        var playlist_name = $('#playlist_new_input').val();
         var shared = $('#pl_shared').attr('checked') ? 1 : 0;
         
         $.ajax({
@@ -144,7 +142,7 @@ function appendPlaylist(data) {
     playlistsList.append($.template(t).apply(data));
 }
 
-function makePlDroppable(playlistsList) {
+function makePlaylistDroppable(playlistsList) {
     
     playlistsList.find('tr').droppable({
         hoverClass: 'ui-playlist-hovered',
