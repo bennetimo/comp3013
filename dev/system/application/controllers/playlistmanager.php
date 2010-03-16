@@ -32,6 +32,7 @@ class PlaylistManager extends Controller {
 			$playlist->shareTo($userid);
 			
 			$result['imported_pl'] = $playlist->toArray();
+			$result['is_owner'] = $userid == $playlist->getOwnerId();
 
 		}
 		catch(Exception $e) {
