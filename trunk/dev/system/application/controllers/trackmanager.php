@@ -73,7 +73,7 @@ class TrackManager extends Controller {
 			else if ($searchBy == "playlist"){
 				$this->load->static_model("Playlist");
 				
-				$tracks = Playlist::searchByName($term, $userid, TRUE);
+				$returned = Playlist::searchByName($term, $userid, $page*$display, $display);
 			}
 			else {
 				echo json_encode(array("error" => "The search criteria is not recognized"));

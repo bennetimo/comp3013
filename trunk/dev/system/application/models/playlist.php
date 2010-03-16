@@ -259,20 +259,27 @@ class Playlist extends Model
 	 * @param Playlist's name string $pl_name
 	 * @return array<Playlist>
 	 */
-	public static function &searchByName($pl_name, $userid)
+	public static function &searchByName($pl_name, $userid, $start=0, $display=30)
 	{
 		$CI = &get_instance();
-		$result = array();
+		$playlists = array();
 		$userid = $CI->db->escape($userid);
 
-		$query = "SELECT p.*, (pu.userid OR p.ownerid = $userid) AS in_user_playlists FROM `playlist` p  LEFT JOIN `playlist_user` pu ON (pu.playlistid = p.id)
-    WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'  AND (p.shared OR p.ownerid = $userid) AND (pu.playlistid IS NULL OR pu.playlistid = p.id) GROUP BY p.id";
+		$query = "SELECT SQL_CALC_FOUND_ROWS p.*, (pu.userid OR p.ownerid = $userid) AS in_user_playlists FROM `playlist` p  LEFT JOIN `playlist_user` pu ON (pu.playlistid = p.id)
+    WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'  AND (p.shared OR p.ownerid = $userid) AND (pu.playlistid IS NULL OR pu.playlistid = p.id) GROUP BY p.id LIMIT $start, $display";
 
 		foreach($CI->db->query($query)->result() as $p) {
-			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid, $p->in_user_playlists != NULL);
+			$playlists[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid, $p->in_user_playlists != NULL);
 		}
-
-		return $result;
+		
+		//Returned as 'tracks' just to make the trackmanager search() method simpler!
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  $playlists;
+			
+		$res = $CI->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
 	public static function &getUsersPlaylists($userid)
