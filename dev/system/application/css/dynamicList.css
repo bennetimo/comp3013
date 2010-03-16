@@ -21,6 +21,7 @@
     color: #FFFFFF;
     white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
     padding: 3px;
 }
 
@@ -46,6 +47,8 @@
 
 .track_artists div {
     width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .album_name {
@@ -54,6 +57,9 @@
 
 .album_name div {
     width: 100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .group_info {

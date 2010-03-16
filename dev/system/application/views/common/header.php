@@ -29,7 +29,7 @@
                     <? else: ?>
                     You are logged in as 
                     <?=$user->getFName()?>
-                    <input onclick="javascript:location='usermanager/logout'" type="submit" class="normal_button" value="logout" />
+                    <input onclick="javascript:location='<?=site_url()?>/usermanager/logout'" type="submit" class="normal_button" value="logout" />
                     <? endif; ?>
                 </div>
                 
