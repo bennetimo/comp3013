@@ -33,7 +33,7 @@ h3 {
 #header{
 	color:#FFFFFF;
 	padding: 5px 0;
-	height: 66px;
+	height: 97px;
 }
 
 #error_box{
@@ -81,7 +81,7 @@ h3 {
 /*navigation styles*/
 #navigation {
 	height: 40px;
-	margin-top: 40px;
+	margin-top: 70px;
 	margin-left: -3px;
 	list-style-type: none;
 }
