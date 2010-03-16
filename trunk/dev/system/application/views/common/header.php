@@ -112,9 +112,6 @@
         </div>
     </div>
     <? endif; ?>
-    
-    <a href="javascript:setButtonPlaying(0, true);">play</a>
-    <a href="javascript:setButtonPlaying(0, false);">stop</a>
 	
 </div>
 	
