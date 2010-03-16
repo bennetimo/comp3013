@@ -31,47 +31,7 @@ $(document).ready(function() {
         return submit;
     });
     
-    searchForm.submit(function() {
-        
-        $.ajax({
-            url: site_url + "/trackmanager/search",
-            async: true,
-            type: "post",
-            dataType: "json",
-            data: searchForm.serialize(),
-            
-            success: function(data) {
-                
-                if (!data['error'] ||
-                data['error'] === false) {
-                
-                    if ($('input[name=search_by]:checked').val() == "playlist") {
-                        setTracksListHeaderDisplay(false, false);
-                        searchResultsContainer.setPlResults(data);
-                    }
-                    else {
-                        searchResultsContainer.setResults(data);
-                        searchResultsContainer.find("tr").draggable({
-                            revert: true,
-                            revertDuration: 0,
-                            handle: ".handle",
-                            opacity: 0.6,
-                            helper: "clone"
-                        });
-                        
-                        setTracksListHeaderDisplay(true);
-                    }
-                }
-                setError(data.error);
-            },
-            
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                setError(true);
-            }
-        });
-        
-        return false;
-    });
+    searchForm.submit(function(e){e.preventDefault(); onSearchSubmit(0)});
     
     /*
      * Make the playlist list droppable so that I can drop (i.e. add) new
@@ -130,6 +90,49 @@ $(document).ready(function() {
     window.player = new Player("ply");
     window.player.embedPlayer();
 });
+
+//end of document.ready
+
+function onSearchSubmit(pageNumber)
+{
+	$.ajax({
+		url: site_url + "/trackmanager/search/"+pageNumber,
+		async: true,
+		type: "post",
+		dataType: "json",
+		data: searchForm.serialize(),
+
+		success: function(data)
+		{
+	    	if (!data['error'] || data['error'] === false) {
+	    		
+	    	  if($('input[name=search_by]:checked').val() == "playlist"){
+	    	    setTracksListHeaderDisplay(false, false);
+	    	    searchResultsContainer.setPlResults(data);
+	    	  }
+	    	  else {
+	    		  searchResultsContainer.setResults(data);	    		
+  	    		searchResultsContainer.find("tr").draggable({
+  	    			revert : true,
+  	    			revertDuration : 0,
+  	    			handle : ".handle",
+  	    			opacity : 0.6,
+  	    			helper : "clone"
+  	    		});
+  	    		
+  	    		setTracksListHeaderDisplay(true);
+  	    	}
+	    	}
+	    	setError(data.error);
+		},
+		
+		error: function(XMLHttpRequest, textStatus, errorThrown) {
+			setError(true);
+		}
+	});
+
+	return false;
+}
 
 
 function appendPlaylist(data) {
