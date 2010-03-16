@@ -1,11 +1,12 @@
 
 /* styles which apply to the entire html body */
+
 body {
     margin-top: 10px;
     font-family: Tahoma, Arial, Helvetica, sans-serif;
     font-size: 16px;
-    /*background: #F5F5F5 url(../images/bg_short_rotated.png) repeat-x left top;*/
     background-color: #000000;
+    overflow-y: scroll;
 }
 
 h3 {
@@ -348,15 +349,17 @@ playlist_add_table {
     float: right;
     margin-top: 10px;
     padding: 0;
+    font-size: 12px;
 }
 
 #login_box input {
     padding: 0;
-    margin: 0;
+    margin: 3;
 }
 
 #login_email {
     width: 100px;
+    margin-right: 3px;
 }
 
 #login_password {
