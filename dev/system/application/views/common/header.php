@@ -31,7 +31,7 @@
                 <input type="submit" class="normal_button" value="login"></input>
             </form>
             <? else: ?>
-            You are logged in as <?=$user->getFName()?>: <a href="<?=site_url('usermanager/logout')?>">Logout</a>
+            You are logged in as <?=$user->getFName()?> <input onclick="javascript:location='usermanager/logout'" type="submit" class="normal_button" value="logout"></input>
             <? endif; ?>
         </div>
 	
@@ -102,10 +102,10 @@
             
         <!--  ADD NEW PLAYLIST SECTION -->
         
-        <div id="add_playlist_box">
-	        <a href="#" id="add_pl"><h3>Add New Playlist</h3></a>
-	        <form id="add_pl_form">
-	            <table id="add_playlist_table">
+        <div id="playlist_add_box">
+	        <a href="#" id="playlist_add_link"><h3>Add New Playlist</h3></a>
+	        <form id="playlist_add_form">
+	            <table id="playlist_add_table">
 	                <tr><td><input type="text" value="playlist name" id="pl_name" /></td><td><input type="submit" class="normal_button" value="Add" /></td></tr>
 	                <tr><td><input type="checkbox" value="1" id="pl_shared" />shared</td><td></td></tr>
 	            </table>
