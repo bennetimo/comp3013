@@ -259,6 +259,9 @@ playlist_add_table {
     background-color: #444444;
     min-height: 620px;
     position: relative;
+    background-image: url(../images/music_note.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
 }
 
 #content_padder {
