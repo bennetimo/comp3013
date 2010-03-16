@@ -1,3 +1,6 @@
+
+<div id="content_padder">
+
 <div class="content_box">
 	<p><?=$user->getFName()?>, this is your account page. Here you can add more money to your Musique account to allow you to enjoy even more great music!</p>
 </div>
@@ -38,4 +41,6 @@
 	<p>Date Registered: <? echo $joined ?></p>
 	<a class="styled_button" href="<?=site_url('main')?>"><span>Edit Details</span></a>
 	<a class="styled_button" href="<?=site_url('main')?>"><span>Change Password</span></a>
+</div>
+
 </div>

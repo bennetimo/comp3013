@@ -1,3 +1,5 @@
+<div id="content_padder">
+
 <div class="content_box">
 
 	<p>So you would like to get started with a Musique account? No problem!</p>
@@ -39,6 +41,9 @@
 	
 	</form>
 </div>
+
+</div>
+
 <script>
 
 var registerForm = $("#reg_form");
