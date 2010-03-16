@@ -45,6 +45,11 @@ h3 {
 	text-align:center;
 	font-weight:bold;
 	font-size:18px;
+	line-height:2em;
+}
+
+.error_box_green{
+	background-color:#8fcb41 !important;
 }
 
 /*Contents wrapper styles*/
@@ -300,11 +305,9 @@ h3 {
 }
 
 #footer{
-	padding:0 20px;
+	padding:0;
 	margin:0 auto;
-	padding:30px;
 	height:100px;
-	
 }
 
 .page_title{

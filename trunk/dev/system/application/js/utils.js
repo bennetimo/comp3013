@@ -110,7 +110,7 @@ function setError(error_message, notification) {
 	var error_box = $("#error_box");
 	
 	if(notification){
-		error_box.css("backgroundColor", "green");
+		error_box.addClass("error_box_green");
 	}
 	
 	var default_error_msg = "An error occured. Please try again later.";
@@ -131,7 +131,7 @@ function setError(error_message, notification) {
 			height: '0px'
 		}, 250, function() {
 			$(this).html('');
-			error_box.css("backgroundColor", "#CC3333");
+			error_box.removeClass("error_box_green");
 		});
 		
 		var offset = error_box.offset();
