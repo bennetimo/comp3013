@@ -97,7 +97,8 @@ tr.newSort {
 }
 
 .track_delete {
-    width: 10px;
+    width: 12px;
+    padding: 3px;
 }
 
 .playlist_play {
