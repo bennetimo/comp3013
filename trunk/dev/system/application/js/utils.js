@@ -1,9 +1,4 @@
 $.fn.setPlResults = function(data) {
-	
-	var num_pages = data.num_pages;
-	var cur_page = data.cur_page;
-	var data = data.tracks;
-	
   var HTML = '<h4>Playlists Search Result</h4><table class="search_results_table">';
   var t;
   
@@ -22,7 +17,6 @@ $.fn.setPlResults = function(data) {
   }
   
   this.html(HTML);
-  this.append(buildPageLinkAppendString(cur_page, num_pages));
 };
 $.fn.setResults = function(data, options) {
 	
@@ -115,10 +109,6 @@ $.fn.setResults = function(data, options) {
 		}
 	}
 	
-	this.append(buildPageLinkAppendString(cur_page, num_pages));
-};
-
-function buildPageLinkAppendString(cur_page, num_pages){
 	var appendString = "<div id=\"page_links\"><p>";
 	//Add previous link if not the first page
 	var prev_page = cur_page-0 - 1;
@@ -140,8 +130,8 @@ function buildPageLinkAppendString(cur_page, num_pages){
 		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+ next_page+ ")\"\">next</a>";
 	}
 	appendString = appendString + "</p></div>";
-	return appendString;
-}
+	this.append(appendString);
+};
 
 function setNotification(message){
 	setError(message, true);
