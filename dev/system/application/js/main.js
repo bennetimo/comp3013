@@ -242,7 +242,7 @@ function loadPlaylist(playlistid)
       var endTrackPosition = null;
       
       searchResultsContainer.setResults(data, {'playlist': true});
-      setTracksListHeaderDisplay(true);
+      setTracksListHeaderDisplay(true, true);
       updatePlaylistBinding(playlistid);
       setError(data['error']);
       searchResultsContainer.find("#search_results_body").sortable({
@@ -330,7 +330,7 @@ buyTrack = function(trackid, albumid){
 	  	});
 };
 
-function setTracksListHeaderDisplay(show) {
+function setTracksListHeaderDisplay(show, playlist) {
 	
 	if (show) {
 		$(".welcome_text").hide();
@@ -339,6 +339,13 @@ function setTracksListHeaderDisplay(show) {
 	else {
 		$(".tracks_list_header").hide();
 		$(".welcome_text").show();
+	}
+	
+	if (show && playlist) {
+		$("#track_delete_cell").show();
+	}
+	else {
+		$("#track_delete_cell").hide();
 	}
 }
 
