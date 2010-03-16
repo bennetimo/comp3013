@@ -150,7 +150,7 @@ function makePlaylistDroppable(playlistsList) {
         
         drop: function(event, ui) {
             onDrop(this, event, ui);
-        },
+        }
     });
 }
 
@@ -187,7 +187,7 @@ function onDrop(el, event, ui) {
 function updatePlaylistBinding(playlistid) {
     
     // bind the X cross to remove track from playlist
-    $(".pl_remove").click(function(event) {
+    $(".ui-playlist-delete-button").click(function(event) {
         event.preventDefault();
         var trackRow = $(this).parents('tr');
         var trackInfo = idToTrack[trackRow.attr('id')];
@@ -312,24 +312,31 @@ function loadPlaylist(playlistid) {
     });
 }
 
-function removePlaylist(playlistid) {
+function removePlaylist(playlistid, rowid) {
     
     var playlistid = playlistid;
     
     $.ajax({
-        url: site_url + "/playlistmanager/remove_playlist/" + playlistid,
-        async: true,
-        dataType: "json",
-        
-        success: function(data) {
-            setError(data.error);
-            
-            if (!data.error) {
-                playlistsList.find("#" + playlistid).hide();
-                setNotification('The playlist was succesfully removed');
-            }
+        url : site_url + "/playlistmanager/remove_playlist/" + playlistid,
+        async : true,
+        dataType : "json",
+
+        success : function(data) {
+          setError(data.error);
+
+          if (!data.error) {
+            playlistsList.find("#" + playlistid).hide();
+            setNotification('The playlist was succesfully removed');
+            var t = '<a title="Import playlist" href="javascript:importPlaylist(${playlistid}, ${row})" class="ui-playlist-import-button"></a>';
+
+            searchResultsContainer.find('#' + rowid).find(".pl_button").html(
+                $.template(t).apply({
+                  playlistid : playlistid,
+                  row : rowid
+                }));
+          }
         }
-    });
+      });
 }
 
 function redrawTable(searchResultsList) {
@@ -407,9 +414,9 @@ function importPlaylist(playlistid, rowid) {
                     className: pl.is_owner ? '' : 'read-only'
                 };
                 
-                setNotification('Wicked! You can now play "' + pl.name);
+                setNotification('Wicked! You can now play "' + pl.name+'"');
                 appendPlaylist(info);
-                var t = '<a title="Remove playlist" href="javascript:removePlaylist(${playlistid}, ${row})" class="ui-playlist-delete-button pl_button"></a>';
+                var t = '<a title="Remove playlist" href="javascript:removePlaylist(${playlistid}, ${row})" class="ui-playlist-delete-button"></a>';
                 
                 searchResultsContainer.find('#' + rowid).find(".pl_button").html($.template(t).apply({
                     playlistid: playlistid,

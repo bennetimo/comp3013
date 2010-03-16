@@ -140,3 +140,8 @@ a.ui-playlist-delete-button {
 a.ui-playlist-delete-button:hover {
     background-image: url(../images/icon_delete_hover.png);
 }
+a.ui-playlist-import-button{
+	background-image: url(../images/button_add_to_playlist.png);
+    display: block;
+    width: 10px;
+    height: 10px;
