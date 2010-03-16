@@ -86,7 +86,7 @@ img {
 }
 
 #error_box {
-    background-color: #CC3333;
+    background-color: #8fcb41;
     height: 0px;
     clear: both;
     colour: #FFFFFF;
@@ -98,7 +98,11 @@ img {
 }
 
 .error_box_green {
-    background-color: #8fcb41 !important;
+    background-color: #8fcb41;
+}
+
+.error_box_red{
+	background-color: #CC3333 !important;
 }
 
 /*Contents wrapper styles*
