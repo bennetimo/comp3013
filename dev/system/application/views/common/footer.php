@@ -44,7 +44,8 @@
 
 <div id="latch">
 <div id='mediaspace'>
-  <div id="ms-notification">&nbsp;</div><span id="media_container">This text will be replaced</span>
+  <marquee scrolldelay="250" id="ms-notification">&nbsp;</marquee>
+  <span id="media_container">This text will be replaced</span>
 </div>
 </div>
 

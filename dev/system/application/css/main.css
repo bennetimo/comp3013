@@ -446,7 +446,7 @@ playlist_add_table {
     color:white;
     width:285px;
     margin-left:-50px;  
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-overflow: ellipsis;
     white-space:nowrap;
     position:absolute;
