@@ -212,7 +212,7 @@ class Playlist extends Model
 	public static function removePlaylist($playlistid, $userid)
 	{
 		$CI =& get_instance();
-		//$CI->db->trans_start();
+		$CI->db->trans_start();
 
 		$result = $CI->db->query("SELECT `ownerid` FROM `playlist` WHERE `id` = ?", array($playlistid))->result();
 
@@ -220,13 +220,16 @@ class Playlist extends Model
 			throw new Exception("Playlist $playlistid not found");
 		}
 
-		$CI->db->query("DELETE FROM `playlist` WHERE `id` = ? AND `ownerid`", array($playlistid, $userid));
-		$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ?", array($playlistid));
-
 		if($userid == $result[0]->ownerid) {
+			$CI->db->query("DELETE FROM `playlist` WHERE `id` = ? AND `ownerid` = ?", array($playlistid, $userid));
 			$CI->db->query("DELETE FROM `playlist_track` WHERE `playlistid` = ?", array($playlistid));
+			$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ?", array($playlistid));
 		}
-
+		else{
+			//echo "DELETE FROM `playlist_user` WHERE `playlistid` = $playlistid AND `userid` = $userid";
+			$CI->db->query("DELETE FROM `playlist_user` WHERE `playlistid` = ? AND `userid` = ?", array($playlistid, $userid));
+		}
+		
 		return TRUE; //$CI->db->trans_status();
 	}
 
@@ -264,7 +267,7 @@ class Playlist extends Model
 
 		$query = "SELECT p.*, (pu.userid OR p.ownerid = $userid) AS in_user_playlists FROM `playlist` p  LEFT JOIN `playlist_user` pu ON (pu.playlistid = p.id)
     WHERE p.name LIKE '%".$CI->db->escape_str($pl_name)."%'  AND (p.shared OR p.ownerid = $userid) AND pu.playlistid = p.id GROUP BY p.id";
-    
+
 		foreach($CI->db->query($query)->result() as $p) {
 			$result[] = new Playlist($p->id, $p->name, $p->shared, $p->ownerid, $p->in_user_playlists != NULL);
 		}
@@ -304,7 +307,7 @@ class Playlist extends Model
 		}
 
 		$query = "INSERT INTO `playlist_user` (`playlistid`, `userid`) VALUES(?, ?)";
-		
+
 		try{
 			$this->db->query($query, array($this->getId(), $userid));
 		}
