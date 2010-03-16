@@ -250,39 +250,42 @@ function loadPlaylist(playlistid)
       var startTrackPosition = null;
       var endTrackPosition = null;
       
-      searchResultsContainer.setResults(data, {'playlist': true});
+      searchResultsContainer.setResults(data.tracks, {'playlist': true});
       setTracksListHeaderDisplay(true, true);
       updatePlaylistBinding(playlistid);
       setError(data['error']);
-      searchResultsContainer.find("#search_results_body").sortable({
-        
-        stop: function(event, ui) {
-          var trackId = idToTrack[ui.item.attr("id")].trackId;
-          var albumId = idToTrack[ui.item.attr("id")].albumId;
-          var nextTrackId = null;
-          var nextAlbumId = null;
+      
+      if( ! data.read_only){
+        searchResultsContainer.find("#search_results_body").sortable({
           
-          if (ui.item.next().length > 0) {
-            nextTrackId = idToTrack[ui.item.next().attr("id")].trackId;
-            nextAlbumId = idToTrack[ui.item.next().attr("id")].albumId;
+          stop: function(event, ui) {
+            var trackId = idToTrack[ui.item.attr("id")].trackId;
+            var albumId = idToTrack[ui.item.attr("id")].albumId;
+            var nextTrackId = null;
+            var nextAlbumId = null;
+            
+            if (ui.item.next().length > 0) {
+              nextTrackId = idToTrack[ui.item.next().attr("id")].trackId;
+              nextAlbumId = idToTrack[ui.item.next().attr("id")].albumId;
+            }
+                      
+            redrawTable(searchResultsContainer.find("#search_results_body"));
+            
+            $.ajax({
+              url: site_url + "/playlistmanager/update_tracks/",
+              data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
+              dataType: 'json',
+              type: 'POST',
+              
+              success: function(data) {
+                setError(data.error);
+              },
+              
+              error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
+            });
           }
-                    
-          redrawTable(searchResultsContainer.find("#search_results_body"));
-          
-          $.ajax({
-            url: site_url + "/playlistmanager/update_tracks/",
-            data: {'trackid': trackId, 'albumid': albumId, 'next_trackid': nextTrackId == null ? "" : nextTrackId, 'next_albumid': nextAlbumId == null ? "" : nextAlbumId, 'playlistid': playlistid},
-            dataType: 'json',
-            type: 'POST',
-            
-            success: function(data) {
-              setError(data.error);
-            },
-            
-            error: function(XMLHttpRequest, textStatus, errorThrown) { setError(true); }
-          });
-        }
-      });
+        });
+      }
     }
   });
 }
