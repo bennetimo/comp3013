@@ -144,7 +144,7 @@ function appendPlaylist(data) {
 
 function makePlaylistDroppable(playlistsList) {
     
-    playlistsList.find('tr').droppable({
+    playlistsList.find('tr[class!=read-only]').droppable({
         hoverClass: 'ui-playlist-hovered',
         tolerance: 'pointer',
         
@@ -423,7 +423,7 @@ function importPlaylist(playlistid, rowid) {
                     row: rowid
                 }));
                 
-                makePlDroppable(playlistsList);
+                //makePlDroppable(playlistsList);
             }
             
             setError(data.error);
