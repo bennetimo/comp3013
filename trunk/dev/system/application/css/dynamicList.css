@@ -122,3 +122,14 @@ tr.newSort {
 .ui-playlist-hovered {
     background-color: #666666;
 }
+
+a.ui-playlist-delete-button {
+    background-image: url(../images/icon_delete.png);
+    display: block;
+    width: 10px;
+    height: 10px;
+}
+
+a.ui-playlist-delete-button:hover {
+    background-image: url(../images/icon_delete_hover.png);
+}
