@@ -122,7 +122,9 @@ function _stateListener(stateObj){
     player.setNowPlaying();
   }
   else if(previousState == 'BUFFERING' && currentState == 'IDLE'){  
-    player.setNowPlaying();
+    // We cannot play track
+    //player.setNowPlaying();
+    $('#ms-notification').hide();
     // space it out in time to avoid colliding with other concurrent notifications
     setTimeout('setError("Sorry, the track is not available at the moment")', 3500);
   }
