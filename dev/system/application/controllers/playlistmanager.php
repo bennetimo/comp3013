@@ -126,6 +126,10 @@ class PlaylistManager extends Controller {
 			$playlistid = $this->input->post('playlistid');
 
 			try{
+				$pl = Playlist::load($playlistid);
+				if($pl->getOwnerId() != $userid){
+					throw new Exception("Sorry, you are not allowed to remove tracks from a playlist you did not create");
+				}
 				if( ! Playlist::removeTracks($trackid, $albumid, $playlistid)) {
 					$result["error"] = TRUE;
 				}
