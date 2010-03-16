@@ -67,7 +67,10 @@ class PlaylistManager extends Controller {
 	{
 		try{
 			$userid = $this->session->userdata('userid');
-			$tracks = Playlist::load($playlistid)->getTracks($userid);
+			$pl = Playlist::load($playlistid);
+			$read_only = $pl->getOwnerId() != $userid;
+			
+			$tracks = $pl->getTracks($userid);
 		}
 		catch(Exception $e) {
 			echo json_encode(array("error" => $e->getMessage()));
@@ -80,7 +83,7 @@ class PlaylistManager extends Controller {
 			$newTracks[] = $track->toArray();
 		}
 
-		echo json_encode($newTracks);
+		echo json_encode(array("tracks" => $newTracks, "read_only" => $read_only));
 	}
 
 	function update_tracks()
