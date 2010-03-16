@@ -351,7 +351,7 @@ function setTracksListHeaderDisplay(show, playlist) {
 
 
 function importPlaylist(playlistid) {
-  
+  alert("TODO")
 }
 
 function setButtonPlaying(rowId, play) {
