@@ -67,7 +67,6 @@
                 <h3>Find Music.</h3>
                 <form id="search_form" action="<?=site_url('trackmanager/search')?>" method="POST">
                     <input type="text" id="search_input" name="search_term"></input><input type="submit" class="normal_button" value="search" size="15"></input><br />
-                    <span class="search_by_label">search by</span>
                     <input type="radio" name="search_by" value="name" checked="checked" /><span class="search_by_label">name</span>
                     <input type="radio" name="search_by" value="artist" checked="checked" /><span class="search_by_label">artist</span>
                     <input type="radio" name="search_by" value="genre" /><span class="search_by_label">genre</span>
