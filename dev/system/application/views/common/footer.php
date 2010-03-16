@@ -4,8 +4,6 @@
 
 </div>
 <!-- Close the contents created in the header -->
-</div>
-<!-- Close the contents_wrapper created in the header -->
 
 <div id="footer">
 <div id="quick_links">
@@ -41,6 +39,11 @@
 </div>
 </div>
 </div>
+
+</div>
+<!-- Close the contents_wrapper created in the header -->
+
+
 
 </div>
 <!-- Close the container div created in the header -->

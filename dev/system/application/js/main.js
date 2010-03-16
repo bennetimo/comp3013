@@ -157,7 +157,7 @@ function onDrop(el, event, ui)
     success: function(data)
     {
         if(data.error === false){
-          	// DO NOTHING
+          setNotification("The track was added to your playlist");
         }
         setError(data.error);
     },
