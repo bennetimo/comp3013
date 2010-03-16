@@ -47,6 +47,7 @@ searchForm.submit(function()
 	    	if (!data['error'] || data['error'] === false) {
 	    		
 	    	  if($('input[name=search_by]:checked').val() == "playlist"){
+	    	    setTracksListHeaderDisplay(false, false);
 	    	    searchResultsContainer.setPlResults(data);
 	    	  }
 	    	  else {
@@ -106,15 +107,13 @@ add_pl_form.submit(function(e){
           
           var data = {
               playlistid : data.playlistid,
-              playlist_name : playlist_name
+              playlist_name : playlist_name,
+              shared: shared,
+              className: ''
           };
           
-          var t = '<tr id="${playlistid}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
-          	  t+= '<td class="playlist_play"><img src="' + base_url + '/system/application/images/button_play.png" /></td>';
-              t+= '<td class="playlist_is_shared' + (shared ? ' shared' : '') + '"></td>';
-              t+= '<td class="playlist_delete"><img src="' + base_url + '/system/application/images/icon_delete.png" border="0"></td></tr>';
+          appendPlaylist(data);
           
-          playlistsList.append($.template(t).apply(data));
           //important: make the newly added pl droppable
           makePlDroppable(playlistsList);
         }
@@ -132,6 +131,16 @@ window.player.embedPlayer();
 
 //end of document.ready
 });
+
+function appendPlaylist(data)
+{
+  var t = '<tr id="${playlistid}"class="${className}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
+  t+= '<td class="playlist_play"><img src="' + base_url + '/system/application/images/button_play.png" /></td>';
+  t+= '<td class="playlist_is_shared' + (data.shared ? ' shared' : '') + '"></td>';
+  t+= '<td class="playlist_delete"><img src="' + base_url + '/system/application/images/icon_delete.png" border="0"></td></tr>';
+
+  playlistsList.append($.template(t).apply(data));
+}
 
 function makePlDroppable(playlistsList)
 {
@@ -291,6 +300,7 @@ function removePlaylist(playlistid)
       
       if(!data.error){
         playlistsList.find("#"+playlistid).hide();
+        setNotification('The playlist was succesfully removed');
       }
     }
   });
@@ -307,7 +317,7 @@ function redrawTable(searchResultsList)
 buyTrack = function(trackid, albumid){
 	  //Check if the user has already bought the track
 	  	$.ajax({
-	  		url: site_url + "/accountmanager/buytrack/" + trackid + "/" + albumid +"",
+	  		url: site_url + "/accountmanager/buytrack/" + trackid + "/" + albumid,
 	  		async: false,
 	  		type: "post",
 	  		dataType: "json",
@@ -350,8 +360,36 @@ function setTracksListHeaderDisplay(show, playlist) {
 }
 
 
-function importPlaylist(playlistid) {
-  alert("TODO")
+function importPlaylist(playlistid, rowid) {
+  
+  $.ajax({
+        url: site_url + "/playlistmanager/import/" + playlistid,
+        async: true,
+        type: "post",
+        dataType: "json",
+        success : function(data) {
+          if(!data.error){
+            var pl = data.imported_pl;
+            
+            var info = {
+                playlistid : pl.id,
+                playlist_name : pl.name,
+                shared: true, 
+                className: pl.is_owner ? '' : 'read-only'
+            };
+            setNotification('Wicked! You can now play "'+pl.name);
+            appendPlaylist(info);
+            var t ='<a title="Remove playlist" href="javascript:removePlaylist(${playlistid}, ${row})" class="ui-playlist-delete-button pl_button"></a>';
+            searchResultsContainer.find('#'+rowid).find(".pl_button").html($.template(t).apply({playlistid: playlistid, row: rowid}));
+            makePlDroppable(playlistsList);
+          }
+          
+          setError(data.error);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          setError(true);
+        }
+  });
 }
 
 function setButtonPlaying(rowId, play) {
