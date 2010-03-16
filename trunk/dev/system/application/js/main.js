@@ -110,9 +110,9 @@ add_pl_form.submit(function(e){
           };
           
           var t = '<tr id="${playlistid}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
-          	  t+= '<td class="playlist_play"></pl>';
-              t+= '<td class="playlist_is_shared">' + (shared ? '*' : '') + '</td>';
-              t+= '<td class="playlist_delete"><a href="javascript:void(0)" onclick="removePlaylist(${playlistid})">X</a></td></tr>';
+          	  t+= '<td class="playlist_play"><img src="' + base_url + '/system/application/images/button_play.png" /></td>';
+              t+= '<td class="playlist_is_shared' + (shared ? ' shared' : '') + '"></td>';
+              t+= '<td class="playlist_delete"><img src="' + base_url + '/system/application/images/icon_delete.png" border="0"></td></tr>';
           
           playlistsList.append($.template(t).apply(data));
           //important: make the newly added pl droppable
@@ -157,7 +157,7 @@ function onDrop(el, event, ui)
     success: function(data)
     {
         if(data.error === false){
-          alert("success");
+          	// DO NOTHING
         }
         setError(data.error);
     },
