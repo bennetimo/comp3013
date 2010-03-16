@@ -29,8 +29,8 @@ var Player = function(playerid) {
   this.setNowPlaying = function(){
     var info = window.idToTrack[this.currentTrack].full_info;
     var notif = $('#ms-notification');
-    //notif.hide();
     notif.html('<img border="0" src="'+base_url+'/system/application/images/button_play.png"/> <strong>'+info.name+'</strong> by <strong>'+info.main_artist.name+'</strong>');
+    notif.show();
     notif.animate({backgroundColor:"#8fcb41"}, 500, "swing", function(){
       
       notif.animate({backgroundColor:"#000"}, 500, "swing", function(){notif.css('background-color', 'transparent')});
