@@ -26,7 +26,21 @@ var Player = function(playerid) {
         attributes);
   };
   
-  this.playTrack = function(trackid, albumid){
+  this.setNowPlaying = function(){
+    alert(window.idToTrack[this.currentTrack].full_info.name);
+  };
+  
+  this.currentTrack = false;
+  
+  this.playTrack = function(track_index){
+    try{
+      var trackid = window.idToTrack[track_index].trackId;
+      var albumid = window.idToTrack[track_index].albumId;
+      this.currentTrack = track_index;
+    }
+    catch(e){
+     setError(true); 
+    }
 	  //Check if the user has already bought the track
     var player = this;
     $.ajax({
@@ -96,5 +110,8 @@ function stateListener(stateObj){
   currentState = stateObj.newstate; 
   previousState = stateObj.oldstate;
 
-  //alert(previousState +" -> "+ currentState);
+  alert(previousState +" -> "+ currentState);
+  if(previousState == 'BUFFERING' && currentState == 'PLAYING'){  
+    player.setNowPlaying();
+  }
 }
