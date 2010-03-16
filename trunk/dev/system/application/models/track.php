@@ -201,18 +201,24 @@ class Track extends Model
 	 * @param string $genre
 	 * @return array of Track
 	 */
-	static function &searchByGenre($genre, $userid = NULL)
+	static function &searchByGenre($genre, $userid = NULL, $start=0, $display=30)
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
-    FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
-    WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
-    AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
-    ORDER BY g.`name`, art.name, a.name";
+		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+	    FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
+	    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+	    WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
+	    AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
+	    ORDER BY g.`name`, art.name, a.name LIMIT $start, $display";
 
-		return self::getTrackList($query);
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  self::getTrackList($query);
+			
+		$res = $CI->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
 	/**
@@ -220,18 +226,24 @@ class Track extends Model
 	 * @param string $artist
 	 * @return array of Track
 	 */
-	static function &searchByArtist($artist, $userid = NULL)
+	static function &searchByArtist($artist, $userid = NULL, $start=0, $display=30)
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.`name` AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
-    FROM `track` t, `artist` art,`album` a, `album_track` at 
-    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
-    WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
-    AND t.id = at.`trackid` AND a.id = at.`albumid`
-    ORDER BY art.`name`, a.`name`";
+		$query = "SELECT SQL_CALC_FOUND_ROWS a.`name` AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+	    FROM `track` t, `artist` art,`album` a, `album_track` at 
+	    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
+	    WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
+	    AND t.id = at.`trackid` AND a.id = at.`albumid`
+	    ORDER BY art.`name`, a.`name` LIMIT $start, $display";
 
-		return self::getTrackList($query);
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  self::getTrackList($query);
+			
+		$res = $CI->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
 	/**
@@ -239,32 +251,44 @@ class Track extends Model
 	 * @param string $track_name
 	 * @return array of Tracks
 	 */
-	static function &searchTrackName($track_name, $userid = NULL)
+	static function &searchTrackName($track_name, $userid = NULL, $start=0, $display=30)
 	{
 		$CI = &get_instance();
 			
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
 		LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
 		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
-		ORDER BY  art.name, a.name, t.`name`";
+		ORDER BY  art.name, a.name, t.`name` LIMIT $start, $display";
 
-		return self::getTrackList($query);
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  self::getTrackList($query);
+			
+		$res = $CI->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
-	public static function &getUserCollection($userid)
+	public static function &getUserCollection($userid, $start=0, $display=30)
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
+		$query = "SELECT".($return_num_rows ? " SQL_CALC_FOUND_ROWS" : "")."a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
     WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
     t.main_artistid = art.id
     AND t.id = at.`trackid` AND a.id = at.`albumid` 
-    ORDER BY art.name, a.name, t.`name`";
-
-		return self::getTrackList($query);
+    ORDER BY art.name, a.name, t.`name` LIMIT $start, $display";
+		
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  self::getTrackList($query);
+			
+		$res = $CI->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
 	static function &getTrackList($query, $includeAll = TRUE)

@@ -20,6 +20,11 @@ $.fn.setPlResults = function(data) {
 };
 $.fn.setResults = function(data, options) {
 	
+	//Retrieve the values
+	var num_pages = data.num_pages;
+	var cur_page = data.cur_page;
+	var data = data.tracks;
+	
 	// clears any contents from the tracks containter
 	if (options && options["playlist"]) {
 		this.html('<table class="search_results_table"><tbody id="search_results_body"></tbody></table>');
@@ -103,6 +108,29 @@ $.fn.setResults = function(data, options) {
 			this.find("#" + sortId).append($.template(t).apply(tData));
 		}
 	}
+	
+	var appendString = "<div id=\"page_links\"><p>";
+	//Add previous link if not the first page
+	var prev_page = cur_page-0 - 1;
+	if(cur_page != 0){
+		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+ prev_page +")\"\">previous</a>";
+	}
+	
+	for(var i=0;i<num_pages;i++){
+		if(i != cur_page){
+			appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+i+")\"\">" + (i+1) + "</a>";
+		}else{
+			appendString = appendString + (i+1);
+		}
+	}
+	
+	//Add next link if not the last page
+	if(cur_page != (num_pages-1)){
+		var next_page = cur_page-0 + 1;
+		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+ next_page+ ")\"\">next</a>";
+	}
+	appendString = appendString + "</p></div>";
+	this.append(appendString);
 };
 
 function setNotification(message){

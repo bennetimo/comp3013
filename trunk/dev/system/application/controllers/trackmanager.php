@@ -53,7 +53,7 @@ class TrackManager extends Controller {
 		}
 	}
 
-	function search()
+	function search($page=0, $display = 26)
 	{
 		$searchBy = $_POST["search_by"];
 		$term = $_POST["search_term"];
@@ -62,13 +62,13 @@ class TrackManager extends Controller {
 
 		try{
 			if ($searchBy == "name") {
-				$tracks = Track::searchTrackName($term, $userid);
+				$returned = Track::searchTrackName($term, $userid, $page*$display, $display);
 			}
 			else if ($searchBy == "genre") {
-				$tracks = Track::searchByGenre($term, $userid);
+				$returned = Track::searchByGenre($term, $userid, $page*$display, $display);
 			}
 			else if($searchBy == "artist"){
-				$tracks = Track::searchByArtist($term, $userid);
+				$returned = Track::searchByArtist($term, $userid, $page*$display, $display);
 			}
 			else if ($searchBy == "playlist"){
 				$this->load->static_model("Playlist");
@@ -84,14 +84,25 @@ class TrackManager extends Controller {
 			echo json_encode(array("error" => $e->getMessage()));
 			return;
 		}
+		
+		$tracks = $returned['tracks'];
+		$num_rows = $returned['rows'];
+		
+		if($num_rows > $display){
+			$num_pages = ceil($num_rows/$display);
+		}else{
+			$num_pages = 1;
+		}
+		
 		$newTracks = array();
-
+		
 		foreach ($tracks as $track) {
 
 			$newTracks[] = $track->toArray();
 		}
 
-		echo json_encode($newTracks);
+		$result = array("tracks" => $newTracks, "cur_page" => $page, "num_pages" => $num_pages);
+		echo json_encode($result);
 	}
 
 	function getUserCollection()
