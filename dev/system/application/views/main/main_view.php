@@ -19,10 +19,10 @@
 			<tr align="center" valign="top">
 				<td>
 					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (<?= count($records) ?>)</option> 
+						<option  value="all">All (<?= count($mb_genres) ?>)</option> 
 						
 						<?php 
-						foreach($records as $record){
+						foreach($mb_genres as $record){
 							echo "<option value='1'>$record</option>";
 						}
 						?>	
@@ -30,7 +30,12 @@
 				</td>
 				<td>
 					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (7)</option> 
+						<option  value="all">All (<?= count($mb_artists) ?>)</option> 
+						<?php 
+						foreach($mb_artists as $record){
+							echo "<option value='1'>$record</option>";
+						}
+						?>	
 					</select>
 				</td>
 				<td>
