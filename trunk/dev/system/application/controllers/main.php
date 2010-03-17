@@ -22,12 +22,15 @@ class Main extends Controller {
 			$user = new User($userid);
 		}
 		
+		$records = Track::getUserGenres($userid);
+		
 		$data = array(
 			'userid' => $userid,
 		  'user' => $user,
 			'playlists' => $playlists,
 			'page_title' => "Welcome.",
-			'dark' => TRUE
+			'dark' => TRUE,
+			'records' => $records
 		);
 		
 		$this->load->view("common/header.php", $data);
@@ -96,7 +99,7 @@ class Main extends Controller {
 		$joined = $user->getJoined();
 		$email = $user->getEmail();
 		$credit = $user->getCredit();
-		
+
 		$data = array(
 			'userid' => $userid,
 			'user' => $user,
