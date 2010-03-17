@@ -193,6 +193,9 @@ img {
 
 #page_links a{
 	padding:0 5px;
+	border:thin #8fcb41 solid;
+	color:#8fcb41;
+	margin:3px;
 }
 
 /* sidebar styles */
