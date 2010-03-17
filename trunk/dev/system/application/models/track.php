@@ -295,11 +295,30 @@ class Track extends Model
 		$CI = &get_instance();
 
 		$query = "SELECT g.name FROM `track` t, `artist` art,`album` a, `album_track` at, `track_genre` tg, `genre` g
-	    WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = 4) AND
+	    WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
 	    t.main_artistid = art.id
 	    AND t.id = at.`trackid` AND a.id = at.`albumid` AND tg.trackid = t.id AND tg.genreid = g.id
 		GROUP BY g.name
 		ORDER BY art.name, a.name, t.`name`";
+		
+		$result = $CI->db->query($query)->result();
+		
+		$return = array();
+		
+		foreach ($result as $row)	{
+			$return[] = $row->name;
+		}
+		
+		return $return;
+	}
+	
+	public static function &getUserArtists($userid){
+		$CI = &get_instance();
+
+		$query = "SELECT art.name FROM `track` t, `artist` art,`artist_track` at
+		WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
+		AND t.main_artistid = art.id
+		group by art.name";
 		
 		$result = $CI->db->query($query)->result();
 		

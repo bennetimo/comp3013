@@ -22,7 +22,8 @@ class Main extends Controller {
 			$user = new User($userid);
 		}
 		
-		$records = Track::getUserGenres($userid);
+		$mb_genres = Track::getUserGenres($userid);
+		$mb_artists = Track::getUserArtists($userid);
 		
 		$data = array(
 			'userid' => $userid,
@@ -30,7 +31,8 @@ class Main extends Controller {
 			'playlists' => $playlists,
 			'page_title' => "Welcome.",
 			'dark' => TRUE,
-			'records' => $records
+			'mb_genres' => $mb_genres,
+			'mb_artists' => $mb_artists
 		);
 		
 		$this->load->view("common/header.php", $data);
