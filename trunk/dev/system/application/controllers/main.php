@@ -39,7 +39,8 @@ class Main extends Controller {
 		$userid = $this->session->userdata('userid');
 		
 		if($userid == null){
-			redirect("/main");
+			echo json_encode(array("error" => "You have to be logged in to view your account!"));
+			return;
 		}
 		
 		$this->load->static_model('Playlist');
@@ -66,6 +67,18 @@ class Main extends Controller {
 		$this->load->view("common/header.php", $data);
 		$this->load->view("account/account_view.php", $data);
 		$this->load->view("common/footer.php");
+	}
+	
+	function loggedIn(){
+		$userid = $this->session->userdata('userid');
+		
+		if($userid == null){
+			echo json_encode(array("error" => "You have to be logged in to view your account!"));
+			return;
+		}else{
+			echo json_encode(array("yes" => ""));
+			return;
+		}
 	}
 	
 	function topUp(){

@@ -46,7 +46,7 @@
                             </li>
                             <!--<li><a href="<?=site_url('search')?>">Search</a></li>-->
                             <li>
-                                <a href="<?=site_url('main/account')?>">My Account</a>
+                                <a href="javascript:loadMyAccount();">My Account</a>
                             </li>
                             <li>
                                 <a href="javascript:loadUserCollection()">My Music</a>

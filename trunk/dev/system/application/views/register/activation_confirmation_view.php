@@ -1,3 +1,7 @@
+<div class="page_title"><h3><?=$page_title?></h3></div>
+
+<div id="content_padder">
+
 <h3>Welcome.</h3>
 <p>
 Congratulations, your account has been successfully activated!
@@ -6,3 +10,5 @@ Congratulations, your account has been successfully activated!
 
 Click <a href="<?=site_url('main')?>">here</a> to return to the homepage where you can now login
 </p>
+
+</div>

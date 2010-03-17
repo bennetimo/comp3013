@@ -1,9 +1,10 @@
 
 <? if ($userid == "" || !$userid): ?>
-<div id="content_padder" class="welcome_text">
-    <div class="page_title">
+<div class="page_title">
         <h3><?= $page_title?></h3>
     </div>
+<div id="content_padder" class="welcome_text">
+    
 </div>
 <? endif; ?>
 
@@ -61,18 +62,14 @@
 		<h3>127</h3>
 		<p>registered users</p>
 	</div>
-
-	<br /><br /><br /><br /><br /><br />
 	
 	<div class="content_box">
 		<p>Try searching for your favourite music now using the box on the left, you'll be susprised at what we have on offer</p>
-		<p>Or, have a look at the top playlists</p>
-		<a class="styled_button" href="<?=site_url('main')?>"><span>Top Playlists</span></a>
 	</div>
 	
 	<div class="content_box">
 		<p>To be on your way to enjoying all this music, create an account free now</p>
-		<a class="styled_button" href="<?=site_url('main')?>"><span>Create Account</span></a>
+		<a class="list_button" href="<?=site_url('register')?>"><span>Create Account</span></a>
 	</div>
 	
 </div>
