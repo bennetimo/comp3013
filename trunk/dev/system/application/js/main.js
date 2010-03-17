@@ -75,7 +75,7 @@ $(document).ready(function() {
                     appendPlaylist(data);
                     
                     // important: make the newly added pl droppable
-                    makePlDroppable(playlistsList);
+                    makePlaylistDroppable(playlistsList);
                 }
                 setError(data.error);
             },
