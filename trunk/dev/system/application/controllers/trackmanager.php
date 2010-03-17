@@ -105,7 +105,7 @@ class TrackManager extends Controller {
 		echo json_encode($result);
 	}
 
-	function getUserCollection()
+	function getUserCollection($page=0, $display = 26)
 	{
 		$userid = $this->session->userdata('userid');
 		$result_tracks = array();
@@ -116,20 +116,32 @@ class TrackManager extends Controller {
 		}
 
 		try{
-			$tracks = Track::getUserCollection($userid);
+			$returned = Track::getUserCollection($userid, $page*$display, $display);
 		}
 		catch(Exception $e) {
 			echo json_encode(array("error" => "User must be logged in to access her playlist."));
 			return;
 		}
 
-		foreach ($tracks as $track) {
+		$tracks = $returned['tracks'];
+    $num_rows = $returned['rows'];
+    
+    if($num_rows > $display){
+      $num_pages = ceil($num_rows/$display);
+    }else{
+      $num_pages = 1;
+    }
+    
+    $newTracks = array();
+    
+    foreach ($tracks as $track) {
 
-			$result_tracks[] = $track->toArray();
-		}
+      $newTracks[] = $track->toArray();
+    }
 
-		echo json_encode($result_tracks);
-		 
+    $result = array("tracks" => $newTracks, "cur_page" => $page, "num_pages" => $num_pages);
+    
+    echo json_encode($result); 
 	}
 }
 

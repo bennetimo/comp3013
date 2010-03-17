@@ -4,7 +4,7 @@ $.fn.setPlResults = function(data) {
 	var cur_page = data.cur_page;
 	var data = data.tracks;
 	
-  var HTML = '<h4>Playlists Search Result</h4><table class="search_results_table">';
+  var HTML = '<h4 style="padding-top:10px;margin-top:0;color:white;">Playlists Search Result</h4><table class="search_results_table">';
   var t;
   
   for (i in data) {
