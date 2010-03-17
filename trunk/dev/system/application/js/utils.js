@@ -158,49 +158,61 @@ function buildPageLinkAppendString(cur_page, num_pages, playlist_id){
 	return appendString;
 }
 
-function setNotification(message, error){
-	if(error){
-		var wait = 5000;
-	}else{
-		var wait = 3000;
-	}
-	
-	var error_box = $("#error_box");
-	
-	if(error){
-		error_box.addClass("error_box_red");
-	}
-	
-	var default_error_msg = "An error occured. Please try again later.";
+var semafor = 0;
 
-	if (message === false || typeof message == "undefined") {
-		error_box.animate({
-			height: '0px'
-		});
-		if(error){error_box.removeClass("error_box_red")};
-	}
-	else {
-		if (typeof message != "string") {
-			message = default_error_msg;
-		}
+function setNotification(message, error) {
 
-		error_box.html(message).animate({
-			height: '35px'
-		}).delay(wait).animate( {
-			height: '0px'
-		}, 250, function() {
-			$(this).html('');
-			error_box.removeClass("error_box_red");
-		});
-		
-		var offset = error_box.offset();
-		
-		
-		$('html, body').animate({
-			scrollTop: offset.top - 20
-		}, 'slow');	
-	}
-	
+    if (error) {
+        var wait = 5000;
+    }
+    else {
+        var wait = 3000;
+    }
+    
+    var error_box = $("#error_box");
+    
+    if (error) {
+        error_box.addClass("error_box_red");
+    }
+    
+    var default_error_msg = "An error occured. Please try again later.";
+    
+    if (message === false || typeof message == "undefined") {
+        error_box.animate({
+            height: '0px'
+        });
+        if (error) {
+            error_box.removeClass("error_box_red")
+        };
+            }
+    else {
+        if (typeof message != "string") {
+            message = default_error_msg;
+        }
+        
+        semafor++;
+        error_box.dequeue();
+        
+        error_box.html(message).animate({
+            height: '35px'
+        });
+        
+        setTimeout(function() {
+            semafor--;
+            if (semafor == 0) {
+                error_box.animate({height: "0px"}, function() {
+                    $(this).html('');
+                    error_box.removeClass("error_box_red");
+                });
+            } 
+        }, wait);
+        
+        var offset = error_box.offset();
+        
+        $('html, body').animate({
+            scrollTop: offset.top - 20
+        }, 'slow');
+    }
 }
 
 function setError(error_message) {
