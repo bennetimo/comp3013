@@ -5,6 +5,7 @@ var playlistsList = $("#playlists_list");
 var loginForm = $("#login_form");
 var loginError = $("#error_box");
 var playlistAddForm = $('#playlist_add_form');
+var musicBrowser = $('#music_browser');
 
 $(document).ready(function() {
     
@@ -42,6 +43,11 @@ $(document).ready(function() {
     $('#playlist_add_link').click(function(e) {
         e.preventDefault();
         playlistAddForm.slideToggle();
+    });
+    
+    $('#show_search_options').click(function(e) {
+        e.preventDefault();
+        musicBrowser.slideToggle();
     });
     
     /*

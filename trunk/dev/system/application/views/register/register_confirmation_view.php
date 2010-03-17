@@ -10,3 +10,4 @@ email in order to activate your account and start using Musique!
 Click <a href="<?=site_url('main')?>">here</a> to return to the homepage
 </p>
 </div>
+<script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>
