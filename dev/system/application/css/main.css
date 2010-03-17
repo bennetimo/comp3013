@@ -319,9 +319,22 @@ playlist_add_table {
     /*background-image:url(../images/feature_box.png);*/
     border-left: 3px black solid;
     border-top: 3px black solid;
-    width: 180px;
+    width: 150px;
     background-repeat: no-repeat;
     height: 100px;
+}
+
+#user_balance{
+	float:left;
+}
+
+#topup_options{
+	float:right;
+}
+
+#topup_options .list_button{
+	display:block;
+	margin:5px 20px;
 }
 
 .feature_box h3{
@@ -441,7 +454,7 @@ playlist_add_table {
     padding: 5px 10px;
     margin: 0 3px;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 12px;
     border: thin black solid;
     background: #000000 url(../images/button_bg.jpg) repeat-x left top;
     list-style: none;
@@ -457,6 +470,15 @@ playlist_add_table {
     position: relative;
     text-align: center;
     width: 950px;
+}
+
+#user_details{
+	
+}
+
+#user_details p{
+	padding:1px;
+	margin:1px;
 }
 
 #ms-notification{
