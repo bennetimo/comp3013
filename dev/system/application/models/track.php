@@ -275,7 +275,7 @@ class Track extends Model
 	{
 		$CI = &get_instance();
 
-		$query = "SELECT".($return_num_rows ? " SQL_CALC_FOUND_ROWS" : "")."a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
+		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
     FROM `track` t, `artist` art,`album` a, `album_track` at 
     WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
     t.main_artistid = art.id
