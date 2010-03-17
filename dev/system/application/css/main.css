@@ -192,9 +192,10 @@ img {
 }
 
 #page_links a{
-	padding:0 5px;
-	border:thin #8fcb41 solid;
-	color:#8fcb41;
+	padding:1px 5px;
+	background-color:#8fcb41;
+	border:2px #000 solid;
+	color:#333;
 	margin:3px;
 }
 
