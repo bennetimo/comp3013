@@ -314,14 +314,18 @@ playlist_add_table {
 
 .feature_box {
     float: left;
-    margin: 0 10px;
-    padding: 0 10px;
+    margin: 15px 10px;
+    padding: 5px 10px;
     /*background-image:url(../images/feature_box.png);*/
     border-left: 3px black solid;
     border-top: 3px black solid;
     width: 180px;
     background-repeat: no-repeat;
     height: 100px;
+}
+
+.feature_box h3{
+	color:#000;
 }
 
 .end_features {
@@ -355,13 +359,14 @@ playlist_add_table {
 .page_title {
     font-size: 24;
     font-weight: bold;
-    padding: 10px 0px;
-    color: #000000;
+    padding: 10px 20px;
+    background-color: #555;
     margin: 0;
 }
 
 .page_title h3 {
     color: #000000;
+	font-weight:bold;
 }
 
 .page_title h3 {

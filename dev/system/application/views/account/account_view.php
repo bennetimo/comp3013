@@ -1,5 +1,8 @@
+<div class="page_title"><h3><?=$page_title?></h3></div>
 
 <div id="content_padder">
+
+
 
 <div class="content_box">
 	<p><?=$user->getFName()?>, this is your account page. Here you can add more money to your Musique account to allow you to enjoy even more great music!</p>

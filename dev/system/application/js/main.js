@@ -249,12 +249,12 @@ function loadUserCollection() {
     });
 }
 
-function loadPlaylist(playlistid) {
+function loadPlaylist(playlistid, pageNumber) {
     
     var playlistid = playlistid;
     
     $.ajax({
-        url: site_url + "/playlistmanager/get_tracks/" + playlistid,
+        url: site_url + "/playlistmanager/get_tracks/" + playlistid + "/" +pageNumber,
         async: true,
         dataType: "json",
         

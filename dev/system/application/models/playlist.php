@@ -75,7 +75,7 @@ class Playlist extends Model
 		return $this->ownerid;
 	}
 
-	public function &getTracks($userid)
+	public function &getTracks($userid, $start=0, $display=30)
 	{
 		if($this->id == NULL){
 			throw new Exception("Missing playlist ID when getting playlist's tracks");
@@ -84,16 +84,22 @@ class Playlist extends Model
 		if($this->tracks == NULL){
 			$this->load->static_model('Track');
 
-			$query = "SELECT a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
+			$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.*, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
     FROM `track` t, `artist` art,`album` a, `album_track` at, `playlist_track` pt
     LEFT JOIN `user_track` ut ON(ut.trackid = pt.trackid AND ut.userid = ".$this->db->escape($userid).")
     WHERE pt.playlistid = ".$this->db->escape($this->id)." AND pt.albumid = a.id AND pt.trackid = t.id   
-    AND t.main_artistid = art.id AND t.id = at.`trackid` AND a.id = at.`albumid` ORDER BY pt.`play_order`";
+    AND t.main_artistid = art.id AND t.id = at.`trackid` AND a.id = at.`albumid` ORDER BY pt.`play_order` LIMIT $start, $display";
 
 			$this->tracks = Track::getTrackList($query);
 		}
-
-		return $this->tracks;
+	
+		$result = array("tracks" => NULL, "rows" => NULL);
+		$result["tracks"] =  $this->tracks;
+			
+		$res = $this->db->query("SELECT FOUND_ROWS() AS num_rows")->first_row();
+		$result["rows"] = $res->num_rows;
+		
+		return  $result;
 	}
 
 	public static function load($playlistid)
