@@ -67,7 +67,7 @@ var Player = function(playerid) {
     var jqueryPlayer = $(this.playerObj);
     var left = ($('#mediaspace').width()/2) - (jqueryPlayer.width()/2);
     this.playerObj.style.position = "absolute";
-    this.playerObj.style.bottom = "-3px";
+    this.playerObj.style.bottom = "-23px";
     this.playerObj.style.left = left+"px";
     
     $("#video-controller").html('<a href="javascript:player.stopVideo('+track_index+')">Switch OFF Video Mode</a>').show();
@@ -81,12 +81,11 @@ var Player = function(playerid) {
     if(!this.playerObj){
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
-    }
-    this.playerObj.style.position = "";
-    this.playerObj.style.bottom = "";
-    this.playerObj.style.left = "";
-    
+    }    
     $("#video-controller").hide();
+    $('#ms-notification').hide();
+    $(this.playerObj).remove().after('<div id="media_container"></div>');
+    this.embedPlayer();
   };
   
   this.playTrack = function(track_index){

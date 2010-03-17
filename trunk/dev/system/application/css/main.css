@@ -538,7 +538,7 @@ playlist_add_table {
     white-space:nowrap;
     position:absolute;
     left:0;
-    bottom:0;
+    /*bottom:0;*/
 }
 #latch {
     background: url(../images/latch_bg2.png) bottom left repeat-x;
@@ -554,7 +554,7 @@ playlist_add_table {
 #video-controller{
     position: absolute;
     right:0;
-    bottom:0;
+    /*bottom:0;*/
     margin-right:25px;
     	
 }
