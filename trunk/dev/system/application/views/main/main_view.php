@@ -12,15 +12,14 @@
 	<table>
 		<form action="/shop/index.php" method="post" name="shop">
 			<tr align="center" valign="top">
-				<td><div class="mesH1">Genre</div></td>
-				<td><div class="mesH1">Artist</div></td>
-				<td><div class="mesH1">Album</div></td>
+				<td><div class="music_browser_header">Genre</div></td>
+				<td><div class="music_browser_header">Artist</div></td>
+				<td><div class="music_browser_header">Album</div></td>
       		</tr>
 			<tr align="center" valign="top">
 				<td>
 					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
 						<option  value="all">All (<?= count($mb_genres) ?>)</option> 
-						
 						<?php 
 						foreach($mb_genres as $record){
 							echo "<option value='1'>$record</option>";
@@ -40,7 +39,12 @@
 				</td>
 				<td>
 					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (7)</option> 
+						<option  value="all">All (<?= count($mb_albums) ?>)</option> 
+						<?php 
+						foreach($mb_albums as $record){
+							echo "<option value='1'>$record</option>";
+						}
+						?>	
 					</select>
 				</td>
 			</tr>

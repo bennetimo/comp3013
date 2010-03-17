@@ -24,15 +24,17 @@ class Main extends Controller {
 		
 		$mb_genres = Track::getUserGenres($userid);
 		$mb_artists = Track::getUserArtists($userid);
+		$mb_albums = Track::getUserAlbums($userid);
 		
 		$data = array(
 			'userid' => $userid,
-		  'user' => $user,
+		  	'user' => $user,
 			'playlists' => $playlists,
 			'page_title' => "Welcome.",
 			'dark' => TRUE,
 			'mb_genres' => $mb_genres,
-			'mb_artists' => $mb_artists
+			'mb_artists' => $mb_artists,
+			'mb_albums' => $mb_albums
 		);
 		
 		$this->load->view("common/header.php", $data);

@@ -334,6 +334,25 @@ class Track extends Model
 		
 		return $return;
 	}
+	
+	public static function &getUserAlbums($userid){
+		$CI = &get_instance();
+
+		$query = "SELECT a.name FROM `track` t, `album` a,`album_track` at
+		WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
+		AND at.trackid = t.id aND at.albumid = a.id
+		group by a.name";
+		
+		$result = $CI->db->query($query)->result();
+		
+		$return = array();
+		
+		foreach ($result as $row)	{
+			$return[] = $row->name;
+		}
+		
+		return $return;
+	}
 
 	static function &getTrackList($query, $includeAll = TRUE)
 	{
