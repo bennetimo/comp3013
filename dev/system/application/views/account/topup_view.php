@@ -9,12 +9,13 @@
 	</div>
 	
 	<div id="topup_options" class="content_box">
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/100')?>"><span>Add &pound;1</span></a>
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/500')?>"><span>Add &pound;5</span></a>
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/1000')?>"><span>Add &pound;10</span></a>
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/2000')?>"><span>Add &pound;20</span></a>
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/5000')?>"><span>Add &pound;50</span></a>
-		<a class="list_button" href="<?=site_url('accountmanager/addcredit/10000')?>"><span>Add &pound;100</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 1 added!')" href="<?=site_url('accountmanager/addcredit/100')?>"><span>Add &pound;1</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 5 added!')" href="<?=site_url('accountmanager/addcredit/500')?>"><span>Add &pound;5</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 10 added!')" href="<?=site_url('accountmanager/addcredit/1000')?>"><span>Add &pound;10</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 20 added!')" href="<?=site_url('accountmanager/addcredit/2000')?>"><span>Add &pound;20</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 50 added!')" href="<?=site_url('accountmanager/addcredit/5000')?>"><span>Add &pound;50</span></a>
+		<a class="list_button" onclick="javascript:setNotification('&pound; 100 added!')" href="<?=site_url('accountmanager/addcredit/10000')?>"><span>Add &pound;100</span></a>
 	</div>
 
 </div>
+<script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>

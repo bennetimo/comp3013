@@ -8,6 +8,36 @@
 </div>
 <? endif; ?>
 
+<div id="music_browser">
+	<table>
+		<form action="/shop/index.php" method="post" name="shop">
+			<tr align="center" valign="top">
+				<td><div class="mesH1">Genre</div></td>
+				<td><div class="mesH1">Artist</div></td>
+				<td><div class="mesH1">Album</div></td>
+      		</tr>
+			<tr align="center" valign="top">
+				<td>
+					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
+						<option  value="all">All (7)</option> 
+					</select>
+				</td>
+				<td>
+					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
+						<option  value="all">All (7)</option> 
+					</select>
+				</td>
+				<td>
+					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
+						<option  value="all">All (7)</option> 
+					</select>
+				</td>
+			</tr>
+      </form>
+    </table>  
+</div>
+
+<h3 class="search_options_header"><a href="#" id="show_search_options">Show Search Options</a></h3>
 <div id="search_results_box" class="tracks_list_box">
 
     <table class="tracks_list_header" style="display: none; background-color: #212121; font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
@@ -24,8 +54,9 @@
             </tr>
         </tbody>
     </table>
-
+   	
     <div id="search_results_container">
+
     </div>
     
 </div>
@@ -74,5 +105,4 @@
 	
 </div>
 <? endif; ?>
-
 <script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>

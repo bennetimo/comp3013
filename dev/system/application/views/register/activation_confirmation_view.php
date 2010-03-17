@@ -12,3 +12,4 @@ Click <a href="<?=site_url('main')?>">here</a> to return to the homepage where y
 </p>
 
 </div>
+<script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>

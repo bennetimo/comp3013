@@ -80,3 +80,4 @@ registerForm.submit(function() {
 });
 
 </script>
+<script type="text/javascript" src="<?=base_url()?>system/application/js/main.js"></script>
