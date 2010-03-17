@@ -193,10 +193,13 @@ img {
 
 #page_links a{
 	padding:1px 5px;
-	background-color:#8fcb41;
-	border:2px #000 solid;
+	background-color:#555;
 	color:#333;
 	margin:3px;
+}
+
+#page_links a:hover{
+	background-color:#8fcb41;
 }
 
 /* sidebar styles */
