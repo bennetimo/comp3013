@@ -145,3 +145,16 @@ a.ui-playlist-import-button{
     display: block;
     width: 10px;
     height: 10px;
+}
+
+a.ui-play-video-button {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background-image: url(../images/button_video.png);
+    background-repeat: no-repeat;
+}
+
+.video_button_cell {
+    width: 10px;
+}

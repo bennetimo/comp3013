@@ -25,6 +25,7 @@ $.fn.setPlResults = function(data) {
   this.html(HTML);
   this.append(buildPageLinkAppendString(cur_page, num_pages, playlist_id));
 };
+
 $.fn.setResults = function(data, options) {
 	
 	//Retrieve the values
@@ -91,7 +92,11 @@ $.fn.setResults = function(data, options) {
 		
 		var t = '';
 		t += '<tr id="${rowId}" class="${rowStyle}"><td class="handle">::</td><td class="track_name"><div>${trackName}</div></td>';
-		t += '<td class="track_button_cell"><a href="javascript:player.playTrack(${rowId})" class="track_button"><img src="${baseUrl}/system/application/images/${buttonSrc}.png" border="0"></a></td><td class="track_price"><div>${price}</div></td><td class="track_genres"><div>${genres}</div></td><td class="album_name"><div>${albumName}</div></td>';
+        t += '<td class="video_button_cell">';
+        t += data["video"] ? '<a href="javascript:player.playVideo(${rowId})" class="ui-play-video-button"></a>' : '';
+        t += '</td>';
+		t += '<td class="track_button_cell"><a href="javascript:player.playTrack(${rowId})" class="track_button"><img src="${baseUrl}/system/application/images/${buttonSrc}.png" border="0"></a></td>';
+        t += '<td class="track_price"><div>${price}</div></td><td class="track_genres"><div>${genres}</div></td><td class="album_name"><div>${albumName}</div></td>';
 		t += '<td class="track_artists"><div>${artists}</div></td>';
 		t += (options && options['playlist']) ? '<td class="track_delete"><a href="#"  class="ui-playlist-delete-button" title="Delete From Playlist"></a></td>' : '';
 		t += '</tr>';
