@@ -138,9 +138,9 @@ function onSearchSubmit(pageNumber)
 function appendPlaylist(data) {
     
     var t = '<tr id="${playlistid}"class="${className}"><td><a href="#pl${playlistid}" onclick="loadPlaylist(\'${playlistid}\')">${playlist_name}</a></td>';
-    t += '<td class="playlist_play"><img src="' + base_url + '/system/application/images/button_play.png" /></td>';
+    t += '<td class="playlist_play"><a onclick="player.playPlaylist(\'${playlistid}\')" href="#pl${playlistid}"><img src="' + base_url + '/system/application/images/button_play.png" /></td>';
     t += '<td class="playlist_is_shared' + (data.shared ? ' shared' : '') + '"></td>';
-    t += '<td class="playlist_delete"><img src="' + base_url + '/system/application/images/icon_delete.png" border="0"></td></tr>';
+    t += '<td class="playlist_delete"><a href="javascript:void(0)" class="ui-playlist-delete-button" onclick="removePlaylist(\'${playlistid}\')"></a></tr>';
     
     playlistsList.append($.template(t).apply(data));
 }
