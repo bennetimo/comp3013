@@ -124,24 +124,24 @@ class TrackManager extends Controller {
 		}
 
 		$tracks = $returned['tracks'];
-    $num_rows = $returned['rows'];
+    	$num_rows = $returned['rows'];
     
-    if($num_rows > $display){
-      $num_pages = ceil($num_rows/$display);
-    }else{
-      $num_pages = 1;
-    }
-    
-    $newTracks = array();
-    
-    foreach ($tracks as $track) {
-
-      $newTracks[] = $track->toArray();
-    }
-
-    $result = array("tracks" => $newTracks, "cur_page" => $page, "num_pages" => $num_pages);
-    
-    echo json_encode($result); 
+	    if($num_rows > $display){
+	      $num_pages = ceil($num_rows/$display);
+	    }else{
+	      $num_pages = 1;
+	    }
+	    
+	    $newTracks = array();
+	    
+	    foreach ($tracks as $track) {
+	
+	      $newTracks[] = $track->toArray();
+	    }
+	
+	    $result = array("tracks" => $newTracks, "cur_page" => $page, "num_pages" => $num_pages);
+	    
+	    echo json_encode($result); 
 	}
 }
 
