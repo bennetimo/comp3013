@@ -184,7 +184,7 @@ function setNotification(message, error) {
         if (error) {
             error_box.removeClass("error_box_red")
         };
-            }
+    }
     else {
         if (typeof message != "string") {
             message = default_error_msg;
@@ -209,9 +209,7 @@ function setNotification(message, error) {
         
         var offset = error_box.offset();
         
-        $('html, body').animate({
-            scrollTop: offset.top - 20
-        }, 'slow');
+        $('html, body').animate({scrollTop: offset.top - 20}, 'slow');
     }
 }
 
