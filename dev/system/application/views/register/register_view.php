@@ -1,3 +1,5 @@
+<div class="page_title"><h3><?=$page_title?></h3></div>
+
 <div id="content_padder">
 
 <div class="content_box">

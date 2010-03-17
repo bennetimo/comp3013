@@ -249,6 +249,25 @@ function loadUserCollection() {
     });
 }
 
+function loadMyAccount() {
+    $.ajax({
+        url: site_url + "/main/loggedin",
+        async: true,
+        dataType: "json",
+        
+        success: function(data) {
+            if (data['error']) {
+            	setError(data.error);
+            }else{
+            	window.location = site_url + "/main/account";
+            }
+        },
+    	error: function(XMLHttpRequest, textStatus, errorThrown) {
+            setError(true);
+        }
+    });
+}
+
 function loadPlaylist(playlistid, pageNumber) {
     
     var playlistid = playlistid;
