@@ -193,6 +193,10 @@ class Track extends Model
 		foreach($this->getFeatArtists() as $art) {
 			$array['feat_artists'][] = $art->toArray();
 		}
+		
+		//only take the first video
+		$v = $this->getVideos();
+		$array['video'] = count($v) ? $v[0]->toArray() : NULL;
 
 		return $array;
 	}

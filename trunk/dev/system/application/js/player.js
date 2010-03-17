@@ -51,19 +51,28 @@ var Player = function(playerid) {
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
     }
-    //$(this.playerObj).after('<div id="media_container"></div>').remove();
-    this.playerObj.style.height = "240px";
     
-    //this.embedPlayer('240');
+    try { var info = window.idToTrack[track_index].full_info;}
+    catch(e){var info = false;}
+    
+    if(!info || !info.video.src || info.video.src.length == 0){
+      setError("Sorry, this track hasn't got any associated video");
+      return;
+    }
+    var src = info.video.src;
+    
+    this.playerObj.style.height = "240px";
     //center the palyer
     var jqueryPlayer = $(this.playerObj);
     var left = ($('#mediaspace').width()/2) - (jqueryPlayer.width()/2);
     this.playerObj.style.position = "absolute";
     this.playerObj.style.bottom = "-3px";
     this.playerObj.style.left = left+"px";
-    jqueryPlayer.after('<a href="">Switch OFF Video Mode</a>');
+    
+    $("#video-controller").html('<a href="javascript:player.stopVideo('+track_index+')">Switch OFF Video Mode</a>').show();
+    
     this.cb = function(){ 
-      player.playerObj.sendEvent('LOAD', "http://www.youtube.com/watch?v=enklHe-_nZo");
+      player.playerObj.sendEvent('LOAD', src);
       player.playerObj.sendEvent('PLAY');
     };
   };
@@ -89,7 +98,8 @@ var Player = function(playerid) {
   		{
   			if(data['yes']){
   				//The user has the rights to play this track
-  				player.actuallyPlayTrack(trackid, albumid);
+  			  this.currentTrack = track_index;
+  			  player.actuallyPlayTrack(trackid, albumid);
   				return;
   			}else if(data['no']){
   				//Have the user acquire rights to this track, debiting their account
@@ -110,7 +120,7 @@ var Player = function(playerid) {
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
     }
-    this.currentTrack = "Playlist"
+    //this.currentTrack = "Playlist"
     var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
     //alert(src)
@@ -158,7 +168,6 @@ function _stateListener(stateObj){
     // We cannot play track
     //player.setNowPlaying();
     $('#ms-notification').hide();
-    // space it out in time to avoid colliding with other concurrent notifications
-    setTimeout('setError("Sorry, the track is not available at the moment")', 3500);
+    setError("Sorry, the track is not available at the moment");
   }
 }

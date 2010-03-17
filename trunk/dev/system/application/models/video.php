@@ -33,7 +33,18 @@ class Video extends Model
 	{
 		return $this->src;
 	}
-
+  
+	public function &toArray()
+	{
+		$array = array();
+		
+		$array['src']  = $this->getSrc();
+		$array['name'] = $this->getName();
+		$array['id']   = $this->getId();
+		
+		return $array;
+	}
+	
 	public static function &getVideosByTrack($trackid)
 	{
 		$CI = &get_instance();
