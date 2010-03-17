@@ -260,8 +260,8 @@ class PlaylistManager extends Controller {
 
 				$xml ='<?xml version="1.0" encoding="UTF-8"?><playlist version="1" xmlns="http://xspf.org/ns/0/">';
 				$xml.='<trackList>';
-
-				foreach($pl->getTracks($userid) as $track) {
+        $result = $pl->getTracks($userid, 0, -1);//do NOT paginate
+				foreach($result['tracks'] as $track) {
 					$xml .= "<track><title>{$track->getName()}</title>
                   <location>".site_url("trackmanager/play/".$track->getId()."/".$track->getAlbum()->getId()."/.mp3")."</location>
                   <identifier>{$track->getId()}</identifier>

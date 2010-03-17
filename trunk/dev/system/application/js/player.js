@@ -2,7 +2,7 @@ var Player = function(playerid) {
   this.playerid = playerid;
   this.playerObj = null;
 
-  this.embedPlayer = function() {
+  this.embedPlayer = function(height) {
 
     var flashvars = {
       //file : "http://www.longtailvideo.com/jw/upload/bunny.mp3",
@@ -20,24 +20,53 @@ var Player = function(playerid) {
       id : playerid,
       name : playerid
     };
-
+    var h = height ? height : '24';
     swfobject.embedSWF(base_url+'/system/application/jwplayer/player.swf',
-        'media_container', '470', '24', '9', false, flashvars, params,
+        'media_container', '470', h, '9', false, flashvars, params,
         attributes);
   };
   
   this.setNowPlaying = function(){
-    var info = window.idToTrack[this.currentTrack].full_info;
     var notif = $('#ms-notification');
+    
+    if(this.currentTrack === false){
+      notif.hide();
+      return;
+    }
+    var info = window.idToTrack[this.currentTrack].full_info;
+    
     notif.html('<img border="0" src="'+base_url+'/system/application/images/button_play.png"/> <strong>'+info.name+'</strong> by <strong>'+info.main_artist.name+'</strong>');
     notif.show();
     notif.animate({backgroundColor:"#8fcb41"}, 500, "swing", function(){
       
-      notif.animate({backgroundColor:"#000"}, 500, "swing", function(){notif.css('background-color', 'transparent')});
+      notif.animate({backgroundColor:"#000"}, 500, "swing", function(){notif.css('background-color', 'transparent');});
       });
   };
   
   this.currentTrack = false;
+  this.cb = false;
+  
+  this.playVideo = function(track_index){
+    if(!this.playerObj){
+      setError("The Flash Player is not ready yet. Try again shortly");
+      return;
+    }
+    //$(this.playerObj).after('<div id="media_container"></div>').remove();
+    this.playerObj.style.height = "240px";
+    
+    //this.embedPlayer('240');
+    //center the palyer
+    var jqueryPlayer = $(this.playerObj);
+    var left = ($('#mediaspace').width()/2) - (jqueryPlayer.width()/2);
+    this.playerObj.style.position = "absolute";
+    this.playerObj.style.bottom = "-3px";
+    this.playerObj.style.left = left+"px";
+    jqueryPlayer.after('<a href="">Switch OFF Video Mode</a>');
+    this.cb = function(){ 
+      player.playerObj.sendEvent('LOAD', "http://www.youtube.com/watch?v=enklHe-_nZo");
+      player.playerObj.sendEvent('PLAY');
+    };
+  };
   
   this.playTrack = function(track_index){
     try{
@@ -81,7 +110,7 @@ var Player = function(playerid) {
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
     }
-    
+    this.currentTrack = "Playlist"
     var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
     //alert(src)
@@ -95,7 +124,7 @@ var Player = function(playerid) {
       setError("The Flash Player is not ready yet. Try again shortly");
       return;
     }
-    
+    this.currentTrack = false;
     var src = window.site_url + '/playlistmanager/getXMLPlaylist/' +playlistid + '/.xml';
     //alert(src)
     this.playerObj.add;
@@ -110,8 +139,10 @@ var Player = function(playerid) {
 function playerReady(thePlayer) {
   player.playerObj = window.document[player.playerid]; 
   player.playerObj.addModelListener("STATE", "_stateListener");
+  if (typeof player.cb == "function"){
+    player.cb();
+  }
 }
-
 
 function _stateListener(stateObj){
   currentState = stateObj.newstate; 
@@ -119,6 +150,8 @@ function _stateListener(stateObj){
 
   //alert(previousState +" -> "+ currentState);
   if(previousState == 'BUFFERING' && currentState == 'PLAYING'){  
+    //var play_data = player.playerObj.getPlaylist();
+    //var config = player.playerObj.getConfig();
     player.setNowPlaying();
   }
   else if(previousState == 'BUFFERING' && currentState == 'IDLE'){  
