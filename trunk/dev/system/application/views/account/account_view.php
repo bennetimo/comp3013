@@ -13,7 +13,7 @@
 	<div class="feature_box">
 		<h3>&pound;<? echo sprintf("%01.2f", ($credit/100)) ?></h3>
 		<p>available balance</p>
-		<a class="styled_button" href="<?=site_url('main/topup')?>"><span>Add money</span></a>
+		<a class="list_button" href="<?=site_url('main/topup')?>"><span>Add money</span></a>
 	</div>
 	
 	<div class="feature_box">
@@ -33,17 +33,13 @@
 
 </div>
 
-<br /><br /><br /><br /><br /><br />
-
-	
-
-<div class="content_box">
+<div id="user_details" class="content_box">
 	<h3>Details</h3>
 	<p>Name: <? echo $first_name." ".$last_name ?> </p>
 	<p>Email: <? echo $email?> </p>
 	<p>Date Registered: <? echo $joined ?></p>
-	<a class="styled_button" href="<?=site_url('main')?>"><span>Edit Details</span></a>
-	<a class="styled_button" href="<?=site_url('main')?>"><span>Change Password</span></a>
+	<a class="list_button" href="<?=site_url('main')?>">Edit Details</a><br /><br />
+	<a class="list_button" href="<?=site_url('main')?>">Change Password</a>
 </div>
 
 </div>
