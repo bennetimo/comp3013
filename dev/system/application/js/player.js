@@ -59,6 +59,7 @@ var Player = function(playerid) {
       setError("Sorry, this track hasn't got any associated video");
       return;
     }
+    this.currentTrack = track_index;
     var src = info.video.src;
     
     this.playerObj.style.height = "240px";
@@ -75,6 +76,17 @@ var Player = function(playerid) {
       player.playerObj.sendEvent('LOAD', src);
       player.playerObj.sendEvent('PLAY');
     };
+  };
+  this.stopVideo = function(track_index){
+    if(!this.playerObj){
+      setError("The Flash Player is not ready yet. Try again shortly");
+      return;
+    }
+    this.playerObj.style.position = "";
+    this.playerObj.style.bottom = "";
+    this.playerObj.style.left = "";
+    
+    $("#video-controller").hide();
   };
   
   this.playTrack = function(track_index){

@@ -46,7 +46,7 @@
 <div id='mediaspace'>
   <marquee scrolldelay="250" id="ms-notification">&nbsp;</marquee>
   <span id="media_container">This text will be replaced</span>
-  <div id="video-controller"><a href="javascript:player.playVideo()">Play video</a></div>
+  <div id="video-controller"></div>
 </div>
 </div>
 
