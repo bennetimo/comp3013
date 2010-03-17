@@ -116,8 +116,25 @@ img {
 
 #music_browser{
 	display:none;
-	height:150px;
+	height:115px;
 	background-color:#777;
+}
+
+#music_browser select{
+	width:200px;
+	background-color:#ccc;
+	border:none;
+}
+
+#music_browser table{
+	width:90%;
+	margin:auto;
+}
+
+.music_browser_header{
+	font-size:13px;
+	color:white;
+	font-weight:bold;
 }
 
 .search_options_header{
