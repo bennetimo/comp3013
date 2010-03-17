@@ -529,7 +529,13 @@ playlist_add_table {
     zoom: 1;
     padding: 0 30px;
 }
-
+#video-controller{
+    position: absolute;
+    right:0;
+    bottom:0;
+    margin-right:25px;
+    	
+}
 #latch p {
     font-size: 12px;
     font-weight: bold;
