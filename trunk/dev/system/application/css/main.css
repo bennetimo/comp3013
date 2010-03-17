@@ -214,6 +214,11 @@ img {
     font-size: 12px;
 }
 
+.shared_label {
+    font-size: 12px;
+    color: #ffffff;
+}
+
 #page_links{
 	text-align:center;
 	font-size:16px;
@@ -271,7 +276,7 @@ playlist_add_table {
     border-collapse: collapse;
 }
 #playlist_add_table td {
-    padding: 0px 0px 10px 0px;
+    padding: 0px 0px 4px 0px;
 }
 
 #playlist_new_input {

@@ -116,7 +116,7 @@
                                         <td><input type="submit" class="normal_button" value="Add" /></td>
                                     </tr>
                                     <tr>
-                                        <td><input type="checkbox" value="1" id="pl_shared" />shared</td>
+                                        <td class="shared_label"><input type="checkbox" value="1" id="pl_shared" />shared</td>
                                         <td></td>
                                     </tr>
                                 </table>
