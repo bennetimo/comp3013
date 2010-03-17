@@ -3,6 +3,7 @@ $.fn.setPlResults = function(data) {
 	var num_pages = data.num_pages;
 	var cur_page = data.cur_page;
 	var data = data.tracks;
+	var playlist_id = data.playlist_id;
 	
   var HTML = '<h4 style="padding-top:10px;margin-top:0;color:white;">Playlists Search Result</h4><table class="search_results_table">';
   var t;
@@ -22,14 +23,16 @@ $.fn.setPlResults = function(data) {
   }
   
   this.html(HTML);
-  this.append(buildPageLinkAppendString(cur_page, num_pages));
+  this.append(buildPageLinkAppendString(cur_page, num_pages, playlist_id));
 };
 $.fn.setResults = function(data, options) {
 	
 	//Retrieve the values
 	var num_pages = data.num_pages;
 	var cur_page = data.cur_page;
+	var playlist_id = data.playlist_id;
 	var data = data.tracks;
+	
 	
 	// clears any contents from the tracks containter
 	if (options && options["playlist"]) {
@@ -115,20 +118,32 @@ $.fn.setResults = function(data, options) {
 		}
 	}
 	
-	this.append(buildPageLinkAppendString(cur_page, num_pages));
+	if (options && options["playlist"]) {
+		this.append(buildPageLinkAppendString(cur_page, num_pages, playlist_id));
+	}else{
+		this.append(buildPageLinkAppendString(cur_page, num_pages));
+	}
 };
 
-function buildPageLinkAppendString(cur_page, num_pages){
+function buildPageLinkAppendString(cur_page, num_pages, playlist_id){
+	//If playlist_id is set then the function is being used to paginate the view inside a playlist, in which case the links
+	//need to call a different function
+	if(playlist_id >= 0){
+		var functionString = "loadPlaylist(" + playlist_id + ", ";
+	}else{
+		var functionString = "onSearchSubmit(";
+	}	
+	
 	var appendString = "<div id=\"page_links\"><p>";
 	//Add previous link if not the first page
 	var prev_page = cur_page-0 - 1;
 	if(cur_page != 0){
-		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+ prev_page +")\"\">previous</a>";
+		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:"+functionString + prev_page +")\"\">previous</a>";
 	}
 	
 	for(var i=0;i<num_pages;i++){
 		if(i != cur_page){
-			appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+i+")\"\">" + (i+1) + "</a>";
+			appendString = appendString + "<a href=\"#null\" onclick=\"javascript:" +functionString + i+")\"\">" + (i+1) + "</a>";
 		}else{
 			appendString = appendString + (i+1);
 		}
@@ -137,7 +152,7 @@ function buildPageLinkAppendString(cur_page, num_pages){
 	//Add next link if not the last page
 	if(cur_page != (num_pages-1)){
 		var next_page = cur_page-0 + 1;
-		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:onSearchSubmit("+ next_page+ ")\"\">next</a>";
+		appendString = appendString + "<a href=\"#null\" onclick=\"javascript:" +functionString + next_page+ ")\"\">next</a>";
 	}
 	appendString = appendString + "</p></div>";
 	return appendString;

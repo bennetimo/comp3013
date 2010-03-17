@@ -96,7 +96,7 @@
                             <table id="playlists_list">
                                 <? foreach ($playlists as $playlist): $read_only = $userid != $playlist->getOwnerId(); ?>
                                 <tr id="<?=$playlist->getId()?>" class="<?if($read_only) echo "read-only"; ?>" style="position: relative;">
-                                    <td><a onclick="loadPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
+                                    <td><a onclick="loadPlaylist('<?=$playlist->getId()?>',0)" href="#pl<?=$playlist->getId()?>"><?=$playlist->getName()?></a></td>
                                     <td class="playlist_play"><a onclick="player.playPlaylist('<?=$playlist->getId()?>')" href="#pl<?=$playlist->getId()?>"><img src="<?=base_url()?>system/application/images/button_play.png" /></a></td>
                                     <td class="playlist_is_shared<?=($playlist->isShared() ? " shared" : "")?>"></td>
                                     <td class="playlist_delete"><a href="javascript:void(0)" class="ui-playlist-delete-button" onclick="removePlaylist('<?=$playlist->getId()?>')"></a></td>
