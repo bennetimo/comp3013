@@ -61,8 +61,8 @@ class Main extends Controller {
 	function index()
 	{
 		$userid = $this->session->userdata('userid');
-		$playlists = null;
-		$user = null;
+		$playlists = $user = NULL;
+		$mb_genres = $mb_artists = $mb_albums = NULL;
 
 		if ($userid) {
 			$this->load->static_model('Playlist');
