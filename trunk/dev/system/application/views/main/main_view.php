@@ -8,73 +8,8 @@
 </div>
 <? endif; ?>
 
-<div id="music_browser">
-	<form action="<?=site_url('main')?>" method="post" id="music_browser_form">
-		<table>
-			<tr align="center" valign="top">
-				<td><div class="music_browser_header">Genre</div></td>
-				<td><div class="music_browser_header">Artist</div></td>
-				<td><div class="music_browser_header">Album</div></td>
-      		</tr>
-			<tr align="center" valign="top">
-				<td>
-					<select name="genre" size="5" id="genre" >
-						<option  value="all" selected="true">All (<?= count($mb_genres) ?>)</option> 
-						<?php 
-						foreach($mb_genres as $record){
-							echo "<option value='{$record['id']}'>{$record['name']}</option>";
-						}
-						?>	
-					</select>
-				</td>
-				<td>
-					<select name="genre" size="5" id="artist">
-						<option  value="all" selected="true">All (<?= count($mb_artists) ?>)</option> 
-						<?php 
-						foreach($mb_artists as $record){
-							echo "<option value='{$record['id']}'>{$record['name']}</option>";
-						}
-						?>	
-					</select>
-				</td>
-				<td>
-					<select name="genre" size="5" id="album">
-						<option  value="all" selected="true">All (<?= count($mb_albums) ?>)</option> 
-						<?php 
-						foreach($mb_albums as $record){
-							echo "<option value='{$record['id']}'>{$record['name']}</option>";
-						}
-						?>	
-					</select>
-				</td>
-			</tr>
-    	</table>  
-	</form>
-</div>
-
-<h3 class="search_options_header"><a href="#" id="show_search_options">Show Search Options</a></h3>
-<div id="search_results_box" class="tracks_list_box">
-
-    <table class="tracks_list_header" style="display: none; background-color: #212121; font: bold 11px Tahoma; color: #FFFFFF; border-collapse: collapse; width: 100%;">
-        <tbody>
-            <tr>
-                <td class="handle" style="padding: 3px;"></td>
-                <td class="track_name" style="padding: 3px;">Track</td>
-                <td class="track_button" style="padding: 3px;"></td>
-                <td class="track_price" style="padding: 3px;"></td>
-                <td class="track_genres" style="padding: 3px;">Genres</td>
-                <td class="album_name" style="padding: 3px;">Album</td>
-                <td class="track_artists" style="padding: 3px;">Artist</td>
-                <td id="track_delete_cell" class="track_delete" style="padding: 3px;"></td>
-            </tr>
-        </tbody>
-    </table>
-   	
-    <div id="search_results_container">
-
-    </div>
-    
-</div>
+<? $this->load->view("common/music_browser_view.php", array("display" => "none")); ?>
+<? $this->load->view("common/tracks_list_view.php", array("display" => "")); ?>
 
 <? if ($userid == "" || !$userid): ?>
 <div id="content_padder" class="welcome_text">

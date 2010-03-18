@@ -1,6 +1,11 @@
-<div class="page_title"><h3><?=$page_title?></h3></div>
+<div class="page_title">
+    <h3><?=$page_title?></h3>
+</div>
 
-<div id="content_padder">
+<? $this->load->view("common/music_browser_view.php", array("display" => "none")); ?>
+<? $this->load->view("common/tracks_list_view.php", array("display" => "")); ?>
+
+<div id="content_padder" class="hideable">
 
 
 
@@ -55,7 +60,6 @@
 		<h3><?=$user->getNumberOfSharedPlaylists()?></h3>
 		<p>shared playlists</p>
 	</div>
-
 </div>
 
 
