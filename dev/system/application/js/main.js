@@ -18,7 +18,7 @@ $(document).ready(function() {
     	
     	var genreid = $("#music_browser_form select[id=genre] option:selected").val();
     	var artistid = type != 'genre' ? $("#music_browser_form select[id=artist] option:selected").val() : 'all';
-    	var albumid = type != 'genre' ? $("#music_browser_form select[id=album] option:selected").val() : 'all';
+    	var albumid = type != 'album' ? 'all' : $("#music_browser_form select[id=album] option:selected").val();
     	
     	$.ajax({
             url: site_url + "/main/musicBrowser/"+type+"/"+0+"/"+display+"/"+genreid+"/"+artistid+"/"+albumid,
