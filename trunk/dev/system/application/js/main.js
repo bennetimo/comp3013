@@ -15,9 +15,10 @@ $(document).ready(function() {
     	
     	var display = 26;
     	var type = $(this).attr('id');
+    	
     	var genreid = $("#music_browser_form select[id=genre] option:selected").val();
-    	var artistid = $("#music_browser_form select[id=artist] option:selected").val();
-    	var albumid = $("#music_browser_form select[id=album] option:selected").val();
+    	var artistid = type != 'genre' ? $("#music_browser_form select[id=artist] option:selected").val() : 'all';
+    	var albumid = type != 'genre' ? $("#music_browser_form select[id=album] option:selected").val() : 'all';
     	
     	$.ajax({
             url: site_url + "/main/musicBrowser/"+type+"/"+0+"/"+display+"/"+genreid+"/"+artistid+"/"+albumid,
