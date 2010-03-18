@@ -286,6 +286,7 @@ function loadUserCollection() {
         
         success: function(data) {
             setError(data.error);
+            setTracksListHeaderDisplay(true);
             setMusicBrowserDisplay(true);
             
             if (!data['error']) {
