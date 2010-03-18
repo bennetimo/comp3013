@@ -1,4 +1,6 @@
 
+<? if ($mb_genres && $mb_artists && $mb_albums): ?>
+
 <div id="music_browser_box" style="display: <?=$display?>">
 
 <div id="music_browser">
@@ -48,3 +50,5 @@
 <h3 class="search_options_header"><a href="#" id="show_search_options">Show Search Options</a></h3>
 
 </div>
+
+<? endif; ?>
