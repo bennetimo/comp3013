@@ -171,6 +171,7 @@ function onSearchSubmit(pageNumber)
   	    		});
   	    		
   	    		setTracksListHeaderDisplay(true);
+                setMusicBrowserDisplay(false);
   	    	}
 	    	}
 	    	setError(data.error);
@@ -284,6 +285,7 @@ function loadUserCollection() {
         
         success: function(data) {
             setError(data.error);
+            setMusicBrowserDisplay(true);
             
             if (!data['error']) {
                 searchResultsContainer.setResults(data);
@@ -308,7 +310,8 @@ function loadMyAccount() {
         success: function(data) {
             if (data['error']) {
             	setError(data.error);
-            }else{
+            }
+            else{
             	window.location = site_url + "/main/account";
             }
         },
@@ -337,6 +340,8 @@ function loadPlaylist(playlistid, pageNumber) {
             });
             
             setTracksListHeaderDisplay(true, true);
+            setMusicBrowserDisplay(false);
+            
             updatePlaylistBinding(playlistid);
             setError(data['error']);
             
@@ -451,12 +456,12 @@ buyTrack = function(trackid, albumid, row_index) {
 function setTracksListHeaderDisplay(show, playlist) {
 
     if (show) {
-        $(".welcome_text").hide();
+        $(".hideable").hide();
         $(".tracks_list_header").show();
     }
     else {
         $(".tracks_list_header").hide();
-        $(".welcome_text").show();
+        $(".hideable").show();
     }
     
     if (show && playlist) {
@@ -464,6 +469,16 @@ function setTracksListHeaderDisplay(show, playlist) {
     }
     else {
         $("#track_delete_cell").hide();
+    }
+}
+
+function setMusicBrowserDisplay(show) {
+    
+    if (show) {
+        $("#music_browser_box").show();
+    }
+    else {
+        $("#music_browser_box").hide();
     }
 }
 
