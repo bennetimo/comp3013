@@ -65,12 +65,11 @@ registerForm.submit(function() {
 		success: function(data) {
 		
 			if (data['error']) {
-				registerError.show();
-				registerError.html(data.error);
+				//registerError.show();
+				setError(data.error);
+//				registerError.html(data.error);
 			}
 			else {
-				registerError.hide();
-				registerError.html("");
 				submit = true;
 			}
 		}
