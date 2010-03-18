@@ -212,7 +212,7 @@ class Track extends Model
 		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 	    FROM `track` t, `artist` art,`album` a, `track_genre` tg, `genre` g,`album_track` at 
 	    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
-	    WHERE t.main_artistid = art.id AND g.name LIKE '".$CI->db->escape_str($genre)."%' 
+	    WHERE t.main_artistid = art.id AND g.name LIKE '%".$CI->db->escape_str($genre)."%' 
 	    AND t.id = at.`trackid` AND a.id = at.`albumid` AND g.id = tg.genreid AND t.id = tg.trackid 
 	    ORDER BY g.`name`, art.name, a.name LIMIT $start, $display";
 
@@ -237,7 +237,7 @@ class Track extends Model
 		$query = "SELECT SQL_CALC_FOUND_ROWS a.`name` AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 	    FROM `track` t, `artist` art,`album` a, `album_track` at 
 	    LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).") 
-	    WHERE t.main_artistid = art.id AND art.name LIKE '".$CI->db->escape_str($artist)."%' 
+	    WHERE t.main_artistid = art.id AND art.name LIKE '%".$CI->db->escape_str($artist)."%' 
 	    AND t.id = at.`trackid` AND a.id = at.`albumid`
 	    ORDER BY art.`name`, a.`name` LIMIT $start, $display";
 
@@ -262,7 +262,7 @@ class Track extends Model
 		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`, ut.bought
 		FROM `track` t, `artist` art,`album` a, `album_track` at
 		LEFT JOIN `user_track` ut ON(ut.trackid = at.trackid AND ut.userid = ".$CI->db->escape($userid).")
-		WHERE t.main_artistid = art.id AND t.name LIKE '".$CI->db->escape_str($track_name)."%' 
+		WHERE t.main_artistid = art.id AND t.name LIKE '%".$CI->db->escape_str($track_name)."%' 
 		AND t.id = at.`trackid` AND a.id = at.`albumid` 
 		ORDER BY  art.name, a.name, t.`name` LIMIT $start, $display";
 
