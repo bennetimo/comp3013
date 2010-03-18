@@ -275,16 +275,32 @@ class Track extends Model
 		return  $result;
 	}
 
-	public static function &getUserCollection($userid, $start=0, $display=30)
+	public static function &getUserCollection($userid, $start=0, $display=30, $genreid = NULL, $artistid = NULL, $albumid = NULL)
 	{
 		$CI = &get_instance();
 
 		$query = "SELECT SQL_CALC_FOUND_ROWS a.name AS `album_name`, a.id AS `album_id`, t.id, t.name, t.duration, t.cost, art.id AS `artist_id`, art.name AS `artist_name`,  1 AS bought
-    FROM `track` t, `artist` art,`album` a, `album_track` at 
-    WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
-    t.main_artistid = art.id
-    AND t.id = at.`trackid` AND a.id = at.`albumid` 
-    ORDER BY art.name, a.name, t.`name` LIMIT $start, $display";
+	    FROM `track` t, `artist` art,`album` a, `album_track` at ";
+		
+		if($genreid){
+			$query .= ", `track_genre` tg ";
+		}
+		
+	    $query .= "WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
+	    t.main_artistid = art.id
+	    AND t.id = at.`trackid` AND a.id = at.`albumid`";
+		
+		if($genreid){
+			$query .= " AND tg.genreid = $genreid AND tg.trackid = t.id";
+		}
+		if($artistid){
+			$query .= " AND art.id = $artistid";
+		}
+		if($albumid){
+		    $query .= " AND a.id = $albumid";
+		}
+	    	
+	    $query .= " ORDER BY art.name, a.name, t.`name` LIMIT $start, $display";
 		
 		$result = array("tracks" => NULL, "rows" => NULL);
 		$result["tracks"] =  self::getTrackList($query);
@@ -298,7 +314,7 @@ class Track extends Model
 	public static function &getUserGenres($userid){
 		$CI = &get_instance();
 
-		$query = "SELECT g.name FROM `track` t, `artist` art,`album` a, `album_track` at, `track_genre` tg, `genre` g
+		$query = "SELECT g.name, g.id FROM `track` t, `artist` art,`album` a, `album_track` at, `track_genre` tg, `genre` g
 	    WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") AND
 	    t.main_artistid = art.id
 	    AND t.id = at.`trackid` AND a.id = at.`albumid` AND tg.trackid = t.id AND tg.genreid = g.id
@@ -310,45 +326,67 @@ class Track extends Model
 		$return = array();
 		
 		foreach ($result as $row)	{
-			$return[] = $row->name;
+			$return[] = array('name' => $row->name, 'id' => $row->id);
 		}
 		
 		return $return;
 	}
 	
-	public static function &getUserArtists($userid){
+	public static function &getUserArtists($userid, $genreid = NULL){
 		$CI = &get_instance();
 
-		$query = "SELECT art.name FROM `track` t, `artist` art,`artist_track` at
-		WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
-		AND t.main_artistid = art.id
-		group by art.name";
+		$query = "SELECT art.name, art.id FROM `track` t, `artist` art,`artist_track` at";
+		
+		if($genreid){
+			$query .= ", `track_genre` tg";
+		}
+		$query .=" WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
+		AND t.main_artistid = art.id";
+		
+		if($genreid){
+			$query .= " AND tg.trackid = t.id AND tg.genreid = $genreid";
+		}
+
+		$query .= " group by art.name";
 		
 		$result = $CI->db->query($query)->result();
 		
 		$return = array();
 		
 		foreach ($result as $row)	{
-			$return[] = $row->name;
+			$return[] = array('name' => $row->name, 'id' => $row->id);
 		}
 		
 		return $return;
 	}
 	
-	public static function &getUserAlbums($userid){
+	public static function &getUserAlbums($userid, $genreid = NULL, $artistid = NULL){
 		$CI = &get_instance();
 
-		$query = "SELECT a.name FROM `track` t, `album` a,`album_track` at
-		WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
-		AND at.trackid = t.id aND at.albumid = a.id
-		group by a.name";
+		$query = "SELECT a.name, a.id FROM `track` t, `album` a,`album_track` at";
+		
+		if($genreid){
+			$query .= ", `track_genre` tg";
+		}
+		$query .= " WHERE t.id IN (SELECT ut.`trackid` FROM `user_track` ut WHERE ut.`userid` = ".$CI->db->escape($userid).") 
+		AND at.trackid = t.id aND at.albumid = a.id";
+		
+		if($genreid) {
+			$query .= " AND tg.trackid = t.id AND tg.genreid = $genreid";
+		}
+		
+		if($artistid){
+			$query .= " AND t.main_artistid = $artistid ";
+		}
+		
+		$query .= " group by a.name";
 		
 		$result = $CI->db->query($query)->result();
 		
 		$return = array();
 		
 		foreach ($result as $row)	{
-			$return[] = $row->name;
+			$return[] = array('name' => $row->name, 'id' => $row->id);
 		}
 		
 		return $return;

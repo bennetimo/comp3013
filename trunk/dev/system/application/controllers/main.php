@@ -10,6 +10,54 @@ class Main extends Controller {
 		$this->load->static_model("Artist");
 	}
 	
+	function musicBrowser($type = "all", $page=0, $display = 26, $genreid, $artistid, $albumid){
+		$result = array("tracks" => NULL);
+		$userid = $this->session->userdata('userid');
+		
+		$genreid = $genreid == "all" ? NULL : $genreid;
+		$artistid = $artistid == "all" ? NULL : $artistid;
+		$albumid = $albumid == "all" ? NULL : $albumid;
+		
+		
+		if ( ! $userid) {
+			echo json_encode(array("error" => "You have to be logged in to view your music collection"));
+			return;
+		}
+		try{
+			if($type == "genre"){
+				$mb_artists = Track::getUserArtists($userid, $genreid);
+				$mb_albums = Track::getUserAlbums($userid, $genreid, $artistid);
+				$result['artists'] = $mb_artists;
+				$result['albums'] = $mb_albums;
+			}
+			if($type == "artist"){
+				$mb_albums = Track::getUserAlbums($userid, $genreid, $artistid);
+				$result['albums'] = $mb_albums;
+			}
+			
+			$returned = Track::getUserCollection($userid, $page*$display, $display, $genreid, $artistid, $albumid);
+		}
+		catch(Exception $e){
+			echo json_encode(array("error" => $e->getMessage()));
+			return;
+		}
+		foreach($returned['tracks'] as $track){
+			$result['tracks'][] = $track->toArray();
+		}
+		
+	    $num_rows = $returned['rows'];
+		
+		if($num_rows > $display){
+			$num_pages = ceil($num_rows/$display);
+		}else{
+			$num_pages = 1;
+		}
+		$result['num_pages'] = $num_pages;
+		$result['cur_page'] = $page;
+		
+		echo json_encode($result);
+	}
+	
 	function index()
 	{
 		$userid = $this->session->userdata('userid');
@@ -22,9 +70,15 @@ class Main extends Controller {
 			$user = new User($userid);
 		}
 		
-		$mb_genres = Track::getUserGenres($userid);
-		$mb_artists = Track::getUserArtists($userid);
-		$mb_albums = Track::getUserAlbums($userid);
+		if($this->input->post("music_browser")){
+			$mb_genres = Track::getUserGenres($userid);
+			$mb_artists = Track::getUserArtists($userid);
+			$mb_albums = Track::getUserAlbums($userid);
+		}else{
+			$mb_genres = Track::getUserGenres($userid);
+			$mb_artists = Track::getUserArtists($userid);
+			$mb_albums = Track::getUserAlbums($userid);
+		}
 		
 		$data = array(
 			'userid' => $userid,
