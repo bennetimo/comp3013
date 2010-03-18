@@ -120,9 +120,10 @@ var Player = function(playerid) {
   			}else if(data['no']){
   				//Have the user acquire rights to this track, debiting their account
   				buyTrack(trackid, albumid, track_index);
+  			}else{
+  			  //Otherwise, display any errors
+	    	  setError(data.error);
   			}
-  			//Otherwise, display any errors
-	    	setError(data.error);
   		},
   		
   		error: function(XMLHttpRequest, textStatus, errorThrown) {

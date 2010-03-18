@@ -163,7 +163,10 @@ function buildPageLinkAppendString(cur_page, num_pages, playlist_id){
 	return appendString;
 }
 
-var semafor = 0;
+var timer = null;
+var inprogress = false;
+
+
 
 function setNotification(message, error) {
 
@@ -182,34 +185,34 @@ function setNotification(message, error) {
     
     var default_error_msg = "An error occured. Please try again later.";
     
-    if (message === false || typeof message == "undefined") {
+    if (!inprogress && (message === false || typeof message == "undefined")) {
         error_box.animate({
             height: '0px'
         });
         if (error) {
-            error_box.removeClass("error_box_red")
+            error_box.removeClass("error_box_red");
         };
     }
     else {
+        inprogress = true;
+  
         if (typeof message != "string") {
             message = default_error_msg;
         }
-        
-        semafor++;
-        error_box.dequeue();
-        
+                
         error_box.html(message).animate({
             height: '35px'
         });
-        
-        setTimeout(function() {
-            semafor--;
-            if (semafor == 0) {
+        if(timer){
+          clearTimeout(timer);
+        }
+        timer = setTimeout(function() {
                 error_box.animate({height: "0px"}, function() {
                     $(this).html('');
                     error_box.removeClass("error_box_red");
                 });
-            } 
+                inprogress = false;
+            
         }, wait);
         
         var offset = error_box.offset();
