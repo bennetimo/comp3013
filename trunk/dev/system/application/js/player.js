@@ -1,7 +1,8 @@
 var Player = function(playerid) {
   this.playerid = playerid;
   this.playerObj = null;
-
+  this.videoMode = false;
+  
   this.embedPlayer = function(height) {
 
     var flashvars = {
@@ -59,6 +60,7 @@ var Player = function(playerid) {
       setError("Sorry, this track hasn't got any associated video");
       return;
     }
+    
     this.currentTrack = track_index;
     var src = info.video.src;
     
@@ -71,11 +73,18 @@ var Player = function(playerid) {
     this.playerObj.style.left = left+"px";
     
     $("#video-controller").html('<a href="javascript:player.stopVideo('+track_index+')">Switch OFF Video Mode</a>').show();
+    if(this.videoMode){
+      this.playerObj.sendEvent('LOAD', src);
+      this.playerObj.sendEvent('PLAY');
+    }
+    else{
+      this.cb = function(){ 
+        player.playerObj.sendEvent('LOAD', src);
+        player.playerObj.sendEvent('PLAY');
+      };
+    }
     
-    this.cb = function(){ 
-      player.playerObj.sendEvent('LOAD', src);
-      player.playerObj.sendEvent('PLAY');
-    };
+    this.videoMode = true;
   };
   
   
@@ -89,6 +98,7 @@ var Player = function(playerid) {
     var p = $(this.playerObj);
     p.after('<div id="media_container">This text will be replaced</div>');
     p.remove();
+    this.videoMode = false;
     this.cb = false;
     this.embedPlayer();
   };
@@ -141,9 +151,17 @@ var Player = function(playerid) {
     var src = window.site_url + '/trackmanager/play/' + trackid + '/' + albumid + '/.mp3';
     //src = 'http://www.longtailvideo.com/jw/upload/bunny.mp3';
     //alert(src)
-    this.playerObj.add;
-    this.playerObj.sendEvent('LOAD', src);
-    this.playerObj.sendEvent('PLAY');
+    if(this.videoMode){
+      this.stopVideo();
+      this.cb = function(){
+        player.playerObj.sendEvent('LOAD', src);
+        player.playerObj.sendEvent('PLAY');
+      };
+    }
+    else{
+      this.playerObj.sendEvent('LOAD', src);
+      this.playerObj.sendEvent('PLAY');
+    }
   };
   
   this.playPlaylist = function(playlistid) {
