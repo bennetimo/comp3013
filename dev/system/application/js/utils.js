@@ -179,14 +179,15 @@ function setNotification(message, error) {
     
     var error_box = $("#error_box");
     
-    if (error) {
+    if (error && message) {
         error_box.addClass("error_box_red");
     }
     
     var default_error_msg = "An error occured. Please try again later.";
     
-    if (!inprogress && (message === false || typeof message == "undefined")) {
-        error_box.animate({
+    if (message === false || typeof message == "undefined") {
+      if(inprogress){ return;}  
+      error_box.animate({
             height: '0px'
         });
         if (error) {
