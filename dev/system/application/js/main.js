@@ -11,6 +11,50 @@ $(document).ready(function() {
     
     window.idToTrack = [];
     
+    $("#music_browser_form select").change(function(){
+    	
+    	var display = 26;
+    	var type = $(this).attr('id');
+    	var genreid = $("#music_browser_form select[id=genre] option:selected").val();
+    	var artistid = $("#music_browser_form select[id=artist] option:selected").val();
+    	var albumid = $("#music_browser_form select[id=album] option:selected").val();
+    	
+    	$.ajax({
+            url: site_url + "/main/musicBrowser/"+type+"/"+0+"/"+display+"/"+genreid+"/"+artistid+"/"+albumid,
+            async: false,
+            type: "get",
+            dataType: "json",
+            
+            success: function(data) {
+                if(!data.error){
+                	 searchResultsContainer.setResults(data);
+                	 
+                	 var htmlString;
+                	 
+                	 if(data['artists']){
+                		 htmlString = "";
+                		 htmlString += '<option value="all" selected>All (' + data['artists'].length + ')</option>';
+                		 for(var i in data['artists']){
+                			 htmlString += '<option value="' + data['artists'][i].id + '">' + data['artists'][i].name + '</option>';
+                		 }
+                		
+                		 $("#music_browser_form select[id=artist]").html(htmlString);	 
+                	 }
+                	 if(data['albums']){
+                		 htmlString = "";
+                		 htmlString += '<option value="all" selected>All (' + data['albums'].length + ')</option>';
+                		 for(var i in data['albums']){
+                			 htmlString += '<option value="' + data['albums'][i].id + '">' + data['albums'][i].name + '</option>';
+                		 }
+                		
+                		 $("#music_browser_form select[id=album]").html(htmlString);	 
+                	 } 	 
+                }
+                else{ setError(data.error); }
+        	}
+        });
+    });
+    
     loginForm.submit(function() {
         var submit = false;
         

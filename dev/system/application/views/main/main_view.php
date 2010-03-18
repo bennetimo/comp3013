@@ -9,8 +9,8 @@
 <? endif; ?>
 
 <div id="music_browser">
-	<table>
-		<form action="/shop/index.php" method="post" name="shop">
+	<form action="<?=site_url('main')?>" method="post" id="music_browser_form">
+		<table>
 			<tr align="center" valign="top">
 				<td><div class="music_browser_header">Genre</div></td>
 				<td><div class="music_browser_header">Artist</div></td>
@@ -18,31 +18,31 @@
       		</tr>
 			<tr align="center" valign="top">
 				<td>
-					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (<?= count($mb_genres) ?>)</option> 
+					<select name="genre" size="5" id="genre" >
+						<option  value="all" selected="true">All (<?= count($mb_genres) ?>)</option> 
 						<?php 
 						foreach($mb_genres as $record){
-							echo "<option value='1'>$record</option>";
+							echo "<option value='{$record['id']}'>{$record['name']}</option>";
 						}
 						?>	
 					</select>
 				</td>
 				<td>
-					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (<?= count($mb_artists) ?>)</option> 
+					<select name="genre" size="5" id="artist">
+						<option  value="all" selected="true">All (<?= count($mb_artists) ?>)</option> 
 						<?php 
 						foreach($mb_artists as $record){
-							echo "<option value='1'>$record</option>";
+							echo "<option value='{$record['id']}'>{$record['name']}</option>";
 						}
 						?>	
 					</select>
 				</td>
 				<td>
-					<select name="genre" size="5" id="genre" onchange="location='http://mes.simplyone.co.uk/shop/?genre='+genre.options[genre.options.selectedIndex].value">
-						<option  value="all">All (<?= count($mb_albums) ?>)</option> 
+					<select name="genre" size="5" id="album">
+						<option  value="all" selected="true">All (<?= count($mb_albums) ?>)</option> 
 						<?php 
 						foreach($mb_albums as $record){
-							echo "<option value='1'>$record</option>";
+							echo "<option value='{$record['id']}'>{$record['name']}</option>";
 						}
 						?>	
 					</select>

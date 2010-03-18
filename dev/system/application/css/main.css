@@ -126,6 +126,10 @@ img {
 	border:none;
 }
 
+#music_browser select:selected{
+	background-color:#fff;
+}
+
 #music_browser table{
 	width:90%;
 	margin:auto;

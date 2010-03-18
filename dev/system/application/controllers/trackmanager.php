@@ -119,7 +119,7 @@ class TrackManager extends Controller {
 			$returned = Track::getUserCollection($userid, $page*$display, $display);
 		}
 		catch(Exception $e) {
-			echo json_encode(array("error" => "User must be logged in to access her playlist."));
+			echo json_encode(array("error" => $e->getMessage()));
 			return;
 		}
 
