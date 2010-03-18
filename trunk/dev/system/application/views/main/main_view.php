@@ -39,11 +39,6 @@
 		<p>featured artists</p>
 	</div>
 
-	<div class="feature_box">
-		<h3>127</h3>
-		<p>registered users</p>
-	</div>
-	
 	<div class="content_box">
 		<p>Try searching for your favourite music now using the box on the left, you'll be susprised at what we have on offer</p>
 	</div>
