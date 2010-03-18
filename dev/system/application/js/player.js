@@ -77,6 +77,8 @@ var Player = function(playerid) {
       player.playerObj.sendEvent('PLAY');
     };
   };
+  
+  
   this.stopVideo = function(track_index){
     if(!this.playerObj){
       setError("The Flash Player is not ready yet. Try again shortly");
@@ -84,7 +86,10 @@ var Player = function(playerid) {
     }    
     $("#video-controller").hide();
     $('#ms-notification').hide();
-    $(this.playerObj).remove().after('<div id="media_container"></div>');
+    var p = $(this.playerObj);
+    p.after('<div id="media_container">This text will be replaced</div>');
+    p.remove();
+    this.cb = false;
     this.embedPlayer();
   };
   
@@ -158,6 +163,7 @@ var Player = function(playerid) {
 };
 
 function playerReady(thePlayer) {
+  
   player.playerObj = window.document[player.playerid]; 
   player.playerObj.addModelListener("STATE", "_stateListener");
   if (typeof player.cb == "function"){
